@@ -1,6 +1,7 @@
 ---
 icon: lucide/rocket
 ---
+# Welcome to Satyrn AI - AI our way!
 
 # Get started
 
