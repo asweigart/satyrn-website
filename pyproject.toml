@@ -1,0 +1,12 @@
+[project]
+name = "satyrn-website"
+version = "0.1.0"
+description = "The Satyrn AI marketing website"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "zensical>=0.0.51",
+]
