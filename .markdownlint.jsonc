@@ -1,0 +1,24 @@
+// Read by both markdownlint-cli2 and the VS Code markdownlint extension.
+// Each entry below is a rule that disagrees with a decision this repo made on
+// purpose. Everything else stays on.
+{
+  // Documentation here uses semantic line breaks (sembr.org): lines break at
+  // clause boundaries so a diff lands on the sentence that changed instead of
+  // rewrapping a paragraph. A column limit forces breaks mid-clause, which is
+  // the opposite rule. Table rows can't be wrapped at all.
+  "MD013": false,
+
+  // markdownlint treats a front matter `title:` as the document's h1, so a page
+  // with both `title:` and a `#` heading looks like it has two. In Zensical they
+  // are different things: `title:` sets the nav and browser title, the heading
+  // is what renders on the page. src/index.md needs both, because the generated
+  // heading would land outside the hero layout.
+  "MD025": { "front_matter_title": "" },
+
+  // Not disabled, deliberately. These four are the elements the landing page
+  // genuinely needs and markdown cannot express: layout wrappers for the hero,
+  // pillar grid and mission block, plus <picture>/<source>/<img> for serving
+  // AVIF with a WebP fallback. Anything else -- <span>, <br>, <b>, a raw
+  // <table> -- still gets flagged, which is the point.
+  "MD033": { "allowed_elements": ["div", "picture", "source", "img"] }
+}

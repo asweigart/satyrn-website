@@ -1,174 +1,69 @@
 ---
-icon: lucide/rocket
+template: home.html
+title: Satyrn AI — AI Our Way
+description: "Satyrn is Jupyter for agents: open source, community-owned, local-first AI tooling for Python developers."
+hide:
+  - navigation
+  - toc
 ---
-# Welcome to Satyrn AI - AI our way!
 
-# Get started
+<div class="satyrn-hero" markdown>
 
-For full documentation visit [zensical.org](https://zensical.org/docs/).
+<div class="satyrn-hero__text" markdown>
 
-## Commands
+# AI Our Way
 
-* [`zensical new`][new] - Create a new project
-* [`zensical serve`][serve] - Start local web server
-* [`zensical build`][build] - Build your site
+Python developers want AI they can trust: open source, community-owned,
+local-first, thriving and innovative. Cherry on top? European.
 
-  [new]: https://zensical.org/docs/usage/new/
-  [serve]: https://zensical.org/docs/usage/preview/
-  [build]: https://zensical.org/docs/usage/build/
+</div>
 
-## Examples
+<picture class="satyrn-hero__art">
+  <source srcset="assets/avatar.avif" type="image/avif">
+  <img src="assets/avatar.webp" width="600" height="600" fetchpriority="high"
+       alt="Illustration of a curly-haired girl holding a balloon shaped like a ringed planet, the Satyrn mascot">
+</picture>
 
-### Admonitions
+</div>
 
-> Go to [documentation](https://zensical.org/docs/authoring/admonitions/)
+## Built on four pillars
 
-!!! note
+<div class="grid cards satyrn-pillars" markdown>
 
-    This is a **note** admonition. Use it to provide helpful information.
+- ### Open Source
 
-!!! warning
+    Every line is public. Fork it, audit it, ship it — no black boxes.
 
-    This is a **warning** admonition. Be careful!
+- ### Community-Owned
 
-### Details
+    Built by the people who use it, governed in the open, not owned by a
+    single vendor.
 
-> Go to [documentation](https://zensical.org/docs/authoring/admonitions/#collapsible-blocks)
+- ### Local-First
 
-??? info "Click to expand for more info"
+    Runs on your machine, on your terms — no mandatory round-trip to someone
+    else's cloud.
 
-    This content is hidden until you click to expand it.
-    Great for FAQs or long explanations.
+- ### European
 
-## Code Blocks
+    Developed under European data and governance norms, from the ground up.
 
-> Go to [documentation](https://zensical.org/docs/authoring/code-blocks/)
+</div>
 
-``` python hl_lines="2" title="Code blocks"
-def greet(name):
-    print(f"Hello, {name}!") # (1)!
+<div class="satyrn-mission" markdown>
 
-greet("Python")
-```
+<!-- Decorative: the heading beside it already names the section, so an empty
+     alt is correct and MD045 is a false positive here. -->
+<!-- markdownlint-disable-next-line MD045 -->
+![](assets/satyrn-logo-light.webp){ .satyrn-mission__mark width="480" height="480" loading=lazy }
 
-1.  > Go to [documentation](https://zensical.org/docs/authoring/code-blocks/#code-annotations)
+<div markdown>
 
-    Code annotations allow to attach notes to lines of code.
+## Like Jupyter, but for agents
 
-Code can also be highlighted inline: `#!python print("Hello, Python!")`.
+Satyrn is "Jupyter for agents": a project to build subagents and tooling that
+helps Local AI succeed. From us, for us.
 
-## Content tabs
+</div>
 
-> Go to [documentation](https://zensical.org/docs/authoring/content-tabs/)
-
-=== "Python"
-
-    ``` python
-    print("Hello from Python!")
-    ```
-
-=== "Rust"
-
-    ``` rs
-    println!("Hello from Rust!");
-    ```
-
-## Diagrams
-
-> Go to [documentation](https://zensical.org/docs/authoring/diagrams/)
-
-``` mermaid
-graph LR
-  A[Start] --> B{Error?};
-  B -->|Yes| C[Hmm...];
-  C --> D[Debug];
-  D --> B;
-  B ---->|No| E[Yay!];
-```
-
-## Footnotes
-
-> Go to [documentation](https://zensical.org/docs/authoring/footnotes/)
-
-Here's a sentence with a footnote.[^1]
-
-Hover it, to see a tooltip.
-
-[^1]: This is the footnote.
-
-
-## Formatting
-
-> Go to [documentation](https://zensical.org/docs/authoring/formatting/)
-
-- ==This was marked (highlight)==
-- ^^This was inserted (underline)^^
-- ~~This was deleted (strikethrough)~~
-- H~2~O
-- A^T^A
-- ++ctrl+alt+del++
-
-## Icons, Emojis
-
-> Go to [documentation](https://zensical.org/docs/authoring/icons-emojis/)
-
-* :sparkles: `:sparkles:`
-* :rocket: `:rocket:`
-* :tada: `:tada:`
-* :memo: `:memo:`
-* :eyes: `:eyes:`
-
-## Maths
-
-> Go to [documentation](https://zensical.org/docs/authoring/math/)
-
-$$
-\cos x=\sum_{k=0}^{\infty}\frac{(-1)^k}{(2k)!}x^{2k}
-$$
-
-!!! warning "Needs configuration"
-    Note that MathJax is included via a `script` tag on this page and is not
-    configured in the generated default configuration to avoid including it
-    in a pages that do not need it. See the documentation for details on how
-    to configure it on all your pages if they are more Maths-heavy than these
-    simple starter pages.
-
-<script id="MathJax-script" src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [["\\(", "\\)"]],
-      displayMath: [["\\[", "\\]"]],
-      processEscapes: true,
-      processEnvironments: true
-    },
-    options: {
-      ignoreHtmlClass: ".*|",
-      processHtmlClass: "arithmatex"
-    }
-  };
-
-  document$.subscribe(() => {
-    MathJax.startup.output.clearCache()
-    MathJax.typesetClear()
-    MathJax.texReset()
-    MathJax.typesetPromise()
-  })
-</script>
-
-## Task Lists
-
-> Go to [documentation](https://zensical.org/docs/authoring/lists/#using-task-lists)
-
-* [x] Install Zensical
-* [x] Configure `zensical.toml`
-* [x] Write amazing documentation
-* [ ] Deploy anywhere
-
-## Tooltips
-
-> Go to [documentation](https://zensical.org/docs/authoring/tooltips/)
-
-[Hover me][example]
-
-  [example]: https://example.com "I'm a tooltip!"
+</div>

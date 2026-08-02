@@ -1,0 +1,444 @@
+/* ==========================================================================
+   Satyrn brand layer
+
+   Three kinds of selector live here, and the difference matters:
+
+   1. Theme overrides   .md-*            Zensical's own BEM classes.
+   2. Our blocks        .satyrn-*        BEM, for markup we hand-write in
+                                         overrides/*.html.
+   3. Scoped descendants                 `.satyrn-pillars h3` and friends.
+                                         The markdown parser emits those tags,
+                                         so there is nowhere to hang a class
+                                         without putting styling hooks in the
+                                         copy. Kept deliberately shallow.
+
+   Scheme-dependent tweaks that span several blocks (the logo halo) are keyed
+   off the `[data-md-color-scheme]` attribute rather than owned by one block.
+
+   IMPORTANT: Zensical sets `data-md-color-scheme` on <body>, not <html>, so
+   scheme selectors must NOT be written as `:root[data-md-color-scheme=...]` —
+   that never matches.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- tokens -- */
+
+/* Zensical declares `color-scheme` on <body>, but the browser only themes the
+   root scrollbar and page canvas from the *root* element — verified: with slate
+   pinned, the computed `color-scheme` on <html> is `normal`. Mirror it up. */
+html:has(> body[data-md-color-scheme="default"]) { color-scheme: light; }
+html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
+
+:root {
+  --satyrn-font-display: "Fredoka", var(--md-text-font, "Inter"), sans-serif;
+
+  /* Raw brand values, kept separate from the theme tokens they feed so they
+     can be recombined without hunting through the mappings below. */
+  --satyrn-cream: #f7f1e3;
+  --satyrn-ink: #1c1a17;
+  --satyrn-orange: #c8722c;
+  --satyrn-orange-deep: #a85f22;
+
+  /* The brand orange only reaches 3.16:1 on cream, below the 4.5:1 WCAG AA
+     minimum for body text, so it cannot be used for link text in light mode.
+     These two keep the brand hue (27deg) and saturation (64%) and only drop
+     lightness until they pass: 4.67:1 and 6.68:1 on cream respectively.
+     The brand orange itself is still used for non-text UI, which only needs
+     3:1. Dark mode needs no equivalent - gold on ink is already 9.46:1. */
+  --satyrn-orange-text: #9f5b23;
+  --satyrn-orange-text-hover: #7d471c;
+  --satyrn-gold: #e8b93d;
+  --satyrn-gold-light: #f2cc63;
+  --satyrn-card-light: #fffaf0;
+  --satyrn-card-dark: #26221d;
+  --satyrn-parchment: #f0e6d2;
+}
+
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: var(--satyrn-cream);
+  --md-default-fg-color: var(--satyrn-ink);
+  --md-default-fg-color--light: #6b5f4d;
+  --md-default-fg-color--lighter: rgb(28 26 23 / 32%);
+  --md-default-fg-color--lightest: rgb(28 26 23 / 12%);
+
+  --md-primary-fg-color: var(--satyrn-orange);
+  --md-primary-fg-color--light: #d68a4d;
+  --md-primary-fg-color--dark: var(--satyrn-orange-deep);
+  --md-primary-bg-color: var(--satyrn-cream);
+  --md-primary-bg-color--light: rgb(247 241 227 / 70%);
+
+  /* Eight theme components use this: the header, the mobile drawer, the
+     back-to-top button, the search button, the consent overlay. Leaving it at
+     the theme's white-at-70% put white translucency over a cream page. */
+  --md-default-bg-color--light: rgb(247 241 227 / 70%);
+
+  --md-accent-fg-color: var(--satyrn-orange-text-hover);
+  --md-accent-fg-color--transparent: rgb(200 114 44 / 10%);
+
+  --md-typeset-color: var(--satyrn-ink);
+  --md-typeset-a-color: var(--satyrn-orange-text);
+  --md-code-bg-color: var(--satyrn-card-light);
+
+  --satyrn-card-bg: var(--satyrn-card-light);
+  --satyrn-border: rgb(28 26 23 / 15%);
+  --satyrn-mark-filter: none;
+}
+
+/* `--md-hue` drives every colour the slate scheme derives in HSL — code
+   backgrounds, kbd keys, table rules, shadows. Setting it warm harmonises all
+   of them at once; only the tokens needing exact brand values are listed. */
+[data-md-color-scheme="slate"] {
+  --md-hue: 32;
+
+  --md-default-bg-color: var(--satyrn-ink);
+  --md-default-fg-color: var(--satyrn-parchment);
+  --md-default-fg-color--light: #b8ab8f;
+  --md-default-fg-color--lighter: rgb(240 230 210 / 32%);
+  --md-default-fg-color--lightest: rgb(240 230 210 / 12%);
+
+  --md-primary-fg-color: var(--satyrn-gold);
+  --md-primary-fg-color--light: var(--satyrn-gold-light);
+  --md-primary-fg-color--dark: var(--satyrn-orange-deep);
+  --md-primary-bg-color: var(--satyrn-ink);
+  --md-primary-bg-color--light: rgb(28 26 23 / 70%);
+  --md-default-bg-color--light: rgb(28 26 23 / 70%);
+
+  --md-accent-fg-color: var(--satyrn-gold-light);
+  --md-accent-fg-color--transparent: rgb(232 185 61 / 10%);
+
+  --md-typeset-color: var(--satyrn-parchment);
+  --md-typeset-a-color: var(--satyrn-gold);
+  --md-code-bg-color: var(--satyrn-card-dark);
+
+  --satyrn-card-bg: var(--satyrn-card-dark);
+  --satyrn-border: rgb(240 230 210 / 15%);
+
+  /* The balloon string is a thin dark stroke with nothing behind it, so on the
+     dark background it all but disappears. A soft halo restores it without
+     touching the source artwork. Declared as a token so every placement of the
+     mark picks it up, and so light mode states `none` rather than implying it
+     by absence. */
+  --satyrn-mark-filter: drop-shadow(0 0 1px var(--satyrn-parchment))
+                        drop-shadow(0 0 1px var(--satyrn-parchment));
+}
+
+/* ------------------------------------------------------------- utilities -- */
+
+/* One logo file serves both schemes, so every placement of the mark gets the
+   same scheme-dependent treatment: the two in the header and drawer that the
+   theme renders from `theme.logo`, plus the two we write by hand. Listing only
+   the hand-written ones left the header logo un-haloed on every page.
+
+   This replaced a two-file light/dark swap. The swap made every visitor
+   download both variants (a `display: none` image is still fetched), and the
+   dark artwork sat inside more transparent padding, so the same CSS width
+   rendered it about 40% smaller than its light counterpart. */
+.md-logo :is(img, svg),
+.satyrn-mission__mark,
+.satyrn-footer__mark {
+  filter: var(--satyrn-mark-filter);
+}
+
+/* ---------------------------------------------------------------- header -- */
+
+/* The live site uses a cream header with orange links, not the solid
+   primary-colour bar Zensical ships by default. */
+.md-header {
+  background-color: var(--md-default-bg-color);
+  box-shadow: none;
+  border-bottom: 1px solid var(--satyrn-border);
+}
+
+.md-header__title {
+  font-size: 1.25rem;
+}
+
+.md-header__button.md-logo :is(img, svg) {
+  width: auto;
+  height: 2.2rem;
+}
+
+/* The theme emits this image with no width or height, so it occupies no
+   horizontal space until it loads and shoves the site title sideways. The
+   artwork is square. */
+.md-logo :is(img, svg) {
+  aspect-ratio: 1;
+}
+
+/* The repository slot reserves 11.5rem on wide viewports whether or not a
+   repo_url is configured, which pushes search away from the right edge. Collapse
+   it only while it holds no elements, so setting repo_url later still works. */
+.md-header__source:not(:has(*)) {
+  display: none;
+}
+
+/* ------------------------------------------------------- block: sections -- */
+
+/* Plain links, deliberately not dressed as the theme's nav or tab strip. Those
+   are for site structure; these are three destinations the landing page chooses
+   to point at, and the blog will change what the real nav looks like anyway. */
+.satyrn-sections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0 1.5rem;
+  width: 100%;
+  max-width: 61rem;
+  margin: 0 auto;
+  padding: 0.6rem 0.8rem 0;
+}
+
+/* Padded to clear the 24x24px WCAG 2.2 minimum target size; the text alone is
+   about 14px tall. */
+.satyrn-sections__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--md-typeset-a-color);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.satyrn-sections__link:hover {
+  color: var(--md-accent-fg-color);
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------- block: hero -- */
+
+/* The home page has no sidebars, so its content uses the full grid width.
+   `h1` and `p` here are emitted by the markdown parser, hence the descendants.
+
+   The art column is `auto` rather than a fraction: the mascot is sized in rem
+   and the column follows it, instead of the image stretching to fill whatever
+   a fraction works out to. */
+.satyrn-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+  margin: 1.5rem 0 3rem;
+}
+
+.satyrn-hero__text h1 {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin: 0 0 1rem;
+}
+
+/* The art column no longer takes a fixed fraction, so the text column runs the
+   full remaining width. Capped to keep the line length readable. */
+.satyrn-hero__text p {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 1.15rem;
+}
+
+/* `picture` is inline by default. `justify-self` only bites once the hero
+   stacks, where the art column becomes full width. */
+.satyrn-hero__art {
+  display: block;
+  justify-self: center;
+}
+
+/* 240px, matching the live site. The source artwork was extracted from an SVG
+   whose viewBox padded it out to roughly double its visible size, so filling
+   the column rendered the mascot about 2x too large and pushed the pillars off
+   a 13-inch screen. */
+.satyrn-hero__art img {
+  width: 12rem;
+  height: auto;
+}
+
+@media screen and (max-width: 59.984375em) {
+  .satyrn-hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .satyrn-hero__text h1 {
+    font-size: 2.25rem;
+  }
+}
+
+/* -------------------------------------------------------- block: pillars -- */
+
+/* Built on the theme's own `grid cards`, so the card border, radius, padding
+   and margin resets come from Zensical and the markdown stays a plain list.
+   Only two things differ.
+
+   First, the columns. The theme's `.grid` is
+   `repeat(auto-fit, minmax(min(100%, 16rem), 1fr))`, and auto-fit packs in
+   however many tracks happen to fit, which lands on a 3+1 layout at some widths
+   and strands one card alone on a row. Column counts are declared per
+   breakpoint instead: 4, then 2x2, then 1, and nothing else. Breakpoints are in
+   `em`, which in a media query means the 16px browser default rather than the
+   125% root size.
+
+   Second, `.md-typeset .grid` is a two-class selector, so these have to match
+   its specificity to win. This is the one place in the file that genuinely
+   needs the `.md-typeset` prefix. */
+.md-typeset .satyrn-pillars {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 1.2rem 0 4rem;
+}
+
+@media screen and (max-width: 68.75em) {
+  .md-typeset .satyrn-pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 44.984375em) {
+  .md-typeset .satyrn-pillars {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The cards carry the brand surface rather than the theme's transparent one. */
+.md-typeset .satyrn-pillars.cards > ul > li {
+  padding: 1.5rem;
+  background-color: var(--satyrn-card-bg);
+}
+
+/* Nothing in a card is clickable, so the theme's hover lift would promise an
+   interaction that does not exist. */
+.md-typeset .satyrn-pillars.cards > ul > li:hover,
+.md-typeset .satyrn-pillars.cards > ul > li:focus-within {
+  border-color: var(--satyrn-border);
+  box-shadow: none;
+}
+
+/* -------------------------------------------------------- block: mission -- */
+
+.satyrn-mission {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin: 4rem 0;
+}
+
+/* Markdown wraps an image in a paragraph, so the grid child here is that `p`,
+   not the `img` itself. Sizing the image and clearing the paragraph's own
+   margin keeps the two-column layout intact. */
+.satyrn-mission > p:has(> .satyrn-mission__mark) {
+  margin: 0;
+}
+
+.satyrn-mission__mark {
+  width: 11rem;
+  height: auto;
+}
+
+.satyrn-mission h2 {
+  margin-top: 0;
+}
+
+@media screen and (max-width: 59.984375em) {
+  .satyrn-mission {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+/* --------------------------------------------------------- block: footer -- */
+
+/* Replaces the docs footer on the landing page only. */
+.satyrn-footer {
+  padding: 3rem 1.2rem;
+  border-top: 1px solid var(--satyrn-border);
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  text-align: center;
+}
+
+.satyrn-footer__mark {
+  width: auto;
+  height: 2rem;
+}
+
+.satyrn-footer__tagline,
+.satyrn-footer__links,
+.satyrn-footer__credit {
+  margin: 0.4rem 0;
+  font-size: 0.8rem;
+}
+
+.satyrn-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0 0.4rem;
+}
+
+/* Inline links inside a sentence are exempt from the 24px minimum target size,
+   so the base carries only colour and the standalone modifier adds the target
+   box. That way an inline link never has to undo it. */
+.satyrn-footer__link--standalone,
+.satyrn-sections__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 0.2rem;
+}
+
+/* Underlined because this one sits inside a sentence, where colour is the only
+   other thing marking it as a link. Gold on parchment is 1.48:1 in dark mode,
+   far below the 3:1 WCAG 1.4.1 wants when colour carries the meaning alone.
+   The standalone links above are in a nav row, where position does that job. */
+.satyrn-footer__link--inline {
+  display: inline-block;
+  padding-block: 0.25rem;
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------- shared typeset -- */
+
+/* The display face belongs to headings as a concept, not to the two landing
+   page blocks that happened to need it first. Applying it only there left
+   `# Mission` in Inter directly above a Fredoka `## The problem`.
+
+   `font-weight` is pinned because Fredoka is fetched at 600 only; inheriting
+   any other weight snaps to the nearest declared one and pulls a second font
+   file for no visible difference. */
+.md-header__title,
+.satyrn-footer__tagline,
+.md-typeset :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--satyrn-font-display);
+  font-weight: 600;
+  font-size-adjust: from-font;
+}
+
+.md-typeset :is(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
+}
+
+.satyrn-hero__text p,
+.satyrn-pillars p,
+.satyrn-mission p {
+  text-wrap: pretty;
+}
+
+/* Hand-written links, shared by the section nav and the footer. Keeping the
+   focus ring here means a third block cannot pick up the colour and silently
+   miss the ring. */
+.satyrn-sections__link,
+.satyrn-footer__link {
+  color: var(--md-typeset-a-color);
+}
+
+.satyrn-sections__link:hover,
+.satyrn-footer__link:hover {
+  color: var(--md-accent-fg-color);
+}
+
+.satyrn-sections__link:focus-visible,
+.satyrn-footer__link:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}

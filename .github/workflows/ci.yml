@@ -1,0 +1,40 @@
+name: CI
+
+# Checks only. Deployment is handled by Cloudflare, which builds the site
+# itself — this workflow deliberately does not publish anything, so the two
+# cannot fight over the same output.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          # pyproject requires >=3.14, which the runner image does not provide,
+          # so uv downloads a managed CPython. That lives outside ~/.cache/uv
+          # and needs its own opt-in, or it is re-fetched on every run.
+          python-version: "3.14"
+          cache-python: true
+
+      # `just` ships on PyPI as rust-just, so uv is the only prerequisite CI
+      # needs — the same two tools the README asks a contributor to install.
+      # uvx runs it straight from the cache restored above, without a separate
+      # install step.
+      - name: Run checks
+        run: uvx --from rust-just just ci
