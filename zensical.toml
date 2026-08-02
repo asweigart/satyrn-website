@@ -421,3 +421,24 @@ nav_recent_count = 5
 # TODO: no `og_image` until an asset exists. Setting it to a path that does not
 # resolve points every non-post page's og:image at a 404, which is worse than
 # the summary card the templates fall back to. 1200x630 when it lands.
+
+# Authors. `name` is the only required key; `title`, `url`, `avatar` and
+# `fediverse` all degrade quietly when absent. A post naming a slug with no
+# table here fails the build, which is the one piece of referential integrity
+# that comes for free.
+#
+# `url` is linked from the byline. `fediverse` only builds a meta tag and is
+# never rendered, and it takes effect only once that account has enabled author
+# attribution in its Mastodon profile.
+#
+# These two are placeholders, on reserved example domains, so the listings and
+# feed have something to render. Replace them with real people before launch.
+[project.extra.authors.example]
+name = "Example Author"
+title = "Maintainer"
+url = "https://example.com"
+fediverse = "@example@mastodon.example"
+
+[project.extra.authors.second-author]
+name = "Second Author"
+url = "https://second.example"
