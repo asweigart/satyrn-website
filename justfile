@@ -76,6 +76,91 @@ check-frontmatter:
     print(f"{len(bad)} page(s) with unparseable front matter")
     sys.exit(1 if bad else 0)
 
+# Check the blog's posts and its generated feed hold together
+check-blog: build
+    #!/usr/bin/env -S uv run --with pyyaml python
+    import pathlib, re, sys, tomllib, xml.dom.minidom, yaml
+    # The blog is templates walking the `nav` tree, so most of what would be a
+    # plugin's job is nobody's. The build catches an unregistered author, by
+    # raising on the undefined lookup. It catches none of the rest.
+    failures = []
+
+    def check(label, ok, detail=""):
+        print(f"  {'OK  ' if ok else 'FAIL'}  {label}" + (f" -- {detail}" if detail and not ok else ""))
+        if not ok:
+            failures.append(label)
+
+    def front_matter(path):
+        _, _, rest = path.read_text().partition("---")
+        block, _, _ = rest.partition("\n---")
+        return yaml.safe_load(block) or {}
+
+    config = tomllib.loads(pathlib.Path("zensical.toml").read_text())
+    authors = config["project"].get("extra", {}).get("authors", {})
+    posts = {p: m for p in sorted(pathlib.Path("src/blog").rglob("*.md"))
+             if "date" in (m := front_matter(p))}
+
+    for path, meta in posts.items():
+        # The feed appends a literal `T00:00:00Z`, so anything richer than a
+        # bare date -- a datetime, a quoted string -- corrupts every entry.
+        check(f"{path}: date is exactly YYYY-MM-DD",
+              re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(meta.get("date", ""))) is not None,
+              f"got {meta.get('date')!r}")
+        # Listings, link previews and the feed all render this. Absent, the
+        # entry ships with an empty <summary>.
+        check(f"{path}: has a description", bool(meta.get("description")))
+        for slug in meta.get("authors") or []:
+            check(f"{path}: author '{slug}' is registered", slug in authors)
+        for tag in meta.get("tags") or []:
+            # Nothing at build time notices: the chip still renders as a live
+            # link to a dead URL.
+            check(f"{path}: tag '{tag}' has src/tags/{tag}.md",
+                  pathlib.Path(f"src/tags/{tag}.md").exists())
+
+    feed = pathlib.Path("site/feed.xml")
+    if not feed.exists():
+        check("site/feed.xml exists", False)
+        sys.exit(1)
+    raw = feed.read_text()
+    # Our own build output, but refuse a DTD anyway: XXE and billion-laughs
+    # both need one, so bailing here closes both without taking a dependency on
+    # defusedxml. It has to exit rather than record, so the parser below never
+    # sees a DTD at all.
+    if "<!DOCTYPE" in raw or "<!ENTITY" in raw:
+        check("feed declares no DTD", False, "unexpected DOCTYPE/ENTITY in generated feed")
+        sys.exit(1)
+    check("feed declares no DTD", True)
+    try:
+        doc = xml.dom.minidom.parseString(raw)
+        check("feed is well-formed XML", True)
+    except Exception as e:
+        # Autoescape is off in MiniJinja, so an unescaped `&` in a title lands
+        # here and breaks the feed for every subscriber at once.
+        check("feed is well-formed XML", False, str(e))
+        sys.exit(1)
+    entries = doc.getElementsByTagName("entry")
+    check(f"feed has one entry per post ({len(entries)} entries, {len(posts)} posts)",
+          len(entries) == len(posts))
+
+    for path, meta in posts.items():
+        built = pathlib.Path("site") / path.relative_to("src").with_suffix("") / "index.html"
+        if not built.exists():
+            check(f"{built} was built", False)
+            continue
+        html = built.read_text()
+        check(f"{path}: page carries article metadata",
+              'property="og:title"' in html and 'property="article:published_time"' in html)
+        # Mastodon credits one creator per page, so authors[0] wins and author
+        # order in front matter is meaningful.
+        creators = re.findall(r'<meta name="fediverse:creator" content="([^"]*)"', html)
+        first = (meta.get("authors") or [None])[0]
+        expected = [f] if (f := authors.get(first, {}).get("fediverse")) else []
+        check(f"{path}: credits at most the first author to the fediverse",
+              creators == expected, f"{creators!r} != {expected!r}")
+
+    print(f"\n{len(failures)} blog check(s) failed" if failures else "\nAll blog checks passed")
+    sys.exit(1 if failures else 0)
+
 # Lint markdown and spelling. The only recipe that needs node; GitHub runners
 # ship it preinstalled, so this costs a package download and no setup step.
 #
@@ -159,4 +244,4 @@ encode-assets src_dir:
     just weigh
 
 # Everything CI should run before a merge
-ci: rebuild check-frontmatter check-assets lint weigh
+ci: rebuild check-frontmatter check-blog check-assets lint weigh

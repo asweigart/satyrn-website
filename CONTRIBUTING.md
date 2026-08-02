@@ -7,7 +7,8 @@ so it's worth a skim before your first change.
 
 Run `just ci` before opening a pull request.
 CI runs the same recipe:
-a strict build, an asset-reference check, and the page weight report.
+a strict build, a front-matter check, the blog checks,
+an asset-reference check, the linters, and the page weight report.
 
 Strict means `zensical build --strict`,
 which turns Zensical's warnings into a non-zero exit.
@@ -28,11 +29,20 @@ so `--strict` cannot see it and something else has to.
 | --- | --- |
 | `src/index.md` | The landing page. All of its copy is here as markdown. |
 | `src/mission.md`, `src/local-first.md`, `src/get-involved.md` | Top-level pages. Unfinished sections carry a "Still being written" admonition. |
-| `src/stylesheets/satyrn.css` | Brand palette and landing page layout. |
+| `src/blog/<year>/` | Posts, one markdown file each. |
+| `src/authors/`, `src/tags/` | An index page plus one page per author and per tag. |
+| `src/feed.xml` | The Atom feed, rendered as a template rather than a page. |
+| `src/stylesheets/satyrn.css` | Brand palette, landing page layout, blog styling. |
 | `src/assets/` | Logos, mascot artwork, favicon. |
-| `overrides/main.html` | Head additions applied to every page. |
+| `overrides/main.html` | Head additions, link previews and the listing block, applied to every page. |
 | `overrides/home.html` | The landing page shell: section nav and its own footer. |
+| `overrides/partials/` | Shadowed theme partials plus the blog's byline and listing rows. |
 | `justfile` | Every command. `just` with no argument lists them. |
+
+`docs/BLOG.md` covers the blog's implementation:
+why it is templates rather than a plugin,
+and which parts of it break without saying so.
+Read that before changing anything under `overrides/`.
 
 ## Language and spelling
 
@@ -169,6 +179,58 @@ Zensical supports thirteen types (`note`, `info`, `tip`, `warning`, `danger`
 and so on), collapsible variants with `???`,
 and custom titles in quotes.
 Body text indents four spaces.
+
+## Writing a blog post
+
+A post is a markdown file at `src/blog/<year>/<slug>.md`:
+
+```yaml
+---
+title: Your Post Title
+date: 2026-08-15
+authors:
+  - example
+tags:
+  - engineering
+description: One sentence. It carries the listing row, the link preview and the feed.
+---
+```
+
+Lists go one item per line, not `[example]`.
+`unresolved_references` validation reads a flow sequence as a markdown
+reference link and fails the build looking for a definition of `[example]`.
+The rest of the site writes them this way too.
+
+Four of those five keys have a way of going wrong quietly,
+which is what `just check-blog` is for.
+
+`date` has to be exactly `YYYY-MM-DD`.
+The feed appends a literal `T00:00:00Z` to it,
+so a fuller datetime produces a timestamp no reader will parse.
+
+`authors` are slugs from `[project.extra.authors]` in `zensical.toml`.
+Order matters: only the first is credited as the fediverse creator,
+because Mastodon attributes one author per page.
+An unregistered slug does fail the build,
+but the error reads `undefined value` and never names the slug.
+
+`tags` each need a matching `src/tags/<tag>.md`.
+Nothing at build time notices a missing one —
+the chip still renders as a live link to a dead URL.
+
+`description` is optional to the build and load-bearing everywhere else.
+Without it the listing row and the feed entry both come out empty.
+
+An `image:` key overrides the link preview image for that post.
+There is no site-wide default yet;
+see the note on `og_image` in `zensical.toml`.
+
+Adding an author means both a `[project.extra.authors.<slug>]` table
+and a `src/authors/<slug>.md` page.
+Adding a tag means a `src/tags/<tag>.md` page.
+Neither directory's `index.md` is decorative:
+the sidebar collapses each section onto its index,
+and a section without one renders expanded instead.
 
 ## Pages and layout
 
