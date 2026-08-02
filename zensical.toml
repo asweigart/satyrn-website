@@ -27,6 +27,8 @@ site_author = "Satyrn AI Contributors"
 # The site_url is the canonical URL for your site. When building online
 # documentation you should set this.
 # Read more: https://zensical.org/docs/setup/basics/#site_url
+# The trailing slash is load-bearing: the feed and the OpenGraph tags
+# concatenate paths straight onto this, so dropping it yields `satyrn.aifeed.xml`.
 site_url = "https://satyrn.ai/"
 
 # The copyright notice appears in the page footer and can contain an HTML
@@ -46,6 +48,11 @@ copyright = """
 
 docs_dir = "src"
 extra_css = ["stylesheets/satyrn.css"]
+# `feed.xml` is a MiniJinja template, not a page: `extra_templates` renders it
+# with the same `nav` tree the pages get, which is what makes the feed possible
+# without a plugin system.
+extra_templates = ["feed.xml"]
+extra_javascript = ["javascripts/blog-dates.js"]
 # Zensical supports both implicit navigation and explicitly defined navigation.
 # If you decide not to define a navigation here then Zensical will simply
 # derive the navigation structure from the directory structure of your
@@ -384,3 +391,33 @@ shadowed_definitions = true
 shadowed_footnotes = true
 unresolved_footnotes = true
 unresolved_references = true
+
+# ----------------------------------------------------------------------------
+# Blog. Zensical ships no blog support and has no plugin system, so everything
+# below is read by the templates in `overrides/`, which walk the `nav` tree and
+# filter on front matter. See docs/BLOG.md for why it works this way.
+# ----------------------------------------------------------------------------
+[project.extra]
+# Matched against rendered page titles character for character, em dash
+# included. A title that does not match is not an error: the item silently
+# drops to the end of the sidebar. Anything absent is appended, not hidden, so
+# a new page never vanishes.
+nav_order = [
+    "Satyrn AI — AI Our Way",
+    "Mission",
+    "Local-First",
+    "Get Involved",
+    "Blog",
+    "Tags",
+    "Authors",
+]
+# Rendered as a single link rather than an expanded tree. Each needs an index
+# page for the link to target, which is what src/tags/index.md and
+# src/authors/index.md are for.
+nav_collapse = ["Authors", "Tags"]
+# Rendered as a link plus its most recent posts, newest first.
+nav_recent = ["Blog"]
+nav_recent_count = 5
+# TODO: no `og_image` until an asset exists. Setting it to a path that does not
+# resolve points every non-post page's og:image at a 404, which is worse than
+# the summary card the templates fall back to. 1200x630 when it lands.

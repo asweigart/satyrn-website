@@ -1,0 +1,76 @@
+{% import "partials/nav-item.html" as item with context %}
+{%- macro walk(items, ns) -%}
+  {%- for it in items -%}
+    {%- if it.meta and it.meta.date %}{% set ns.items = ns.items + [it] %}{% endif -%}
+    {%- if it.children %}{{ walk(it.children, ns) }}{% endif -%}
+  {%- endfor -%}
+{%- endmacro -%}
+{%- set class = "md-nav md-nav--primary" -%}
+{%- if "navigation.tabs" in features -%}
+  {%- set class = class ~ " md-nav--lifted" -%}
+{%- endif -%}
+{%- if "toc.integrate" in features -%}
+  {%- set class = class ~ " md-nav--integrated" -%}
+{%- endif -%}
+<nav class="{{ class }}" aria-label="{{ lang.t('nav') }}" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-nav__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
+      {% include "partials/logo.html" %}
+    </a>
+    {{ config.site_name }}
+  </label>
+  {%- if config.repo_url -%}
+    <div class="md-nav__source">
+      {% include "partials/source.html" %}
+    </div>
+  {%- endif -%}
+  {%- set order = config.extra.nav_order | d([], true) -%}
+  {%- set ons = namespace(items=[]) -%}
+  {%- for title in order -%}
+    {%- for it in nav.items -%}
+      {%- if it.title == title %}{% set ons.items = ons.items + [it] %}{% endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- for it in nav.items -%}
+    {%- if it.title not in order %}{% set ons.items = ons.items + [it] %}{% endif -%}
+  {%- endfor -%}
+  <ul class="md-nav__list" data-md-scrollfix>
+    {%- for nav_item in ons.items -%}
+      {%- set tns = namespace(target=nav_item.url) -%}
+      {%- if not tns.target -%}
+        {%- for child in nav_item.children -%}
+          {% if child.is_index and not tns.target %}{% set tns.target = child.url %}{% endif %}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if config.extra.nav_recent and nav_item.title in config.extra.nav_recent and tns.target -%}
+        {%- set pns = namespace(items=[]) -%}
+        {{- walk(nav_item.children, pns) -}}
+        <li class="md-nav__item">
+          <a href="{{ tns.target | url }}" class="md-nav__link{% if tns.target == page.url %} md-nav__link--active{% endif %}">
+            <span class="md-ellipsis">{{ nav_item.title }}</span>
+          </a>
+          {%- if pns.items -%}
+            <ul class="md-nav__list">
+              {%- for post in (pns.items | sort(attribute="meta.date", reverse=true))[:config.extra.nav_recent_count | d(5, true)] -%}
+                <li class="md-nav__item">
+                  <a href="{{ post.url | url }}" class="md-nav__link{% if post.url == page.url %} md-nav__link--active{% endif %}">
+                    <span class="md-ellipsis">{{ post.title }}</span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- elif config.extra.nav_collapse and nav_item.title in config.extra.nav_collapse and tns.target -%}
+        <li class="md-nav__item">
+          <a href="{{ tns.target | url }}" class="md-nav__link{% if tns.target == page.url %} md-nav__link--active{% endif %}">
+            <span class="md-ellipsis">{{ nav_item.title }}</span>
+          </a>
+        </li>
+      {%- else -%}
+        {%- set path = "__nav_" ~ loop.index -%}
+        {{ item.render(nav_item, path, 1) }}
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</nav>

@@ -396,6 +396,118 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   text-decoration: underline;
 }
 
+/* --------------------------------------------------------- block: blog -- */
+
+/* Both blog blocks sit inside `.md-typeset`, so their lists arrive with the
+   theme's bullets, indent and item spacing already on. Clearing that is the
+   first thing either of them has to do.
+
+   The `[dir]` prefix is doing real work, and this is the one place in this
+   stylesheet that needed extra specificity. The theme writes its indents as
+   `[dir=ltr] .md-typeset ul li`, which a plain two-class selector loses to.
+   `[dir]` matches either direction and outranks it by one class, and
+   `margin-inline` then replaces the theme's separate ltr and rtl rules with a
+   single declaration. */
+[dir] .md-typeset :is(.satyrn-byline__authors, .satyrn-byline__author,
+                      .satyrn-posts, .satyrn-post) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Byline. Emitted above the h1 -- the `content` block can only wrap the page's
+   markdown -- so it reads as an eyebrow rather than a caption. */
+.satyrn-byline {
+  margin-bottom: 0.8rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.7rem;
+}
+
+/* Inline, not flex. A byline is a sentence, and inline content wraps as one
+   sequence. As flex items the author list and the date wrapped independently,
+   which on two authors put the date in between them.
+
+   Prefixed the same way as the reset above, and for the same reason: the theme
+   writes this one as `.md-typeset ul:not([hidden])`, where the `:not()` counts
+   for as much as a class. Two of our own classes tie and lose; three win. */
+[dir] .md-typeset :is(.satyrn-byline__authors, .satyrn-byline__author) {
+  display: inline;
+}
+
+/* Separators as generated content, so they never survive alone on a wrapped
+   line the way a real character in the markup would. Without them the name and
+   title render as "Example AuthorMaintainer".
+
+   Two distinct marks on purpose: a comma between authors, brackets around a
+   title. One mark for both makes "Example Author, Maintainer" ambiguous
+   between a job title and a second person. */
+.satyrn-byline__author + .satyrn-byline__author::before {
+  content: ", ";
+}
+
+.satyrn-byline__title::before {
+  content: " (";
+}
+
+.satyrn-byline__title::after {
+  content: ")";
+}
+
+.satyrn-byline__date::before {
+  content: "·";
+  margin: 0 0.4rem;
+}
+
+/* Pinned in CSS rather than by width/height attributes, because an author's
+   avatar file is not this stylesheet's to measure. `aspect-ratio` with `cover`
+   crops a non-square file instead of distorting it. */
+.satyrn-byline__avatar {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+/* Listings, shared by the blog index and every author and tag archive. The
+   selector matches the reset above so the margin here is not undone by it. */
+[dir] .md-typeset .satyrn-posts {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Beats `.md-typeset h2`, which sets a top margin sized for a heading that
+   separates sections of prose. Here the heading opens a row. */
+.md-typeset .satyrn-post__title {
+  margin: 0 0 0.4rem;
+  font-size: 1.1rem;
+}
+
+/* The whole row is not a link, so the title carries the affordance on its own
+   and needs the underline that a standalone nav link can do without. */
+.satyrn-post__title a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.md-typeset .satyrn-post__meta {
+  margin: 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.7rem;
+}
+
+.satyrn-post__author::before {
+  content: "·";
+  margin: 0 0.4rem;
+}
+
+.md-typeset .satyrn-post__summary {
+  margin: 0.4rem 0 0;
+  text-wrap: pretty;
+}
+
 /* ------------------------------------------------------- shared typeset -- */
 
 /* The display face belongs to headings as a concept, not to the two landing
@@ -436,8 +548,14 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   color: var(--md-accent-fg-color);
 }
 
+/* The blog links take the ring but not the colour above: theirs comes from
+   `.md-typeset a`, and `currentcolor` picks it up either way. Both link colours
+   clear the 3:1 WCAG 1.4.11 asks of a focus indicator -- 4.67:1 on cream,
+   9.46:1 on ink. */
 .satyrn-sections__link:focus-visible,
-.satyrn-footer__link:focus-visible {
+.satyrn-footer__link:focus-visible,
+.satyrn-byline__link:focus-visible,
+.satyrn-post__title a:focus-visible {
   outline: 2px solid currentcolor;
   outline-offset: 2px;
   border-radius: 2px;
