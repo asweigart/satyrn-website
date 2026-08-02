@@ -1,0 +1,11 @@
+{
+    // Both of the linters this repo carries config for, so a new checkout
+    // actually gets them: .markdownlint.jsonc and .vscode/cspell.json.
+    "recommendations": [
+        "tamasfe.even-better-toml",
+        "samuelcolvin.jinjahtml",
+        "biomejs.biome",
+        "DavidAnson.vscode-markdownlint",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}

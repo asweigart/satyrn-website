@@ -17,7 +17,7 @@ site_name = "Satyrn AI"
 # meaningful description of the site content for use by search engines.
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_description
-site_description = "Satyrn AI - AI Our Way"
+site_description = "Satyrn is Jupyter for agents: open source, community-owned, local-first AI tooling for Python developers."
 
 # The site_author attribute. This is used in the HTML head element.
 #
@@ -27,16 +27,26 @@ site_author = "Satyrn AI Contributors"
 # The site_url is the canonical URL for your site. When building online
 # documentation you should set this.
 # Read more: https://zensical.org/docs/setup/basics/#site_url
-#site_url = "https://www.example.com/"
+# TODO: https://github.com/satyrn-ai/satyrn-website/issues/1
+# site_url = "https://satyrn.ai/"
 
 # The copyright notice appears in the page footer and can contain an HTML
 # fragment.
 #
 # Read more: https://zensical.org/docs/setup/basics/#copyright
 copyright = """
-Copyright &copy; 2026 The authors
+&copy; 2026 Satyrn AI
 """
+# TODO: uncomment once the repository is public. This puts a repo link in the
+# header, and enables the content.action.edit / content.action.view buttons.
+# Note it also un-collapses .md-header__source, which currently lets search sit
+# flush right -- see the note in stylesheets/satyrn.css.
+#repo_url = "https://github.com/satyrn-ai/satyrn-website"
+#repo_name = "satyrn-ai/satyrn-website"
+#edit_uri = "edit/main/src/"
+
 docs_dir = "src"
+extra_css = ["stylesheets/satyrn.css"]
 # Zensical supports both implicit navigation and explicitly defined navigation.
 # If you decide not to define a navigation here then Zensical will simply
 # derive the navigation structure from the directory structure of your
@@ -60,7 +70,7 @@ docs_dir = "src"
 #extra_css = ["stylesheets/extra.css"]
 
 # With the `extra_javascript` option you can add your own JavaScript to your
-# project to customize the behavior according to your needs.
+# project to customize the behaviour according to your needs.
 #
 # The path provided should be relative to the "docs_dir".
 #
@@ -83,7 +93,7 @@ docs_dir = "src"
 # Read more:
 # - https://zensical.org/docs/customization/#extending-the-theme
 #
-#custom_dir = "overrides"
+custom_dir = "overrides"
 
 # With the "favicon" option you can set your own image to use as the icon
 # browsers will use in the browser title bar or tab bar. The path provided
@@ -93,7 +103,7 @@ docs_dir = "src"
 # - https://zensical.org/docs/setup/logo-and-icons/#favicon
 # - https://developer.mozilla.org/en-US/docs/Glossary/Favicon
 #
-#favicon = "images/favicon.png"
+favicon = "assets/favicon.png"
 
 # Zensical supports more than 60 different languages. This means that the
 # labels and tooltips that Zensical's templates produce are translated.
@@ -108,9 +118,13 @@ docs_dir = "src"
 # Read more:
 # - https://zensical.org/docs/setup/language/
 #
+# `en`, deliberately, even though the prose is written in British English.
+# Nothing on this site consumes the region subtag: no hyphenation, no :lang()
+# selectors, no <q> elements, no text inputs. en-GB spelling is enforced where
+# it actually applies, by cspell in .vscode/cspell.json.
 language = "en"
 
-# Zensical provides a number of feature toggles that change the behavior
+# Zensical provides a number of feature toggles that change the behaviour
 # of the documentation site.
 features = [
     # Zensical includes an announcement bar. This feature allows users to
@@ -254,7 +268,7 @@ features = [
 # option in the "theme" subsection. The logo must be a relative path to a file
 # in your "docs_dir", e.g., to use `docs/assets/logo.png` you would set:
 # ----------------------------------------------------------------------------
-#logo = "assets/logo.png"
+logo = "assets/satyrn-logo-light.webp"
 
 # ----------------------------------------------------------------------------
 # If you don't have a dedicated project logo, you can use a built-in icon from
@@ -274,26 +288,35 @@ features = [
 # of suitably licensed fonts. There are options for a normal text font and for
 # a monospaced font used in code blocks.
 # ----------------------------------------------------------------------------
-#[project.theme.font]
-#text = "Inter"
-#code = "Jetbrains Mono"
+[project.theme.font]
+text = "Inter"
+code = "JetBrains Mono"
 
 # ----------------------------------------------------------------------------
-# In the "palette" subsection you can configure options for the color scheme.
-# You can configure different color schemes, e.g., to turn on dark mode,
-# that the user can switch between. Each color scheme can be further
+# In the "palette" subsection you can configure options for the colour scheme.
+# You can configure different colour schemes, e.g., to turn on dark mode,
+# that the user can switch between. Each colour scheme can be further
 # customized.
 #
 # Read more:
 # - https://zensical.org/docs/setup/colors/
 # ----------------------------------------------------------------------------
 [[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
 scheme = "default"
+# "custom" opts out of the built-in colour names. Those ship compound
+# rules like [data-md-colour-scheme=slate][data-md-colour-primary=indigo]
+# whose specificity beats the brand tokens in stylesheets/satyrn.css.
+primary = "custom"
+accent = "custom"
 toggle.icon = "lucide/sun"
 toggle.name = "Switch to dark mode"
 
 [[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
 scheme = "slate"
+primary = "custom"
+accent = "custom"
 toggle.icon = "lucide/moon"
 toggle.name = "Switch to light mode"
 
@@ -347,3 +370,18 @@ combine_header_slug = true
 [project.markdown_extensions.pymdownx.tasklist]
 custom_checkbox = true
 [project.markdown_extensions.pymdownx.tilde]
+
+# ----------------------------------------------------------------------------
+# Validation. `invalid_links` and `invalid_link_anchors` are already on by
+# default, so this table only lists what differs: the reference and footnote
+# checks, which ship off. A dangling `[text][ref]` otherwise renders as literal
+# brackets on the page with no warning at all.
+#
+# What actually turns warnings into a failed build is `zensical build --strict`,
+# which is what `just build` runs.
+# ----------------------------------------------------------------------------
+[project.validation]
+shadowed_definitions = true
+shadowed_footnotes = true
+unresolved_footnotes = true
+unresolved_references = true

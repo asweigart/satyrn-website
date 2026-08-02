@@ -1,7 +1,7 @@
 [project]
 name = "satyrn-website"
 version = "0.1.0"
-description = "The Satyrn AI marketing website"
+description = "satyrn.ai - landing page, blog and documentation"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []

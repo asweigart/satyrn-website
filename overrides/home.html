@@ -1,0 +1,53 @@
+{% extends "main.html" %}
+
+{#-
+  The landing page. `src/index.md` opts in with `template: home.html` and
+  `hide: [navigation, toc]`, which drops both sidebars without touching the
+  base template. Everything else on the site keeps the normal docs layout.
+-#}
+
+{#-
+  `hero` sits above the content grid in base.html, so this spans the full width.
+  The home page hides the sidebar, so this is its only route to these pages.
+
+  The three are listed explicitly rather than derived from `nav.items`. They are
+  an editorial choice about what the landing page promotes, not a mirror of the
+  sitemap -- once the blog lands, the nav tree grows and a derived list would
+  start advertising every new top-level section on its own.
+-#}
+{% block hero %}
+  <nav class="satyrn-sections" aria-label="Sections">
+    <a class="satyrn-sections__link" href="{{ 'mission/' | url }}">Mission</a>
+    <a class="satyrn-sections__link" href="{{ 'local-first/' | url }}">Local-First</a>
+    <a class="satyrn-sections__link" href="{{ 'get-involved/' | url }}">Get Involved</a>
+  </nav>
+{% endblock %}
+
+{% block footer %}
+  {# The id="get-involved" anchor this used to carry is gone: Get Involved is a
+     real page now, so the nav links there instead of jumping to the footer. #}
+  <footer class="satyrn-footer">
+    {# One mark for both schemes, sharing theme.logo so the header, drawer and
+       footer cannot drift apart. The dark-mode variant was dropped: it forced
+       every visitor to download both files, its artwork sat in more padding so
+       it rendered ~40% smaller than the light one, and the halo in satyrn.css
+       solves the only problem it was there to solve.
+
+       WebP, not AVIF: theme.logo renders as a bare <img> with no <picture>
+       around it, so an AVIF here would ship the same artwork twice. #}
+    <img class="satyrn-footer__mark" src="{{ config.theme.logo | url }}"
+         alt="Satyrn" width="480" height="480" loading="lazy">
+    <p class="satyrn-footer__tagline">AI our way.</p>
+    <p class="satyrn-footer__links">
+      <a class="satyrn-footer__link satyrn-footer__link--standalone"
+         href="https://github.com/satyrn-ai">GitHub</a> &middot;
+      {# Points at Get Involved until there is a dedicated community space. #}
+      <a class="satyrn-footer__link satyrn-footer__link--standalone"
+         href="{{ 'get-involved/' | url }}">Community</a>
+    </p>
+    <p class="satyrn-footer__credit"><small>{{ config.copyright }}</small></p>
+    <p class="satyrn-footer__credit"><small>Artwork by the fabulous
+      <a class="satyrn-footer__link satyrn-footer__link--inline"
+         href="https://georgiker.com/">Georgi Ker</a></small></p>
+  </footer>
+{% endblock %}
