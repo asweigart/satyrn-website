@@ -30,6 +30,8 @@ and `just serve` reloads as you save.
 
 Not a `just` user?
 The commands underneath are `uv run zensical serve` and `uv run zensical build --strict`.
+`just serve` additionally points `site_url` at localhost first,
+without which instant navigation degrades to full page loads locally.
 
 ## How it gets deployed
 

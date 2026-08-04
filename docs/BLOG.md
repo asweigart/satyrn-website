@@ -174,12 +174,14 @@ meaningful.**
    afterward. There is also a reported Mastodon issue where the tag suppresses
    the site description in preview cards
    ([mastodon#32758](https://github.com/mastodon/mastodon/issues/32758)).
-4. **`site_url` is now set, which is noisy in local development.**
-   `navigation.instant` fetches `sitemap.xml` from the absolute `site_url` to
-   work out which links are internal, so `just serve` logs a CORS failure
-   against `https://satyrn.ai/sitemap.xml` in the browser console and instant
-   navigation quietly falls back to full page loads. Local only; production is
-   unaffected. There is no per-environment override for `site_url`.
+Both are content and account decisions rather than code.
+
+`site_url` used to be a fourth entry here, because `navigation.instant` fetches
+`sitemap.xml` from the absolute URL and the browser refuses that request
+cross-origin, so `just serve` filled the console with CORS errors and degraded
+to full page loads. `just serve` now builds from a generated copy of the config
+with `site_url` pointed at the dev address — see the comment above `dev_config`
+in the justfile for why a copy is the only option available.
 
 ## Escape hatch
 
