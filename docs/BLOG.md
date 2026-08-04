@@ -159,25 +159,22 @@ meaningful.**
 
 ## Outstanding before launch
 
-1. **There is no default social image.** `og_image` is deliberately unset: a
-   path that does not resolve points every non-post page's `og:image` at a 404,
-   which is worse than the `summary` card the templates fall back to. Add a
-   1200x630 asset and set the key. Individual posts can already override it
-   with `image:` in front matter.
-2. **The example posts and authors are placeholders.** Each carries a "Still
+1. **The example posts and authors are placeholders.** Each carries a "Still
    being written" admonition and the authors sit on reserved example domains.
    Replace them, or drop the commit that added them.
-3. **`navigation.footer` and `nav_order` disagree.** The previous/next links
+2. **`navigation.footer` and `nav_order` disagree.** The previous/next links
    come from the directory-derived tree, which the sidebar reordering does not
-   touch, so a post's "Next" can be `Tags`. Fixing it means shadowing one more
-   partial; turning off `navigation.footer` avoids it entirely.
-4. **Each author must enable attribution on Mastodon** (Preferences → Public
+   touch, so a post's "Next" can be `Tags`. That is sharper now that `nav_hide`
+   keeps Tags and Authors out of the tabs and the sidebar, leaving the footer as
+   the only chrome pointing at them. Fixing it means shadowing one more partial;
+   turning off `navigation.footer` avoids it entirely.
+3. **Each author must enable attribution on Mastodon** (Preferences → Public
    Profile → Verification → Author Attribution, adding this domain). Until then
    `fediverse:creator` has no visible effect, and it only applies to links shared
    afterward. There is also a reported Mastodon issue where the tag suppresses
    the site description in preview cards
    ([mastodon#32758](https://github.com/mastodon/mastodon/issues/32758)).
-5. **`site_url` is now set, which is noisy in local development.**
+4. **`site_url` is now set, which is noisy in local development.**
    `navigation.instant` fetches `sitemap.xml` from the absolute `site_url` to
    work out which links are internal, so `just serve` logs a CORS failure
    against `https://satyrn.ai/sitemap.xml` in the browser console and instant

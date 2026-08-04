@@ -434,9 +434,14 @@ nav_recent_count = 5
 # the tag chips on a post, the byline, and the blog index -- they are archives,
 # not destinations, and listing them alongside Mission oversells them.
 nav_hide = ["Tags", "Authors"]
-# TODO: no `og_image` until an asset exists. Setting it to a path that does not
-# resolve points every non-post page's og:image at a 404, which is worse than
-# the summary card the templates fall back to. 1200x630 when it lands.
+# The default social card, used by every page that does not set `image:` in its
+# front matter. Root-relative and without a leading slash: overrides/main.html
+# concatenates it onto `site_url`, which already ends in one.
+#
+# JPEG rather than WebP or AVIF. The page never loads this -- only the crawlers
+# building link previews do -- and their format support is both narrower and
+# harder to verify than a browser's. Regenerate with `just og-image`.
+og_image = "assets/og-image.jpg"
 
 # The tab bar, in order, rendered by overrides/partials/tabs.html. This is an
 # editorial list, not a mirror of the top level: Tags and Authors are top-level

@@ -269,7 +269,27 @@ encode-assets src_dir:
     # Favicon: 96px wide is ~3x the largest size a browser actually renders it at.
     magick "{{ src_dir }}/favicon.png" -resize 96x -strip -colors 128 \
       -define png:compression-level=9 src/assets/favicon.png
+    just og-image
     just weigh
+
+# Rebuild the social card from the mascot. Needs imagemagick.
+og-image:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v magick >/dev/null || { echo "needs imagemagick"; exit 1; }
+    # Derived from the shipped WebP rather than the original artwork, so this
+    # runs from a clean checkout without the source directory that
+    # `encode-assets` needs.
+    #
+    # 1200x630 is what every unfurler crops towards. The mascot is 600px square
+    # and sits at 520 so the ring it is drawn inside keeps some air above and
+    # below; the rest is brand cream. No text: the title and description arrive
+    # as their own meta tags, and Fredoka is loaded from Google Fonts rather
+    # than installed, so rendering any here would depend on the machine.
+    magick -size 1200x630 xc:'#f7f1e3' \
+      \( src/assets/avatar.webp -resize x520 \) -gravity center -composite \
+      -strip -quality 88 src/assets/og-image.jpg
+    magick identify -format 'src/assets/og-image.jpg  %wx%h  %b\n' src/assets/og-image.jpg
 
 # Everything CI should run before a merge
 ci: rebuild check-frontmatter check-nav check-blog check-assets lint weigh

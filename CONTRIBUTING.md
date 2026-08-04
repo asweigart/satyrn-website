@@ -368,6 +368,16 @@ The dark artwork also sat in more transparent padding,
 so the same CSS width rendered it about 40% smaller than its counterpart.
 One file plus a halo in dark mode is smaller and behaves the same in both schemes.
 
+The social card is JPEG, and generated rather than drawn.
+`just og-image` composites the mascot onto brand cream at 1200x630,
+so it stays in step with the artwork instead of drifting from it.
+JPEG because the page never loads that file — only the crawlers building
+link previews do, and their format support is narrower
+and harder to verify than a browser's.
+It carries no text: the title and description travel as their own meta tags,
+and Fredoka is loaded from Google Fonts rather than installed,
+so anything typeset here would depend on the machine that ran the recipe.
+
 AVIF is used for the mascot only.
 It saves 13 KB there and has exactly one consumer.
 The logo stays WebP-only because `theme.logo` renders as a bare `<img>`
