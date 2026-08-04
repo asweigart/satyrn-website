@@ -76,6 +76,34 @@ check-frontmatter:
     print(f"{len(bad)} page(s) with unparseable front matter")
     sys.exit(1 if bad else 0)
 
+# Check the tab bar matches extra.nav_tabs, in order
+check-nav: build
+    #!/usr/bin/env -S uv run python
+    import html, pathlib, re, sys, tomllib
+    # overrides/partials/tabs.html resolves each entry against the nav tree and
+    # renders nothing when the lookup fails, so a page renamed out from under
+    # `nav_tabs` -- or a `page` key with a typo in it -- loses a tab with the
+    # build still reporting success. Same silent failure as `nav_order`.
+    #
+    # Compares the built bar rather than the config alone, so a tab dropped for
+    # any other reason (a section with no index page, say) is caught too.
+    config = tomllib.loads(pathlib.Path("zensical.toml").read_text())
+    want = [t["title"] for t in config["project"]["extra"].get("nav_tabs", [])]
+
+    page = pathlib.Path("site/index.html")
+    bar = re.search(r'<nav class="md-tabs".*?</nav>', page.read_text(), re.S)
+    got = [html.unescape(m) for m in
+           re.findall(r'<a href="[^"]*" class="md-tabs__link">([^<]*)</a>', bar.group(0))] if bar else []
+
+    if got == want:
+        print(f"tab bar matches nav_tabs ({len(want)} tabs)")
+        sys.exit(0)
+    print(f"  nav_tabs: {want}")
+    print(f"  rendered: {got}")
+    for missing in [t for t in want if t not in got]:
+        print(f"missing: {missing!r} resolved to no page")
+    sys.exit(1)
+
 # Check the blog's posts and its generated feed hold together
 check-blog: build
     #!/usr/bin/env -S uv run --with pyyaml python
@@ -244,4 +272,4 @@ encode-assets src_dir:
     just weigh
 
 # Everything CI should run before a merge
-ci: rebuild check-frontmatter check-blog check-assets lint weigh
+ci: rebuild check-frontmatter check-nav check-blog check-assets lint weigh

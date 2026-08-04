@@ -171,37 +171,107 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   display: none;
 }
 
-/* ------------------------------------------------------- block: sections -- */
+/* ------------------------------------------------------------------ tabs -- */
 
-/* Plain links, deliberately not dressed as the theme's nav or tab strip. Those
-   are for site structure; these are three destinations the landing page chooses
-   to point at, and the blog will change what the real nav looks like anyway. */
-.satyrn-sections {
-  display: flex;
-  flex-wrap: wrap;
+/* Plain brand-coloured links on the page background, right-aligned against the
+   content grid, rather than the theme's solid primary bar of white labels.
+
+   The `.md-grid` inside `partials/tabs.html` supplies that 61rem width and
+   centres it, so nothing here needs to restate it. */
+.md-tabs {
+  background-color: var(--md-default-bg-color);
+  color: var(--md-typeset-a-color);
+  box-shadow: none;
+}
+
+.md-tabs__list {
   justify-content: flex-end;
   gap: 0 1.5rem;
-  width: 100%;
-  max-width: 61rem;
-  margin: 0 auto;
-  padding: 0.6rem 0.8rem 0;
+  padding: 0.4rem 0.4rem 0.5rem;
+}
+
+/* The theme sizes items to a 2.4rem bar and spaces them with side padding;
+   the gap above does the spacing here, and the link owns its own height. */
+.md-tabs__item {
+  height: auto;
+  padding: 0;
 }
 
 /* Padded to clear the 24x24px WCAG 2.2 minimum target size; the text alone is
-   about 14px tall. */
-.satyrn-sections__link {
-  display: inline-flex;
+   about 14px tall. The transparent border reserves the rule the active tab
+   gets, so nothing shifts by 2px as you move between tabs. */
+.md-tabs__link {
   align-items: center;
   min-height: 24px;
-  color: var(--md-typeset-a-color);
+  margin-top: 0;
+  padding: 0 0.2rem;
   font-size: 0.8rem;
   font-weight: 600;
-  text-decoration: none;
+  border-bottom: 2px solid transparent;
 }
 
-.satyrn-sections__link:hover {
+/* The theme dims links to 0.7 and lifts them back on hover. Colour carries
+   that job here instead -- but only while the bar is on screen: `[hidden]` is
+   how the theme animates the bar away on scroll, and overriding opacity flat
+   would leave the labels visible through it. */
+.md-tabs:not([hidden]) .md-tabs__link {
+  opacity: 1;
+}
+
+.md-tabs__link:hover,
+.md-tabs__link:focus {
   color: var(--md-accent-fg-color);
   text-decoration: underline;
+}
+
+/* Colour and rule together, not colour alone: at 0.8rem this is the only thing
+   telling you where you are, and WCAG 1.4.1 wants more than hue carrying it.
+   `--active .md-tabs__link` is the theme's own selector for the label, so this
+   has to match it to win rather than sitting on the item. */
+.md-tabs__item--active {
+  border-bottom: none;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: var(--md-accent-fg-color);
+  border-bottom-color: var(--md-accent-fg-color);
+}
+
+/* --------------------------------------------------------------- sidebar -- */
+
+/* Above 1220px the theme's `md-nav--lifted` hides every top-level item but the
+   active one, which is exactly the scoping wanted: the tabs carry the top
+   level, so the sidebar carries what is inside the current tab. Below that
+   width the tab bar is not rendered at all and the same markup becomes the
+   drawer, still holding the whole tree. Nothing in the templates has to know
+   which of the two it is producing.
+
+   Lifted goes one step further than wanted, though, and hides the active
+   item's own link as well, leaving a column of headings with nothing naming
+   them. Restoring it gives the sidebar a title. `a.md-nav__link` and not
+   `.md-nav__link`: the theme emits a `<label>` sharing that class to toggle
+   the headings on mobile, and that one should stay hidden. */
+@media screen and (min-width: 76.25em) {
+  .md-nav--lifted > .md-nav__list > .md-nav__item--active > a.md-nav__link {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: var(--md-default-fg-color);
+    font-weight: 700;
+  }
+}
+
+/* The landing page runs full width, so its sidebar is suppressed -- but only
+   above the breakpoint where the tab bar exists to replace it. Below that, the
+   same element is the mobile drawer and the only navigation on the page. See
+   overrides/home.html for why this is a wrapper class and not `hide`. */
+.satyrn-home-nav {
+  display: contents;
+}
+
+@media screen and (min-width: 76.25em) {
+  .satyrn-home-nav > .md-sidebar--primary {
+    display: none;
+  }
 }
 
 /* ----------------------------------------------------------- block: hero -- */
@@ -378,8 +448,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 /* Inline links inside a sentence are exempt from the 24px minimum target size,
    so the base carries only colour and the standalone modifier adds the target
    box. That way an inline link never has to undo it. */
-.satyrn-footer__link--standalone,
-.satyrn-sections__link {
+.satyrn-footer__link--standalone {
   display: inline-flex;
   align-items: center;
   min-height: 24px;
@@ -535,24 +604,21 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   text-wrap: pretty;
 }
 
-/* Hand-written links, shared by the section nav and the footer. Keeping the
-   focus ring here means a third block cannot pick up the colour and silently
-   miss the ring. */
-.satyrn-sections__link,
+/* Hand-written links. Keeping the focus ring here means a second block cannot
+   pick up the colour and silently miss the ring. */
 .satyrn-footer__link {
   color: var(--md-typeset-a-color);
 }
 
-.satyrn-sections__link:hover,
 .satyrn-footer__link:hover {
   color: var(--md-accent-fg-color);
 }
 
-/* The blog links take the ring but not the colour above: theirs comes from
-   `.md-typeset a`, and `currentcolor` picks it up either way. Both link colours
-   clear the 3:1 WCAG 1.4.11 asks of a focus indicator -- 4.67:1 on cream,
-   9.46:1 on ink. */
-.satyrn-sections__link:focus-visible,
+/* The tab and blog links take the ring but not the colour above: theirs comes
+   from `.md-tabs` and `.md-typeset a`, and `currentcolor` picks it up either
+   way. Every one of those colours clears the 3:1 WCAG 1.4.11 asks of a focus
+   indicator -- 4.67:1 on cream, 9.46:1 on ink. */
+.md-tabs__link:focus-visible,
 .satyrn-footer__link:focus-visible,
 .satyrn-byline__link:focus-visible,
 .satyrn-post__title a:focus-visible {

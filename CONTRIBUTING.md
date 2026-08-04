@@ -7,7 +7,7 @@ so it's worth a skim before your first change.
 
 Run `just ci` before opening a pull request.
 CI runs the same recipe:
-a strict build, a front-matter check, the blog checks,
+a strict build, a front-matter check, a navigation check, the blog checks,
 an asset-reference check, the linters, and the page weight report.
 
 Strict means `zensical build --strict`,
@@ -35,7 +35,7 @@ so `--strict` cannot see it and something else has to.
 | `src/stylesheets/satyrn.css` | Brand palette, landing page layout, blog styling. |
 | `src/assets/` | Logos, mascot artwork, favicon. |
 | `overrides/main.html` | Head additions, link previews and the listing block, applied to every page. |
-| `overrides/home.html` | The landing page shell: section nav and its own footer. |
+| `overrides/home.html` | The landing page shell: its own footer, and the wrapper that keeps its sidebar to the mobile drawer. |
 | `overrides/partials/` | Shadowed theme partials plus the blog's byline and listing rows. |
 | `justfile` | Every command. `just` with no argument lists them. |
 
@@ -72,7 +72,23 @@ and an explicit list empties them without saying so.
 
 ## Things that fail quietly
 
-Both of these have already cost someone an afternoon.
+Each of these has already cost someone an afternoon.
+
+### A page title that stops matching
+
+Five settings in `[project.extra]` address pages by their rendered title:
+`nav_order`, `nav_collapse`, `nav_recent`, `nav_hide` and `nav_tabs`.
+The match is character for character, em dash included.
+
+None of them error on a title that matches nothing.
+An unmatched `nav_order` entry drops the page to the end of the sidebar;
+an unmatched `nav_tabs` entry removes the tab altogether.
+Both build clean.
+
+So renaming a page means grepping `zensical.toml` for its old title.
+`just check-nav` covers the tab bar,
+by comparing what the built page renders against the configured list.
+The other four are on you.
 
 ### A bare colon in front matter
 
@@ -138,16 +154,18 @@ Reach for a real element before an ARIA attribute.
 `<nav>`, `<main>` and `<footer>` already carry the right roles,
 and no ARIA is better than wrong ARIA.
 
-Where several regions share a role, label them:
-the landing page's section nav is `<nav aria-label="Sections">`
-so it isn't announced as a second unnamed "navigation".
+Where several regions share a role, label them.
+Three `<nav>` landmarks are on a page at once —
+the tab bar, the sidebar and the breadcrumbs —
+and the theme names each of them,
+so anything you add alongside needs a name too.
 The pillar cards are a list,
 so a screen reader announces them as one and they don't each need naming.
 
 ### Keyboard and pointer
 
 Interactive targets are at least 24x24px.
-That's why `.satyrn-sections__link` and `.satyrn-footer__link--standalone`
+That's why `.md-tabs__link` and `.satyrn-footer__link--standalone`
 carry padding and `min-height`.
 The text alone is only about 14px tall.
 Links sitting inline in a sentence are exempt.
@@ -239,15 +257,52 @@ The landing page opts out of the docs layout in its front matter:
 ```yaml
 ---
 template: home.html
-hide:
-  - navigation
-  - toc
 ---
 ```
 
 Every other page uses the stock Zensical layout,
-sidebar and table of contents and search,
+sidebar and search,
 with the same brand palette over it.
+
+Note what is *not* there.
+`hide: navigation` looks like the way to give the landing page its full width,
+and it is a trap:
+it puts `hidden` on the primary sidebar,
+and below 1220px the primary sidebar is the mobile drawer,
+with nothing in the theme's CSS bringing it back.
+The hamburger then opens onto an empty panel.
+`overrides/home.html` wraps the sidebar in a class instead,
+and one media query hides it above the same width the tab bar appears at.
+
+### Navigation
+
+Two things carry it, and they are configured separately.
+
+The tab bar is `[[project.extra.nav_tabs]]`,
+rendered by `overrides/partials/tabs.html`.
+It is an editorial list, not a mirror of the top level:
+adding `src/whatever.md` does not earn it a tab.
+Entries resolve against the nav tree rather than carrying their own URLs,
+so links and active states stay the theme's job.
+
+The sidebar is `overrides/partials/nav.html`,
+walking the tree Zensical derives from `src/`.
+Above 1220px the theme's `md-nav--lifted` narrows it
+to whichever tab you are in,
+which is why the sidebar shows page headings rather than the whole sitemap.
+Below 1220px there is no tab bar,
+the same markup becomes the drawer,
+and it holds everything.
+
+That split is why `nav_hide` keeps an item
+when the item is the page you are on:
+on desktop lifted has already hidden it everywhere else,
+so the only thing `nav_hide` really removes is a drawer entry.
+Drop it unconditionally and the page loses its own navigation.
+
+There is deliberately no `nav` list in `zensical.toml`.
+The blog reads the same derived tree for its listings and feed,
+and an explicit list empties them with no warning.
 
 The pillar cards use the theme's own `grid cards`:
 a markdown list inside `<div class="grid cards satyrn-pillars" markdown>`,
