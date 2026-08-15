@@ -34,11 +34,11 @@ many people with different backgrounds and expertise helped us work more effecti
 and creatively. The "Team Compass" began as a way to share how we work together to
 meet our goals and communicate effectively.
 
-More than a set of documents, the Satyrn [**Team Compass**]() captures how we work, how
-we collaborate, and how we make decisions. It's a living document that we
-update as the organization grows and evolves. Perhaps the most important thing
-about the Team Compass is sharing with you how to get follow our work, get
-involved, and contribute.
+More than a set of documents, the Satyrn [**Team Compass**](https://satyrn-ai.github.io/team-compass/)
+captures how we work, how we collaborate, and how we make decisions.
+It's a living document that we update as the organization grows and evolves.
+The most important thing about the Team Compass is that it shares with you
+how to get follow our work, get involved, and contribute.
 
 As a living document, the Team Compass is constantly evolving and improving.
 We welcome contributions from anyone who wants to help us shape the future of AI.
