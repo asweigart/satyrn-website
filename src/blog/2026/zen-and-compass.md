@@ -51,7 +51,7 @@ we work toward more "trusted and transparent" AI systems.
 open book of learning documents, videos, and other resources that we share
 with the community.
 
-Satryn Zen shares documents in three distinct categories:
+Satyrn Zen shares documents in three distinct categories:
 
 - **Learn**: reference documents and guides for understanding the concepts of
   AI tools and technologies and its impact on society.
