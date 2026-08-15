@@ -60,6 +60,7 @@ Satryn Zen shares documents in three distinct categories:
   and ideas within the Satyrn community and beyond.
 
 Each category, learn, create, and share, is composed of two document collections:
+
 - content written by the Satyrn team and community members
 - community-curated content from external sources that fit our Satyrn's mission
 
