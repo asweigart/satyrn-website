@@ -8,7 +8,7 @@ tags:
   - governance
   - announcements
   - community
-description: "Learning and governance."
+description: "Welcome to Satyrn where we care about sharing knowledge and empowering you on your journey with AI systems."
 ---
 
 Welcome to Satyrn where we care about sharing knowledge and empowering you
