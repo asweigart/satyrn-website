@@ -480,3 +480,7 @@ title = "Blog"
 # There are none yet. `src/authors/<slug>.md` and a table here are both needed
 # before a post can name that slug; see "Adding a blog author" in
 # CONTRIBUTING.md.
+
+[project.extra.authors.willing-carol]
+name = "Carol Willing"
+url = "https://willingconsulting.com"

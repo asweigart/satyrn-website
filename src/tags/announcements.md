@@ -1,0 +1,5 @@
+---
+index: tag
+title: Announcements
+---
+
