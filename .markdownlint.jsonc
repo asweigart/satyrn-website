@@ -15,10 +15,11 @@
   // heading would land outside the hero layout.
   "MD025": { "front_matter_title": "" },
 
-  // Not disabled, deliberately. These four are the elements the landing page
+  // Not disabled, deliberately. These are the elements the landing page
   // genuinely needs and markdown cannot express: layout wrappers for the hero,
-  // pillar grid and mission block, plus <picture>/<source>/<img> for serving
-  // AVIF with a WebP fallback. Anything else -- <span>, <br>, <b>, a raw
+  // pillar grid and mission block; <picture>/<source>/<img> for AVIF with a
+  // WebP fallback; and <svg>/<path> for the inlined brandmark (inlined so its
+  // fills recolour per scheme). Anything else -- <span>, <br>, <b>, a raw
   // <table> -- still gets flagged, which is the point.
-  "MD033": { "allowed_elements": ["div", "picture", "source", "img"] }
+  "MD033": { "allowed_elements": ["div", "picture", "source", "img", "svg", "path"] }
 }

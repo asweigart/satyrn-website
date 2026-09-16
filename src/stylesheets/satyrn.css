@@ -241,20 +241,25 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 .md-header__title {
   font-size: 1.25rem;
   letter-spacing: 0.06em;
+}
+
+/* The wordmark text is the mark's accent hex from the SVG (olive in light, gold
+   in dark). The colour has to sit on `.md-header__topic`, the span the theme
+   otherwise paints in the primary-bg colour; setting it on the title alone is
+   overridden. */
+.md-header__topic {
   color: var(--satyrn-mark-accent);
 }
 
 .md-header__button.md-logo :is(img, svg) {
   width: auto;
-  height: 2.2rem;
+  /* Sized so the planet sits close to the wordmark's cap height, matching the
+     proportion in the supplied horizontal lockup. */
+  height: 1.6rem;
 }
 
-/* The theme emits this image with no width or height, so it occupies no
-   horizontal space until it loads and shoves the site title sideways. The
-   artwork is square. */
-.md-logo :is(img, svg) {
-  aspect-ratio: 1;
-}
+/* The inlined mark carries its own aspect ratio from the (tight) viewBox, so no
+   aspect-ratio override is needed; it is a wide ringed planet, not a square. */
 
 /* The repository slot reserves 11.5rem on wide viewports whether or not a
    repo_url is configured, which pushes search away from the right edge. Collapse
