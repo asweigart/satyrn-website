@@ -16,7 +16,10 @@
             because the file's real dimensions are not knowable here. -#}
         {%- if author.avatar %}<img class="satyrn-byline__avatar" src="{{ author.avatar | url }}" alt="" loading="lazy">{% endif -%}
         {%- if author.url -%}
-          <a class="satyrn-byline__link" href="{{ author.url }}">{{ author.name | e }}</a>
+          {#- Author URLs are external personal sites, so they open in a new tab.
+              `rel=noopener` closes the reverse-window handle; the aria-label
+              keeps the visible name (WCAG 2.5.3) while announcing the new tab. -#}
+          <a class="satyrn-byline__link" href="{{ author.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ author.name | e }} (opens in a new tab)">{{ author.name | e }}</a>
         {%- else -%}
           <span>{{ author.name | e }}</span>
         {%- endif -%}

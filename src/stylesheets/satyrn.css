@@ -20,7 +20,7 @@
    that never matches.
    ========================================================================== */
 
-/* ---------------------------------------------------------------- tokens -- */
+/* --------------------------------------------------------- color-scheme -- */
 
 /* Zensical declares `color-scheme` on <body>, but the browser only themes the
    root scrollbar and page canvas from the *root* element — verified: with slate
@@ -28,8 +28,66 @@
 html:has(> body[data-md-color-scheme="default"]) { color-scheme: light; }
 html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
+/* --------------------------------------------------------------- fonts -- */
+
+/* Triple Charm Font Trio (BilberryCreates, purchased via Creative Market under
+   the Webfont license). Self-hosted from `assets/fonts/` rather than a font
+   CDN: the licence covers @font-face embedding, and serving the vendor's own
+   webfont build as-is keeps us clear of the "no modifying the font files"
+   clause that converting or subsetting would brush against.
+
+   The `src` paths are relative to THIS stylesheet (`stylesheets/satyrn.css`),
+   not the page, hence the `../assets` hop.
+
+   Each face ships a single upright master at weight-class 400 -- there is no
+   bold file -- so the faces are declared at 400 and headings must ask for 400.
+   Requesting a heavier weight would make the browser synthesise a faux-bold and
+   smear this display face. The vendor's internal name records are stripped, so
+   the family name below is one we assign; nothing does a `local()` lookup.
+
+   Only "Triple Charm Sans" is rendered today (headings, below). The outline and
+   script faces are declared so they are ready to use -- an unreferenced
+   @font-face costs nothing, the file is fetched only when something is actually
+   painted in it -- and wired to tokens for when the site adopts them:
+   outline for special display text, script for human names and flourishes. */
+@font-face {
+  font-family: "Triple Charm Sans";
+  src: url("../assets/fonts/triplecharm-sans-webfont.woff2") format("woff2"),
+       url("../assets/fonts/triplecharm-sans-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Triple Charm Outline";
+  src: url("../assets/fonts/triplecharm-sansoutline-webfont.woff2") format("woff2"),
+       url("../assets/fonts/triplecharm-sansoutline-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Triple Charm Script";
+  src: url("../assets/fonts/triplecharm-script-webfont.woff2") format("woff2"),
+       url("../assets/fonts/triplecharm-script-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------- tokens -- */
+
 :root {
-  --satyrn-font-display: "Fredoka", var(--md-text-font, "Inter"), sans-serif;
+  /* Headings. The sans falls back through the body font, then a generic, while
+     its file loads or if it ever fails to. */
+  --satyrn-font-display: "Triple Charm Sans", var(--md-text-font, "Inter"), sans-serif;
+
+  /* Not yet rendered anywhere -- see the @font-face note above. Kept as tokens
+     so their first use is a one-line reference, not a font-stack decision. */
+  --satyrn-font-outline: "Triple Charm Outline", var(--md-text-font, "Inter"), sans-serif;
+  --satyrn-font-script: "Triple Charm Script", cursive;
 
   /* Raw brand values, kept separate from the theme tokens they feed so they
      can be recombined without hunting through the mappings below. */
@@ -51,6 +109,19 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-card-light: #fffaf0;
   --satyrn-card-dark: #26221d;
   --satyrn-parchment: #f0e6d2;
+
+  /* Heading colour, one value per scheme. The display face is bold and filled,
+     so headings carry the brand hue while body copy takes the pure neutral
+     (black on cream, white on ink) for maximum reading contrast. The tan is the
+     logo's ring colour; the umber is a warm near-black that stays off pure. */
+  --satyrn-tan: #bf986d;
+  --satyrn-umber: #393330;
+
+  /* The offset "echo" layer behind article titles: the outline face sits a few
+     px down-right of the filled face for a layered, joyful heading. The bright
+     gold takes light mode and the muted olive takes dark. */
+  --satyrn-echo-gold: #e6d568;
+  --satyrn-echo-olive: #817428;
 }
 
 [data-md-color-scheme="default"] {
@@ -74,7 +145,12 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --md-accent-fg-color: var(--satyrn-orange-text-hover);
   --md-accent-fg-color--transparent: rgb(200 114 44 / 10%);
 
-  --md-typeset-color: var(--satyrn-ink);
+  /* Body copy pure black for maximum contrast on cream; headings carry the
+     brand umber instead. --md-default-fg-color stays ink so UI chrome and muted
+     text keep their softer warmth. */
+  --md-typeset-color: #000;
+  --satyrn-heading: var(--satyrn-umber);
+  --satyrn-heading-echo: var(--satyrn-echo-gold);
   --md-typeset-a-color: var(--satyrn-orange-text);
   --md-code-bg-color: var(--satyrn-card-light);
 
@@ -105,7 +181,10 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --md-accent-fg-color: var(--satyrn-gold-light);
   --md-accent-fg-color--transparent: rgb(232 185 61 / 10%);
 
-  --md-typeset-color: var(--satyrn-parchment);
+  /* Mirror of light mode: pure white body copy on ink, headings in brand tan. */
+  --md-typeset-color: #fff;
+  --satyrn-heading: var(--satyrn-tan);
+  --satyrn-heading-echo: var(--satyrn-echo-olive);
   --md-typeset-a-color: var(--satyrn-gold);
   --md-code-bg-color: var(--satyrn-card-dark);
 
@@ -148,8 +227,12 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   border-bottom: 1px solid var(--satyrn-border);
 }
 
+/* The wordmark is a logotype, so it carries a touch more tracking than the
+   0.03em the shared heading rule gives every other heading -- enough to read as
+   deliberate letterspacing. Tunable here without touching the body headings. */
 .md-header__title {
   font-size: 1.25rem;
+  letter-spacing: 0.06em;
 }
 
 .md-header__button.md-logo :is(img, svg) {
@@ -302,6 +385,26 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   margin: 0;
   max-width: 62ch;
   font-size: 1.15rem;
+}
+
+/* The lede is authored as a blockquote: set in Reddit Sans italic, a step
+   larger than a normal lede, with a brand-hue rule instead of the theme's muted
+   grey one. `color: inherit` undoes Material's dimmed blockquote text so it
+   keeps the pure body neutral; the more specific `blockquote p` beats the
+   1.15rem above. */
+.satyrn-hero__text blockquote {
+  margin: 0;
+  max-width: 62ch;
+  padding-left: 1.1rem;
+  border-left: 3px solid var(--md-primary-fg-color);
+  color: inherit;
+  font-style: italic;
+}
+
+.satyrn-hero__text blockquote p {
+  max-width: none;
+  font-size: 1.45rem;
+  line-height: 1.4;
 }
 
 /* `picture` is inline by default. `justify-self` only bites once the hero
@@ -492,6 +595,27 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   font-size: 0.7rem;
 }
 
+/* The author name gets the script face -- the one place human names are
+   handwritten. Sized well above the 0.7rem eyebrow so the joined glyphs stay
+   legible, with the date and title left small around it. Covers both the linked
+   name and the plain-text fallback; the only other child span is the title,
+   excluded here. Tracking cleared because script glyphs are joined. */
+.satyrn-byline__author > a,
+.satyrn-byline__author > span:not(.satyrn-byline__title) {
+  font-family: var(--satyrn-font-script);
+  font-size: 1.5rem;
+  letter-spacing: normal;
+}
+
+/* A full text-decoration underline is too heavy under the script face and cuts
+   through its descenders. A thin border-bottom, dropped clear of the baseline,
+   reads as a light rule instead. */
+.satyrn-byline__author > a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.02em;
+}
+
 /* Inline, not flex. A byline is a sentence, and inline content wraps as one
    sequence. As flex items the author list and the date wrapped independently,
    which on two authors put the date in between them.
@@ -579,23 +703,88 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 /* ------------------------------------------------------- shared typeset -- */
 
+/* Zensical ships `.md-typeset` at 0.68--0.7rem, which lands body copy around
+   14--15px at the smaller root sizes. Reddit Sans has a small x-height and reads
+   smaller still, so the body floor is set to 18px here (0.9rem at the 20px base
+   root; root scales 125% -> 137.5% -> 150% by viewport, so wider screens step up
+   from there). Prose paragraphs and lists inherit this; our own blocks pin their
+   own sizes and are unaffected. */
+.md-typeset {
+  font-size: 0.9rem;
+}
+
 /* The display face belongs to headings as a concept, not to the two landing
    page blocks that happened to need it first. Applying it only there left
-   `# Mission` in Inter directly above a Fredoka `## The problem`.
+   `# Mission` in Inter directly above a Triple Charm `## The problem`.
 
-   `font-weight` is pinned because Fredoka is fetched at 600 only; inheriting
-   any other weight snaps to the nearest declared one and pulls a second font
-   file for no visible difference. */
+   `font-weight` is pinned to 400 because Triple Charm Sans ships a single
+   upright master at that weight -- there is no bold file. Asking for anything
+   heavier makes the browser synthesise a faux-bold and smear the face. */
 .md-header__title,
 .satyrn-footer__tagline,
 .md-typeset :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--satyrn-font-display);
-  font-weight: 600;
+  font-weight: 400;
+  /* The filled display face carries the brand hue; body copy stays pure neutral
+     (see the scheme blocks). A heading that wraps a link keeps the link colour
+     on the <a> and this on the rest. */
+  color: var(--satyrn-heading);
+  /* Triple Charm Sans sets its glyphs tight; a little positive tracking opens
+     the headings up without loosening them into a banner. */
+  letter-spacing: 0.03em;
   font-size-adjust: from-font;
 }
 
 .md-typeset :is(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
+}
+
+/* Smaller headings step down to the body face (Reddit Sans) at 700 rather than
+   the Triple Charm display, so the display face carries only the large headings
+   (h1/h2) and stops feeling over-used. They also drop the brand heading colour
+   for the pure body neutral (black on cream, white on ink), which sets them
+   apart from the coloured display headings for a bit of texture. The 0.03em
+   display tracking is cleared as Reddit needs none. */
+.md-typeset :is(h3, h4) {
+  font-family: var(--md-text-font, "Reddit Sans"), sans-serif;
+  font-weight: 700;
+  letter-spacing: normal;
+  color: var(--md-typeset-color);
+}
+
+/* Article titles only. The byline is emitted directly before the post h1, so
+   this adjacent-sibling selector reaches post pages and nothing else -- not the
+   blog overview, not docs, not the landing hero.
+
+   Layered heading effect: the h1 itself is the filled display face in the brand
+   heading colour (front layer), and a `::before` draws the same text in the
+   OUTLINE face, offset down-right in the echo colour (back layer). The copy
+   comes from `data-title`, stamped onto the h1 by blog-dates.js -- the theme
+   generates this h1 from the title, so there is no markup to duplicate by hand,
+   and without JS the reader simply gets the plain filled title. `z-index: 0`
+   makes the h1 a stacking context so the `-1` echo tucks behind its glyphs.
+
+   The theme's h1 margin (1.25em) plus Triple Charm's tall line box left far too
+   much air beneath the title, so the space below and line-height are pulled in. */
+.satyrn-byline + h1 {
+  position: relative;
+  z-index: 0;
+  margin-bottom: 0.5em;
+  line-height: 1.1;
+}
+
+.satyrn-byline + h1[data-title]::before {
+  content: attr(data-title);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+  font-family: var(--satyrn-font-outline);
+  color: var(--satyrn-heading-echo);
+  transform: translate(0.09em, 0.09em);
+  text-wrap: balance;
+  pointer-events: none;
 }
 
 .satyrn-hero__text p,

@@ -11,7 +11,7 @@
 # The site_name is shown in the page header and the browser window title
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_name
-site_name = "Satyrn AI"
+site_name = "Satyrn"
 
 # The site_description is included in the HTML head and should contain a
 # meaningful description of the site content for use by search engines.
@@ -306,7 +306,7 @@ logo = "assets/satyrn-logo-light.webp"
 # a monospaced font used in code blocks.
 # ----------------------------------------------------------------------------
 [project.theme.font]
-text = "Inter"
+text = "Reddit Sans"
 code = "JetBrains Mono"
 
 # ----------------------------------------------------------------------------
