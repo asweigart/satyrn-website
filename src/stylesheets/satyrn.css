@@ -559,7 +559,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .satyrn-footer .satyrn-mark {
   width: auto;
-  height: 2rem;
+  height: 1.4rem;
   margin-inline: auto;
 }
 
