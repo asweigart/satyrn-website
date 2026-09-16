@@ -429,6 +429,8 @@ nav_collapse = ["Authors", "Tags"]
 # Rendered as a link plus its most recent posts, newest first.
 nav_recent = ["Blog"]
 nav_recent_count = 5
+# How many posts the landing page's "Latest from the blog" cards show.
+home_posts_count = 3
 # Kept out of the sidebar and the mobile drawer, except on their own pages,
 # where the item is what gives the page a sidebar at all. Both are reached from
 # the tag chips on a post, the byline, and the blog index -- they are archives,

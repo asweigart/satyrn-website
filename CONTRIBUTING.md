@@ -392,14 +392,15 @@ so the same CSS width rendered it about 40% smaller than its counterpart.
 One file plus a halo in dark mode is smaller and behaves the same in both schemes.
 
 The social card is JPEG, and generated rather than drawn.
-`just og-image` composites the mascot onto brand cream at 1200x630,
-so it stays in step with the artwork instead of drifting from it.
+`just og-image` renders `artwork/satyrn-square-dark.svg` onto the brand charcoal at 1200x630,
+so it stays in step with the logo instead of drifting from it.
+It runs through `uv` with a pinned SVG renderer, so it needs no ImageMagick.
+The logo sits inside the centre square, so unfurlers that crop to 1:1 keep all of it.
 JPEG because the page never loads that file — only the crawlers building
 link previews do, and their format support is narrower
 and harder to verify than a browser's.
-It carries no text: the title and description travel as their own meta tags,
-and Fredoka is loaded from Google Fonts rather than installed,
-so anything typeset here would depend on the machine that ran the recipe.
+It carries no typeset text: the title and description travel as their own meta tags,
+and the wordmark in the logo is drawn as outlines, so nothing depends on installed fonts.
 
 AVIF is used for the mascot only.
 It saves 13 KB there and has exactly one consumer.
@@ -428,12 +429,43 @@ Prefer those over hand-rolling a CSS swap.
 
 ## Colour and contrast
 
-`--satyrn-orange` (`#c8722c`) is the brand orange,
-but on cream it only reaches 3.16:1,
-under the 4.5:1 that WCAG AA wants for body text.
-Link text in light mode uses `--satyrn-orange-text` (`#9f5b23`) instead:
-same hue and saturation, lower lightness, 4.67:1.
-The brand orange is still used for non-text UI, which only needs 3:1.
+The palette comes from the design team's brand colours:
+a greige light background (`#ced0c3`) and a warm charcoal dark one (`#383330`).
+Each Satyrn surface owns one hue, and the main site's is yellow.
+For now yellow is the only hue in the UI;
+pink, blue and green belong to other surfaces.
 
-Dark mode needs no equivalent.
-Gold on ink is already 9.46:1.
+Yellow comes in three tiers, and each is only valid for the job it was checked against:
+
+| Token | Hex | Use | Contrast |
+| --- | --- | --- | --- |
+| `--satyrn-yellow-dark` | `#e3d678` | Text and logo on dark | 8.40:1 |
+| `--satyrn-yellow-ui` | `#7f7435` | Large text, icons, borders on light | 3.02:1 |
+| `--satyrn-yellow-text` | `#423c1b` | Body-size text on light | 7.09:1 |
+
+The UI tier is not for body text.
+Blocks shouldn't reach for a tier directly:
+`--satyrn-accent` and `--satyrn-accent-text` pick the right one per scheme.
+
+A yellow fill on greige is 1.06:1 and all but disappears,
+so the primary button is charcoal with a yellow label in light mode
+and yellow with a charcoal label in dark mode.
+
+Borders that are the only thing marking out a control,
+like the secondary button's, use `--satyrn-control-border` (3:1 or better),
+not the faint `--satyrn-border` used for dividers and cards.
+Footers sit on the page background:
+the yellow wordmark is only 3.02:1 on greige, and a darker band pushes it under 3:1.
+
+## Layout and breakpoints
+
+The landing page follows the theme's own breakpoints,
+so it changes layout in step with the header and tab bar:
+above 1220px is full desktop, at 960px the hero drops to one column and hides the logo,
+and at 480px buttons go full width.
+They're written in `em`, which in a media query is the 16px browser default,
+not the site's 125% root size.
+
+The landing page carries no decoration beyond the logo in the hero.
+Before adding an ornament, a numbered label or a tinted band,
+check it's doing a job a heading or a hairline isn't already doing.

@@ -310,24 +310,39 @@ encode-assets src_dir:
     just og-image
     just weigh
 
-# Rebuild the social card from the mascot. Needs imagemagick.
+# Rebuild the social card from the brand logo
 og-image:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    command -v magick >/dev/null || { echo "needs imagemagick"; exit 1; }
-    # Derived from the shipped WebP rather than the original artwork, so this
-    # runs from a clean checkout without the source directory that
-    # `encode-assets` needs.
+    #!/usr/bin/env -S uv run --no-project --with resvg-py==0.5.0 --with pillow==12.3.0 python
+    # Pure Python through uv, so this runs anywhere `just` does: no imagemagick.
+    # Versions are pinned for the same reason the linters are -- an unpinned
+    # renderer could shift the output with nothing in the repo having changed.
     #
-    # 1200x630 is what every unfurler crops towards. The mascot is 600px square
-    # and sits at 520 so the ring it is drawn inside keeps some air above and
-    # below; the rest is brand cream. No text: the title and description arrive
-    # as their own meta tags, and Fredoka is loaded from Google Fonts rather
-    # than installed, so rendering any here would depend on the machine.
-    magick -size 1200x630 xc:'#f7f1e3' \
-      \( src/assets/avatar.webp -resize x520 \) -gravity center -composite \
-      -strip -quality 88 src/assets/og-image.jpg
-    magick identify -format 'src/assets/og-image.jpg  %wx%h  %b\n' src/assets/og-image.jpg
+    # 1200x630 is what every unfurler crops towards. The card is the square
+    # logo from artwork/ -- planet plus wordmark, both drawn as paths -- centred
+    # on the brand charcoal. No typeset text: the title and description arrive
+    # as their own meta tags, and rendering a font here would depend on the
+    # machine. The wordmark is outlines, so it is safe.
+    #
+    # The logo's own square ground is dropped and its content cropped to what
+    # is actually drawn, so its position does not depend on the artwork's
+    # padding. JPEG because only link-preview crawlers ever load this file.
+    import io, pathlib, re
+    import resvg_py
+    from PIL import Image
+
+    svg = pathlib.Path("artwork/satyrn-square-dark.svg").read_text()
+    svg = re.sub(r"<rect[^>]*/>", "", svg, count=1)
+    png = bytes(resvg_py.svg_to_bytes(svg_string=svg, width=2048, height=2048))
+    logo = Image.open(io.BytesIO(png)).convert("RGBA")
+    logo = logo.crop(logo.getbbox())
+    height = 360
+    logo = logo.resize((round(logo.width * height / logo.height), height), Image.LANCZOS)
+
+    card = Image.new("RGB", (1200, 630), "#383330")
+    card.paste(logo, ((card.width - logo.width) // 2, (card.height - logo.height) // 2), logo)
+    out = pathlib.Path("src/assets/og-image.jpg")
+    card.save(out, "JPEG", quality=88, optimize=True, progressive=True)
+    print(f"{out}  {card.width}x{card.height}  {out.stat().st_size} bytes")
 
 # Everything CI should run before a merge
 ci: rebuild check-frontmatter check-nav check-blog check-assets lint weigh
