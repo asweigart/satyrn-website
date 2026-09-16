@@ -151,12 +151,15 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --md-typeset-color: #000;
   --satyrn-heading: var(--satyrn-umber);
   --satyrn-heading-echo: var(--satyrn-echo-gold);
+  /* Mark accent matches the supplied SVGs (olive in light, gold in dark),
+     which is the opposite pairing to the heading echo above -- kept separate
+     so the two can't be confused. */
+  --satyrn-mark-accent: var(--satyrn-echo-olive);
   --md-typeset-a-color: var(--satyrn-orange-text);
   --md-code-bg-color: var(--satyrn-card-light);
 
   --satyrn-card-bg: var(--satyrn-card-light);
   --satyrn-border: rgb(28 26 23 / 15%);
-  --satyrn-mark-filter: none;
 }
 
 /* `--md-hue` drives every colour the slate scheme derives in HSL — code
@@ -185,19 +188,13 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --md-typeset-color: #fff;
   --satyrn-heading: var(--satyrn-tan);
   --satyrn-heading-echo: var(--satyrn-echo-olive);
+  --satyrn-mark-accent: var(--satyrn-echo-gold);
   --md-typeset-a-color: var(--satyrn-gold);
   --md-code-bg-color: var(--satyrn-card-dark);
 
   --satyrn-card-bg: var(--satyrn-card-dark);
   --satyrn-border: rgb(240 230 210 / 15%);
 
-  /* The balloon string is a thin dark stroke with nothing behind it, so on the
-     dark background it all but disappears. A soft halo restores it without
-     touching the source artwork. Declared as a token so every placement of the
-     mark picks it up, and so light mode states `none` rather than implying it
-     by absence. */
-  --satyrn-mark-filter: drop-shadow(0 0 1px var(--satyrn-parchment))
-                        drop-shadow(0 0 1px var(--satyrn-parchment));
 }
 
 /* ------------------------------------------------------------- utilities -- */
@@ -211,10 +208,19 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
    download both variants (a `display: none` image is still fetched), and the
    dark artwork sat inside more transparent padding, so the same CSS width
    rendered it about 40% smaller than its light counterpart. */
-.md-logo :is(img, svg),
-.satyrn-mission__mark,
-.satyrn-footer__mark {
-  filter: var(--satyrn-mark-filter);
+/* The inlined mark takes its two fills from the scheme tokens, so it recolours
+   with the theme: the body in the heading colour, the accent in the echo
+   colour. One SVG, no light/dark files. */
+.satyrn-mark {
+  display: block;
+}
+
+.satyrn-mark__body {
+  fill: var(--satyrn-heading);
+}
+
+.satyrn-mark__accent {
+  fill: var(--satyrn-mark-accent);
 }
 
 /* ---------------------------------------------------------------- header -- */
@@ -230,22 +236,30 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 /* The wordmark is a logotype, so it carries a touch more tracking than the
    0.03em the shared heading rule gives every other heading -- enough to read as
    deliberate letterspacing. Tunable here without touching the body headings. */
+/* The wordmark matches the mark's yellow accent (olive in light, gold in dark)
+   rather than the heading umber/tan. */
 .md-header__title {
   font-size: 1.25rem;
   letter-spacing: 0.06em;
 }
 
-.md-header__button.md-logo :is(img, svg) {
-  width: auto;
-  height: 2.2rem;
+/* The wordmark text is the mark's accent hex from the SVG (olive in light, gold
+   in dark). The colour has to sit on `.md-header__topic`, the span the theme
+   otherwise paints in the primary-bg colour; setting it on the title alone is
+   overridden. */
+.md-header__topic {
+  color: var(--satyrn-mark-accent);
 }
 
-/* The theme emits this image with no width or height, so it occupies no
-   horizontal space until it loads and shoves the site title sideways. The
-   artwork is square. */
-.md-logo :is(img, svg) {
-  aspect-ratio: 1;
+.md-header__button.md-logo :is(img, svg) {
+  width: auto;
+  /* Sized so the planet sits close to the wordmark's cap height, matching the
+     proportion in the supplied horizontal lockup. */
+  height: 1.6rem;
 }
+
+/* The inlined mark carries its own aspect ratio from the (tight) viewBox, so no
+   aspect-ratio override is needed; it is a wide ringed planet, not a square. */
 
 /* The repository slot reserves 11.5rem on wide viewports whether or not a
    repo_url is configured, which pushes search away from the right edge. Collapse
@@ -423,6 +437,21 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   height: auto;
 }
 
+/* Stroke-only placeholder mark filling the art column until a new illustration
+   lands. Stroke (not fill) reads as deliberately light and temporary. */
+.satyrn-hero__mark {
+  width: 15rem;
+  height: auto;
+  fill: none;
+  stroke: var(--satyrn-heading);
+  stroke-width: 2px;
+}
+
+/* Keep the stroke a true 2px regardless of the render size. */
+.satyrn-hero__mark path {
+  vector-effect: non-scaling-stroke;
+}
+
 @media screen and (max-width: 59.984375em) {
   .satyrn-hero {
     grid-template-columns: 1fr;
@@ -528,9 +557,10 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   text-align: center;
 }
 
-.satyrn-footer__mark {
+.satyrn-footer .satyrn-mark {
   width: auto;
   height: 2rem;
+  margin-inline: auto;
 }
 
 .satyrn-footer__tagline,
