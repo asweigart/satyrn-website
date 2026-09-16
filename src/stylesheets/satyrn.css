@@ -116,6 +116,12 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
      logo's ring colour; the umber is a warm near-black that stays off pure. */
   --satyrn-tan: #bf986d;
   --satyrn-umber: #393330;
+
+  /* The offset "echo" layer behind article titles: the outline face sits a few
+     px down-right of the filled face for a layered, joyful heading. The bright
+     gold takes light mode and the muted olive takes dark. */
+  --satyrn-echo-gold: #e6d568;
+  --satyrn-echo-olive: #817428;
 }
 
 [data-md-color-scheme="default"] {
@@ -144,6 +150,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
      text keep their softer warmth. */
   --md-typeset-color: #000;
   --satyrn-heading: var(--satyrn-umber);
+  --satyrn-heading-echo: var(--satyrn-echo-gold);
   --md-typeset-a-color: var(--satyrn-orange-text);
   --md-code-bg-color: var(--satyrn-card-light);
 
@@ -177,6 +184,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   /* Mirror of light mode: pure white body copy on ink, headings in brand tan. */
   --md-typeset-color: #fff;
   --satyrn-heading: var(--satyrn-tan);
+  --satyrn-heading-echo: var(--satyrn-echo-olive);
   --md-typeset-a-color: var(--satyrn-gold);
   --md-code-bg-color: var(--satyrn-card-dark);
 
@@ -587,6 +595,27 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   font-size: 0.7rem;
 }
 
+/* The author name gets the script face -- the one place human names are
+   handwritten. Sized well above the 0.7rem eyebrow so the joined glyphs stay
+   legible, with the date and title left small around it. Covers both the linked
+   name and the plain-text fallback; the only other child span is the title,
+   excluded here. Tracking cleared because script glyphs are joined. */
+.satyrn-byline__author > a,
+.satyrn-byline__author > span:not(.satyrn-byline__title) {
+  font-family: var(--satyrn-font-script);
+  font-size: 1.5rem;
+  letter-spacing: normal;
+}
+
+/* A full text-decoration underline is too heavy under the script face and cuts
+   through its descenders. A thin border-bottom, dropped clear of the baseline,
+   reads as a light rule instead. */
+.satyrn-byline__author > a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.02em;
+}
+
 /* Inline, not flex. A byline is a sentence, and inline content wraps as one
    sequence. As flex items the author list and the date wrapped independently,
    which on two authors put the date in between them.
@@ -721,6 +750,41 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   font-weight: 700;
   letter-spacing: normal;
   color: var(--md-typeset-color);
+}
+
+/* Article titles only. The byline is emitted directly before the post h1, so
+   this adjacent-sibling selector reaches post pages and nothing else -- not the
+   blog overview, not docs, not the landing hero.
+
+   Layered heading effect: the h1 itself is the filled display face in the brand
+   heading colour (front layer), and a `::before` draws the same text in the
+   OUTLINE face, offset down-right in the echo colour (back layer). The copy
+   comes from `data-title`, stamped onto the h1 by blog-dates.js -- the theme
+   generates this h1 from the title, so there is no markup to duplicate by hand,
+   and without JS the reader simply gets the plain filled title. `z-index: 0`
+   makes the h1 a stacking context so the `-1` echo tucks behind its glyphs.
+
+   The theme's h1 margin (1.25em) plus Triple Charm's tall line box left far too
+   much air beneath the title, so the space below and line-height are pulled in. */
+.satyrn-byline + h1 {
+  position: relative;
+  z-index: 0;
+  margin-bottom: 0.5em;
+  line-height: 1.1;
+}
+
+.satyrn-byline + h1[data-title]::before {
+  content: attr(data-title);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+  font-family: var(--satyrn-font-outline);
+  color: var(--satyrn-heading-echo);
+  transform: translate(0.09em, 0.09em);
+  text-wrap: balance;
+  pointer-events: none;
 }
 
 .satyrn-hero__text p,
