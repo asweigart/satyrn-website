@@ -10,8 +10,8 @@ description: "Satyrn is Jupyter for agents: open source, community-owned, local-
 
 # AI Our Way
 
-Python developers want AI they can trust: open source, community-owned,
-local-first, thriving and innovative. Cherry on top? European.
+> Python developers want AI they can trust: open source, community-owned,
+> local-first, thriving and innovative. Cherry on top? European.
 
 </div>
 

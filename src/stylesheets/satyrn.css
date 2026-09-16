@@ -379,6 +379,26 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   font-size: 1.15rem;
 }
 
+/* The lede is authored as a blockquote: set in Reddit Sans italic, a step
+   larger than a normal lede, with a brand-hue rule instead of the theme's muted
+   grey one. `color: inherit` undoes Material's dimmed blockquote text so it
+   keeps the pure body neutral; the more specific `blockquote p` beats the
+   1.15rem above. */
+.satyrn-hero__text blockquote {
+  margin: 0;
+  max-width: 62ch;
+  padding-left: 1.1rem;
+  border-left: 3px solid var(--md-primary-fg-color);
+  color: inherit;
+  font-style: italic;
+}
+
+.satyrn-hero__text blockquote p {
+  max-width: none;
+  font-size: 1.45rem;
+  line-height: 1.4;
+}
+
 /* `picture` is inline by default. `justify-self` only bites once the hero
    stacks, where the art column becomes full width. */
 .satyrn-hero__art {
@@ -655,12 +675,13 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 /* ------------------------------------------------------- shared typeset -- */
 
 /* Zensical ships `.md-typeset` at 0.68--0.7rem, which lands body copy around
-   14--15px at the smaller root sizes. Restoring Material's own 0.8rem default
-   puts the floor at 16px (root scales 125% -> 137.5% -> 150% by viewport, so
-   wider screens still step up from there). Prose paragraphs and lists inherit
-   this; our own blocks pin their own sizes and are unaffected. */
+   14--15px at the smaller root sizes. Reddit Sans has a small x-height and reads
+   smaller still, so the body floor is set to 18px here (0.9rem at the 20px base
+   root; root scales 125% -> 137.5% -> 150% by viewport, so wider screens step up
+   from there). Prose paragraphs and lists inherit this; our own blocks pin their
+   own sizes and are unaffected. */
 .md-typeset {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 /* The display face belongs to headings as a concept, not to the two landing
@@ -687,6 +708,19 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .md-typeset :is(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
+}
+
+/* Smaller headings step down to the body face (Reddit Sans) at 700 rather than
+   the Triple Charm display, so the display face carries only the large headings
+   (h1/h2) and stops feeling over-used. They also drop the brand heading colour
+   for the pure body neutral (black on cream, white on ink), which sets them
+   apart from the coloured display headings for a bit of texture. The 0.03em
+   display tracking is cleared as Reddit needs none. */
+.md-typeset :is(h3, h4) {
+  font-family: var(--md-text-font, "Reddit Sans"), sans-serif;
+  font-weight: 700;
+  letter-spacing: normal;
+  color: var(--md-typeset-color);
 }
 
 .satyrn-hero__text p,
