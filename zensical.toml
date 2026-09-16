@@ -451,7 +451,8 @@ og_image = "assets/og-image.jpg"
 # by existing.
 #
 # `page` is the nav item title to match, and defaults to `title` when omitted,
-# so it is only needed where the tab label differs from the page title. A `page`
+# so it is only needed where the tab label differs from the page title. An entry
+# with `url` instead links off-site and never touches the nav tree. A `page`
 # that matches nothing drops the tab silently with a green build -- the same
 # trap as `nav_order` -- which is what `just check-nav` is for.
 [[project.extra.nav_tabs]]
@@ -466,6 +467,13 @@ title = "Local-First"
 
 [[project.extra.nav_tabs]]
 title = "Get Involved"
+
+# An off-site tab. `url` takes the place of `page`: the entry links straight
+# there instead of resolving against the nav tree, and is appended to the
+# mobile drawer too, since below 1220px the drawer is the only navigation.
+[[project.extra.nav_tabs]]
+title = "Team Compass"
+url = "https://satyrn-ai.github.io/team-compass/"
 
 [[project.extra.nav_tabs]]
 title = "Blog"

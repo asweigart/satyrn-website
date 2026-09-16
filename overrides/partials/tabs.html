@@ -14,6 +14,14 @@
   <div class="md-grid">
     <ul class="md-tabs__list">
       {%- for tab in config.extra.nav_tabs | d([], true) -%}
+        {#- An off-site entry: nothing to resolve and never the active tab.
+            `href` then `class` and nothing else before `>`, which is the
+            shape `just check-nav` reads the bar back with. -#}
+        {%- if tab.url -%}
+            <li class="md-tabs__item md-tabs__item--external">
+              <a href="{{ tab.url }}" class="md-tabs__link">{{ tab.title | e }}</a>
+            </li>
+        {%- else -%}
         {%- set wanted = tab.page | d(tab.title, true) -%}
         {%- set ns = namespace(item=none) -%}
         {%- for it in nav.items -%}
@@ -37,6 +45,7 @@
               <a href="{{ tns.target | url }}" class="md-tabs__link">{{ tab.title | e }}</a>
             </li>
           {%- endif -%}
+        {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
     </ul>

@@ -372,6 +372,14 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   border-bottom-color: var(--satyrn-accent);
 }
 
+/* Off-site tabs get a small arrow so leaving the site is not a surprise. The
+   empty alt text after the slash keeps screen readers from announcing it. */
+:is(.md-tabs__item--external .md-tabs__link, .md-nav__item--external .md-ellipsis)::after {
+  content: "\2197" / "";
+  margin-left: 0.2em;
+  font-size: 0.85em;
+}
+
 /* --------------------------------------------------------------- sidebar -- */
 
 /* Above 1220px the theme's `md-nav--lifted` hides every top-level item but the

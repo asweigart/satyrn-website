@@ -116,5 +116,17 @@
         {{ item.render(nav_item, path, 1) }}
       {%- endif -%}
     {%- endfor -%}
+    {#- Off-site tabs (`nav_tabs` entries with a `url`). Never active, so
+        `md-nav--lifted` hides them from the desktop sidebar, where the tab bar
+        already carries them; below 1220px this drawer is the only navigation. -#}
+    {%- for tab in config.extra.nav_tabs | d([], true) -%}
+      {%- if tab.url -%}
+        <li class="md-nav__item md-nav__item--external">
+          <a href="{{ tab.url }}" class="md-nav__link">
+            <span class="md-ellipsis">{{ tab.title | e }}</span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
   </ul>
 </nav>
