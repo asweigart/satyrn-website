@@ -236,9 +236,12 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 /* The wordmark is a logotype, so it carries a touch more tracking than the
    0.03em the shared heading rule gives every other heading -- enough to read as
    deliberate letterspacing. Tunable here without touching the body headings. */
+/* The wordmark matches the mark's yellow accent (olive in light, gold in dark)
+   rather than the heading umber/tan. */
 .md-header__title {
   font-size: 1.25rem;
   letter-spacing: 0.06em;
+  color: var(--satyrn-mark-accent);
 }
 
 .md-header__button.md-logo :is(img, svg) {
@@ -429,6 +432,14 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   height: auto;
 }
 
+/* Stroke-only placeholder mark filling the art column until a new illustration
+   lands. Stroke (not fill) reads as deliberately light and temporary. */
+.satyrn-hero__mark {
+  width: 15rem;
+  height: auto;
+  stroke: var(--satyrn-heading);
+}
+
 @media screen and (max-width: 59.984375em) {
   .satyrn-hero {
     grid-template-columns: 1fr;
@@ -537,6 +548,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 .satyrn-footer .satyrn-mark {
   width: auto;
   height: 2rem;
+  margin-inline: auto;
 }
 
 .satyrn-footer__tagline,
