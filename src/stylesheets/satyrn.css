@@ -240,7 +240,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
    rather than the heading umber/tan. */
 .md-header__title {
   font-size: 1.25rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
 }
 
 /* The wordmark text is the mark's accent hex from the SVG (olive in light, gold
