@@ -559,7 +559,10 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .satyrn-footer .satyrn-mark {
   width: auto;
-  height: 2rem;
+  /* Kept small and subtle: the tight mark viewBox makes it read much larger than
+     the old padded artwork did at the same height, so the footer mark shrank to
+     restore its previous, quieter size. */
+  height: 1.4rem;
   margin-inline: auto;
 }
 
