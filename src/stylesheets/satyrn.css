@@ -437,7 +437,14 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 .satyrn-hero__mark {
   width: 15rem;
   height: auto;
+  fill: none;
   stroke: var(--satyrn-heading);
+  stroke-width: 2px;
+}
+
+/* Keep the stroke a true 2px regardless of the render size. */
+.satyrn-hero__mark path {
+  vector-effect: non-scaling-stroke;
 }
 
 @media screen and (max-width: 59.984375em) {
