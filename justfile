@@ -227,6 +227,45 @@ check-blog: build
     print(f"\n{len(failures)} blog check(s) failed" if failures else "\nAll blog checks passed")
     sys.exit(1 if failures else 0)
 
+# Like `lint`, this needs npx, plus a Chrome that pa11y's puppeteer can launch.
+# GitHub runners have both. It is deliberately NOT in `ci` yet: it was written
+# on a machine with neither, so it has never run. Run it once in CI, fix what it
+# reports, then add it to the `ci` recipe below.
+#
+# It covers light mode only. The dark scheme is chosen by a toggle that pa11y
+# would have to click, and was checked by hand instead (see src/accessibility.md).
+
+# Check built pages against WCAG 2 AA with axe and HTML_CodeSniffer
+check-a11y: build
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v npx >/dev/null || {
+      echo "check-a11y needs npx (ships with node). GitHub runners have it preinstalled."; exit 1; }
+    port=8123
+    uv run python -m http.server "$port" --bind 127.0.0.1 --directory site >/dev/null 2>&1 &
+    server=$!
+    config=$(mktemp)
+    trap 'kill "$server" 2>/dev/null; rm -f "$config"' EXIT
+    sleep 2
+    uv run python - "$port" "$config" <<'PY'
+    import json, sys
+    port, out = sys.argv[1], sys.argv[2]
+    pages = ["", "mission/", "get-involved/", "blog/",
+             "blog/2026/zen-and-compass/", "accessibility/"]
+    viewports = [{"width": 375, "height": 812}, {"width": 1280, "height": 900}]
+    json.dump({
+        "defaults": {
+            "standard": "WCAG2AA",
+            "runners": ["axe", "htmlcs"],
+            "timeout": 30000,
+            "chromeLaunchConfig": {"args": ["--no-sandbox"]},
+        },
+        "urls": [{"url": f"http://127.0.0.1:{port}/{p}", "viewport": v}
+                 for p in pages for v in viewports],
+    }, open(out, "w"), indent=2)
+    PY
+    npx -y pa11y-ci@3.1.0 --config "$config"
+
 # Lint markdown and spelling. The only recipe that needs node; GitHub runners
 # ship it preinstalled, so this costs a package download and no setup step.
 #

@@ -82,7 +82,7 @@ literal `T00:00:00Z`; a fuller datetime corrupts it.
 concatenate paths onto it directly.
 
 **`nav_order` matches rendered page titles character for character** — the
-homepage is `"Satyrn AI — AI Our Way"`, em dash and all, not "Home". A mismatch
+homepage is `"Satyrn — Open, local-first agents for Python developers"`, em dash and all, not "Home". A mismatch
 does not error; the item silently drops to the end of the sidebar. Items absent
 from `nav_order` are appended rather than hidden, so a new page never vanishes.
 

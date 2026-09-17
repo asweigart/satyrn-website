@@ -426,11 +426,12 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
      > 76.25em  (1220px)  desktop: tab bar shown, full hero
      <= 76.25em           small desktop / landscape tablet: tab bar gone
-     <= 60em    (960px)   tablet: single-column hero, logo hidden
+     <= 60em    (960px)   tablet: single-column hero, space window as a band
      <= 30em    (480px)   phone: tighter type and spacing, full-width buttons
 
-   Nothing on the page is decorative apart from the logo in the hero, and
-   that is hidden once it would push the call to action down the screen. */
+   The only decoration is the space window in the hero (block: space). Below
+   960px it turns into a band after the buttons, so it never pushes the call
+   to action down the screen. */
 
 /* ------------------------------------------------------ block: actions -- */
 
@@ -439,7 +440,8 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 .satyrn-actions > p {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
   margin: 0;
 }
 
@@ -520,6 +522,12 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   /* Stacked, full width: one thumb-sized target per row, no ragged pair. */
   .satyrn-actions > p {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* A text link beside the button: centred under it rather than stretched. */
+  .satyrn-actions .satyrn-arrow-link {
+    align-self: center;
   }
 
   .md-typeset .md-button {
@@ -544,16 +552,16 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .md-typeset .satyrn-hero__text h1 {
   margin: 0 0 1.25rem;
+  max-width: 22ch;
   color: var(--satyrn-heading);
-  font-size: 3.75rem;
-  line-height: 1.02;
+  font-size: 3rem;
+  line-height: 1.08;
   overflow-wrap: break-word;
 }
 
-/* `==Our Way==` in the markdown. Coloured rather than highlighted: a yellow
-   fill on greige is 1.06:1 and disappears. The h1 is never set below 2.2rem
-   (27.5px at the smallest root), so the 3:1 large-text threshold applies at
-   every breakpoint. */
+/* `==AI our way:==` in the markdown. Coloured rather than highlighted: a yellow
+   fill on greige is 1.06:1 and disappears. The h1 is never set below 24px,
+   so the 3:1 large-text threshold applies at every breakpoint. */
 .md-typeset .satyrn-hero__text h1 mark {
   background: none;
   box-shadow: none;
@@ -568,30 +576,39 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   line-height: 1.55;
 }
 
-/* The supplied graphic keeps its own charcoal ground in both schemes. In dark
-   mode that matches the page, so the border is what gives it an edge. */
+/* The hero window: a view into space around the logo. It keeps the logo's
+   charcoal ground in both schemes, so the stars read in light mode too; in dark
+   mode that ground matches the page, and the border gives it an edge. */
 .satyrn-hero__tile {
-  display: grid;
-  place-items: center;
+  position: relative;
   width: 17rem;
   aspect-ratio: 1;
   border: 1px solid var(--satyrn-border);
   border-radius: var(--satyrn-radius-lg);
   background-color: var(--satyrn-charcoal);
   overflow: hidden;
+  /* Names this box's journey through the viewport, so the moon can be driven
+     by scrolling rather than by a clock (see block: space). */
+  view-timeline: --satyrn-window block;
 }
 
 .satyrn-hero__tile > p {
   margin: 0;
 }
 
-.satyrn-hero__logo {
+/* Pinned to the window's box, so it fills a landscape window as well as a
+   square one. `.md-typeset` is repeated because the theme's own
+   `.md-typeset svg { height: auto }` otherwise wins, and the SVG falls back to
+   its square viewBox and spills out of the bottom of the window. */
+.md-typeset .satyrn-hero__logo {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
-/* The logo's own fills, fixed: the tile does not change with the scheme. */
+/* The logo's own fills, fixed: the window does not change with the scheme. */
 .satyrn-hero__ring {
   fill: #bf986d;
 }
@@ -600,13 +617,123 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   fill: #e6d568;
 }
 
+/* ---------------------------------------------------------- block: space -- */
+
+/* Stars, orbits and the moon inside the hero window.
+
+   Performance: one inline SVG, about 2 KB of path data, no images, no
+   JavaScript, no filters or blurs. Stars and the moon are zero-length strokes
+   with round caps and `non-scaling-stroke`, so each renders as a crisp dot of a
+   fixed pixel size however the window is scaled or transformed.
+
+   Motion, and why it is shaped like this. WCAG 2.2.2 (level A) requires a
+   pause control for motion that starts by itself and lasts over five seconds.
+   So nothing here loops:
+     - Where scroll-driven animations are supported, the moon's position is
+       tied to scrolling. It moves only while the reader scrolls, and costs
+       nothing while they read.
+     - Elsewhere, the moon makes a single sweep on load and stops (4.5s).
+     - A few stars twinkle twice on load and stop (under 4s).
+   `prefers-reduced-motion: reduce` removes all of it; the scene is then still. */
+.satyrn-space__stars {
+  fill: none;
+  stroke: #f2efe8;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.satyrn-space__stars--bright {
+  stroke: #e3d678;
+  stroke-width: 2.4px;
+}
+
+.satyrn-space__stars--dim {
+  stroke-width: 1.6px;
+  opacity: 0.75;
+}
+
+.satyrn-space__stars--faint {
+  stroke-width: 1.1px;
+  opacity: 0.45;
+}
+
+/* Circles in the markup, flattened and tilted here to lie in the ring's plane.
+   Individual `rotate` and `scale` apply after `transform`, which is what lets
+   the moon spin inside the flattened orbit below. */
+.satyrn-space__orbit,
+.satyrn-space__moon {
+  transform-box: view-box;
+  transform-origin: 64px 64px;
+  rotate: -20deg;
+  scale: 1 0.43;
+}
+
+.satyrn-space__orbit {
+  fill: none;
+  stroke: #b99a73;
+  stroke-width: 1px;
+  stroke-dasharray: 2 5;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.55;
+}
+
+.satyrn-space__orbit--outer {
+  opacity: 0.25;
+}
+
+/* Where it rests when nothing is moving: front left, clear of the planet. */
+.satyrn-space__moon {
+  fill: none;
+  stroke: #f2efe8;
+  stroke-width: 7px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transform: rotate(210deg);
+}
+
+@keyframes satyrn-orbit {
+  from { transform: rotate(90deg); }
+  to { transform: rotate(390deg); }
+}
+
+@keyframes satyrn-arrive {
+  from { transform: rotate(40deg); }
+  to { transform: rotate(210deg); }
+}
+
+@keyframes satyrn-twinkle {
+  50% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .satyrn-space__moon {
+    animation: satyrn-arrive 4.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .satyrn-space__moon {
+      animation: satyrn-orbit linear both;
+      animation-timeline: --satyrn-window;
+      animation-range: cover 0% cover 100%;
+    }
+  }
+
+  .satyrn-space__stars--bright {
+    animation: satyrn-twinkle 1.8s ease-in-out 0.3s 2;
+  }
+
+  .satyrn-space__stars--dim {
+    animation: satyrn-twinkle 1.6s ease-in-out 0.9s 2;
+  }
+}
+
 @media screen and (max-width: 76.234375em) {
   .satyrn-hero {
     gap: 2rem;
   }
 
   .md-typeset .satyrn-hero__text h1 {
-    font-size: 3.25rem;
+    font-size: 2.6rem;
   }
 
   .satyrn-hero__tile {
@@ -620,14 +747,19 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
     padding: 1.5rem 0 3rem;
   }
 
-  /* The header already carries the mark; repeated here it would push the
-     call to action below the fold. */
+  /* The window moves under the buttons, so the call to action stays on the
+     first screen, and turns landscape. Capped in width so a tablet gets a
+     window rather than a thin strip; the SVG's `slice` fit crops the scene to
+     the box instead of letterboxing it. */
   .satyrn-hero__tile {
-    display: none;
+    width: 100%;
+    max-width: 24rem;
+    aspect-ratio: 16 / 10;
   }
 
   .md-typeset .satyrn-hero__text h1 {
-    font-size: 2.6rem;
+    max-width: none;
+    font-size: 2.3rem;
   }
 
   .md-typeset .satyrn-hero__lede {
@@ -640,8 +772,11 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
     padding: 1rem 0 2.5rem;
   }
 
+  /* Scales down with the viewport below ~360px, so the longest word
+     ("developers.") fits whole instead of breaking mid-word. Never under
+     24px, so the yellow still clears the large-text threshold. */
   .md-typeset .satyrn-hero__text h1 {
-    font-size: 2.2rem;
+    font-size: max(24px, min(1.9rem, 10vw));
   }
 
   .md-typeset .satyrn-hero__lede {
@@ -675,6 +810,25 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   .md-typeset :is(.satyrn-section, .satyrn-latest) h2 {
     font-size: 1.6rem;
   }
+}
+
+/* -------------------------------------------------------- block: problem -- */
+
+/* The pain the project answers, stated before the pillars that answer it.
+   Plain prose at reading size; the closing line is set apart by weight, not
+   colour, so it needs no contrast exception. */
+.md-typeset .satyrn-problem p {
+  max-width: 38rem;
+  margin: 0 0 1rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.md-typeset .satyrn-problem .satyrn-problem__kicker {
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-weight: 700;
 }
 
 /* -------------------------------------------------------- block: pillars -- */
@@ -1003,7 +1157,10 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 /* Underlined because this one sits inside a sentence, where colour is the only
    other thing marking it as a link. */
-.satyrn-footer__link--inline {
+.satyrn-footer__link--inline,
+.satyrn-footer__credit a,
+.md-copyright a {
+  color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
@@ -1230,6 +1387,10 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .satyrn-byline + h1[data-title]::before {
   content: attr(data-title);
+  /* Generated text is exposed to screen readers, which would read the title
+     twice. The empty alternative text marks the echo as decorative; browsers
+     without the syntax fall back to the declaration above. */
+  content: attr(data-title) / "";
   position: absolute;
   left: 0;
   top: 0;
@@ -1243,6 +1404,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 }
 
 .satyrn-hero__text p,
+.satyrn-problem p,
 .satyrn-pillars p,
 .satyrn-mission p {
   text-wrap: pretty;

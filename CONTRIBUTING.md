@@ -461,11 +461,16 @@ the yellow wordmark is only 3.02:1 on greige, and a darker band pushes it under 
 
 The landing page follows the theme's own breakpoints,
 so it changes layout in step with the header and tab bar:
-above 1220px is full desktop, at 960px the hero drops to one column and hides the logo,
+above 1220px is full desktop, at 960px the hero drops to one column and its space window becomes a band under the buttons,
 and at 480px buttons go full width.
 They're written in `em`, which in a media query is the 16px browser default,
 not the site's 125% root size.
 
-The landing page carries no decoration beyond the logo in the hero.
-Before adding an ornament, a numbered label or a tinted band,
+The one decorative flourish is the space window in the hero:
+stars, orbits and a moon drawn inside the logo's own SVG.
+It adds no requests and no JavaScript.
+Its motion never loops: the moon follows scrolling where browsers support it,
+otherwise it makes one short sweep, and everything stops under `prefers-reduced-motion`.
+Anything that moved on its own for more than five seconds would need a pause control (WCAG 2.2.2).
+Before adding another ornament, a numbered label or a tinted band,
 check it's doing a job a heading or a hairline isn't already doing.

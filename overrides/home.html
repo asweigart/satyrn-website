@@ -18,6 +18,15 @@
   so the wrapper changes no layout; `super()` renders the theme's own markup,
   so this does not have to be kept in step with base.html.
 -#}
+{#-
+  The home page title already names the site ("Satyrn — Open, local-first..."),
+  so the theme's " - Satyrn" suffix would say it twice. Screen readers announce
+  this first, and it is what search results and tabs show.
+-#}
+{% block htmltitle %}
+  <title>{{ page.meta.title | e }}</title>
+{% endblock %}
+
 {% block site_nav %}
   <div class="satyrn-home-nav">{{ super() }}</div>
 {% endblock %}

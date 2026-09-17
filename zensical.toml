@@ -36,7 +36,7 @@ site_url = "https://satyrn.ai/"
 #
 # Read more: https://zensical.org/docs/setup/basics/#copyright
 copyright = """
-&copy; 2026 Satyrn AI
+&copy; 2026 Satyrn AI &middot; <a href="/accessibility/">Accessibility</a>
 """
 # TODO: uncomment once the repository is public. This puts a repo link in the
 # header, and enables the content.action.edit / content.action.view buttons.
@@ -414,7 +414,7 @@ unresolved_references = true
 # drops to the end of the sidebar. Anything absent is appended, not hidden, so
 # a new page never vanishes.
 nav_order = [
-    "Satyrn AI — AI Our Way",
+    "Satyrn — Open, local-first agents for Python developers",
     "Mission",
     "Local-First",
     "Get Involved",
@@ -435,7 +435,7 @@ home_posts_count = 3
 # where the item is what gives the page a sidebar at all. Both are reached from
 # the tag chips on a post, the byline, and the blog index -- they are archives,
 # not destinations, and listing them alongside Mission oversells them.
-nav_hide = ["Tags", "Authors"]
+nav_hide = ["Tags", "Authors", "Accessibility"]
 # The default social card, used by every page that does not set `image:` in its
 # front matter. Root-relative and without a leading slash: overrides/main.html
 # concatenates it onto `site_url`, which already ends in one.
@@ -457,7 +457,7 @@ og_image = "assets/og-image.jpg"
 # trap as `nav_order` -- which is what `just check-nav` is for.
 [[project.extra.nav_tabs]]
 title = "Home"
-page = "Satyrn AI — AI Our Way"
+page = "Satyrn — Open, local-first agents for Python developers"
 
 [[project.extra.nav_tabs]]
 title = "Mission"
