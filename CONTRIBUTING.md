@@ -33,10 +33,10 @@ so `--strict` cannot see it and something else has to.
 | `src/authors/`, `src/tags/` | An index page plus one page per author and per tag. |
 | `src/feed.xml` | The Atom feed, rendered as a template rather than a page. |
 | `src/stylesheets/satyrn.css` | Brand palette, landing page layout, blog styling. |
-| `src/assets/` | Logos, mascot artwork, favicon. |
+| `src/assets/` | Logos, mascot artwork, favicon, and the generated social card. |
 | `overrides/main.html` | Head additions, link previews and the listing block, applied to every page. |
 | `overrides/home.html` | The landing page shell: its own footer, and the wrapper that keeps its sidebar to the mobile drawer. |
-| `overrides/partials/` | Shadowed theme partials plus the blog's byline and listing rows. |
+| `overrides/partials/` | The chrome, shadowed from the theme — `tabs.html`, `nav.html`, `footer.html` — plus the blog's own `post-byline.html`, `post-item.html` and `tags.html`. |
 | `justfile` | Every command. `just` with no argument lists them. |
 
 `docs/BLOG.md` covers the blog's implementation:
@@ -68,7 +68,9 @@ That is the good case: it is loud rather than silent.
 Navigation comes from the directory tree.
 There's no `nav` list in `zensical.toml` on purpose:
 the blog reads that same tree to build its listings and feed,
-and an explicit list empties them without saying so.
+so a post the tree doesn't reach is a post they can't see.
+A hand-written list would have to name every post to stay correct,
+and says nothing when it stops doing so.
 
 ## Things that fail quietly
 
@@ -200,7 +202,7 @@ Body text indents four spaces.
 
 ## Writing a blog post
 
-A post is a markdown file at `src/blog/<year>/<slug>.md`:
+A post is a markdown file at `src/blog/<year>/<slug>.md` with the following front matter in `yaml` format:
 
 ```yaml
 ---
@@ -213,6 +215,10 @@ tags:
 description: One sentence. It carries the listing row, the link preview and the feed.
 ---
 ```
+
+Your post's content is written in Markdown.
+
+### Frontmatter notes
 
 Lists go one item per line, not `[example]`.
 `unresolved_references` validation reads a flow sequence as a markdown
@@ -240,12 +246,18 @@ the chip still renders as a live link to a dead URL.
 Without it the listing row and the feed entry both come out empty.
 
 An `image:` key overrides the link preview image for that post.
-There is no site-wide default yet;
-see the note on `og_image` in `zensical.toml`.
+Without one the post falls back to the site-wide card at `extra.og_image`,
+which `just og-image` builds.
 
-Adding an author means both a `[project.extra.authors.<slug>]` table
-and a `src/authors/<slug>.md` page.
-Adding a tag means a `src/tags/<tag>.md` page.
+### Adding a blog author
+
+To add an author, two files must be edited:
+
+- `zensical.toml` needs an entry for the author in the `[project.extra.authors.<slug>]` table
+- `src/authors/<slug>.md`
+
+### Blog and author indexes
+
 Neither directory's `index.md` is decorative:
 the sidebar collapses each section onto its index,
 and a section without one renders expanded instead.
@@ -276,7 +288,7 @@ and one media query hides it above the same width the tab bar appears at.
 
 ### Navigation
 
-Two things carry it, and they are configured separately.
+Three things carry it, and they are configured separately.
 
 The tab bar is `[[project.extra.nav_tabs]]`,
 rendered by `overrides/partials/tabs.html`.
@@ -300,9 +312,20 @@ on desktop lifted has already hidden it everywhere else,
 so the only thing `nav_hide` really removes is a drawer entry.
 Drop it unconditionally and the page loses its own navigation.
 
+The previous/next links are `overrides/partials/footer.html`.
+The theme builds them from the directory tree in document order,
+which knows nothing about `nav_order` or `nav_hide`,
+so the override filters out anything inside a hidden section —
+in both directions, so those sections neither appear as a destination
+nor offer links back out of themselves.
+`nav_hide` is what all three read,
+so adding a section to it removes it from the chrome everywhere at once.
+
 There is deliberately no `nav` list in `zensical.toml`.
 The blog reads the same derived tree for its listings and feed,
-and an explicit list empties them with no warning.
+so the tree has to reach every post; deriving it guarantees that,
+where a hand-written list only promises it.
+See "Rules that break things silently" in `docs/BLOG.md` for what that costs.
 
 The pillar cards use the theme's own `grid cards`:
 a markdown list inside `<div class="grid cards satyrn-pillars" markdown>`,

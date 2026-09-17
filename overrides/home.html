@@ -26,16 +26,9 @@
   {# The id="get-involved" anchor this used to carry is gone: Get Involved is a
      real page now, so the nav links there instead of jumping to the footer. #}
   <footer class="satyrn-footer">
-    {# One mark for both schemes, sharing theme.logo so the header, drawer and
-       footer cannot drift apart. The dark-mode variant was dropped: it forced
-       every visitor to download both files, its artwork sat in more padding so
-       it rendered ~40% smaller than the light one, and the halo in satyrn.css
-       solves the only problem it was there to solve.
-
-       WebP, not AVIF: theme.logo renders as a bare <img> with no <picture>
-       around it, so an AVIF here would ship the same artwork twice. #}
-    <img class="satyrn-footer__mark" src="{{ config.theme.logo | url }}"
-         alt="Satyrn" width="480" height="480" loading="lazy">
+    {# The same inlined mark as the header and drawer, so all three recolour
+       together from the scheme tokens and cannot drift apart. #}
+    {% include "partials/logo.html" %}
     <p class="satyrn-footer__tagline">AI our way.</p>
     <p class="satyrn-footer__links">
       <a class="satyrn-footer__link satyrn-footer__link--standalone"

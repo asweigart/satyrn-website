@@ -27,15 +27,20 @@
 {% endblock %}
 
 {#-
-  Replaces the theme's font block rather than appending to it, so all three
-  families arrive in ONE render-blocking request instead of two.
+  Replaces the theme's font block rather than appending to it, so the two
+  Google families (text + code) arrive in ONE render-blocking request.
 
   `preconnect` to fonts.googleapis.com matters as much as the gstatic one the
   theme already emits: the stylesheet request is the first hop and it blocks
   render, so paying DNS + TLS for it up front is the whole point.
 
-  Fredoka is pinned to a single weight. Asking for 500;600;700 pulls three
-  separate font files (~29 KB each) and we only ever render 600.
+  The heading face (Triple Charm Sans) is NOT here -- it is self-hosted and
+  declared via @font-face in stylesheets/satyrn.css. It is preloaded below
+  because every page paints a heading in it above the fold, so we want its fetch
+  started without waiting for the CSS to parse. The `crossorigin` is required
+  even same-origin: font requests are made in CORS mode, and a preload without
+  it is treated as a separate request and downloaded twice. The other two Triple
+  Charm faces are deliberately not preloaded -- nothing renders in them yet.
 -#}
 {% block fonts %}
   {% if config.theme.font != false %}
@@ -45,7 +50,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{
         text | replace(' ', '+') }}:ital,wght@0,300..700;1,300..700&family={{
-        code | replace(' ', '+') }}:ital,wght@0,400..700;1,400..700&family=Fredoka:wght@600&display=fallback">
+        code | replace(' ', '+') }}:ital,wght@0,400..700;1,400..700&display=fallback">
+    <link rel="preload" href="{{ 'assets/fonts/triplecharm-sans-webfont.woff2' | url }}" as="font" type="font/woff2" crossorigin>
     <style>:root{--md-text-font:"{{ text }}";--md-code-font:"{{ code }}"}</style>
   {% endif %}
 {% endblock %}

@@ -1,0 +1,4 @@
+---
+index: tag
+title: Education
+---

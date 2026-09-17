@@ -11,7 +11,7 @@
 # The site_name is shown in the page header and the browser window title
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_name
-site_name = "Satyrn AI"
+site_name = "Satyrn"
 
 # The site_description is included in the HTML head and should contain a
 # meaningful description of the site content for use by search engines.
@@ -109,7 +109,7 @@ custom_dir = "overrides"
 # - https://zensical.org/docs/setup/logo-and-icons/#favicon
 # - https://developer.mozilla.org/en-US/docs/Glossary/Favicon
 #
-favicon = "assets/favicon.png"
+favicon = "assets/favicon.svg"
 
 # Zensical supports more than 60 different languages. This means that the
 # labels and tooltips that Zensical's templates produce are translated.
@@ -306,7 +306,7 @@ logo = "assets/satyrn-logo-light.webp"
 # a monospaced font used in code blocks.
 # ----------------------------------------------------------------------------
 [project.theme.font]
-text = "Inter"
+text = "Reddit Sans"
 code = "JetBrains Mono"
 
 # ----------------------------------------------------------------------------
@@ -477,14 +477,10 @@ title = "Blog"
 # never rendered, and it takes effect only once that account has enabled author
 # attribution in its Mastodon profile.
 #
-# These two are placeholders, on reserved example domains, so the listings and
-# feed have something to render. Replace them with real people before launch.
-[project.extra.authors.example]
-name = "Example Author"
-title = "Maintainer"
-url = "https://example.com"
-fediverse = "@example@mastodon.example"
+# There are none yet. `src/authors/<slug>.md` and a table here are both needed
+# before a post can name that slug; see "Adding a blog author" in
+# CONTRIBUTING.md.
 
-[project.extra.authors.second-author]
-name = "Second Author"
-url = "https://second.example"
+[project.extra.authors.willing-carol]
+name = "Carol Willing"
+url = "https://willingconsulting.com"

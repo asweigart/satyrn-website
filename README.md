@@ -33,6 +33,21 @@ The commands underneath are `uv run zensical serve` and `uv run zensical build -
 `just serve` additionally points `site_url` at localhost first,
 without which instant navigation degrades to full page loads locally.
 
+### Docker
+
+Run the app in the container instead:
+
+```bash
+uv run just docker-serve
+```
+
+runs the dev server in a container instead, still with live reload at
+<http://localhost:8000>, since the repo is bind-mounted in.
+
+To see the commands underneath, see the `docker-serve` command in the [justfile](https://github.com/satyrn-ai/satyrn-website/blob/main/justfile)
+
+It's dev-only, and this image isn't what ships to production.
+
 ## How it gets deployed
 
 Cloudflare Pages builds the site from `main` and publishes it.
