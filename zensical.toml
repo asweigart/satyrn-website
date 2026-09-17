@@ -36,7 +36,7 @@ site_url = "https://satyrn.ai/"
 #
 # Read more: https://zensical.org/docs/setup/basics/#copyright
 copyright = """
-&copy; 2026 Satyrn AI
+&copy; 2026 Satyrn AI &middot; <a href="/accessibility/">Accessibility</a>
 """
 # TODO: uncomment once the repository is public. This puts a repo link in the
 # header, and enables the content.action.edit / content.action.view buttons.
@@ -52,7 +52,10 @@ extra_css = ["stylesheets/satyrn.css"]
 # with the same `nav` tree the pages get, which is what makes the feed possible
 # without a plugin system.
 extra_templates = ["feed.xml"]
-extra_javascript = ["javascripts/blog-dates.js"]
+# space.js is the hero's pointer parallax and crew.js the contributor carousel.
+# Both return at once on any page without their element, so loading them
+# site-wide costs two small, cached requests.
+extra_javascript = ["javascripts/blog-dates.js", "javascripts/space.js", "javascripts/crew.js"]
 # Zensical supports both implicit navigation and explicitly defined navigation.
 # If you decide not to define a navigation here then Zensical will simply
 # derive the navigation structure from the directory structure of your
@@ -414,7 +417,7 @@ unresolved_references = true
 # drops to the end of the sidebar. Anything absent is appended, not hidden, so
 # a new page never vanishes.
 nav_order = [
-    "Satyrn AI — AI Our Way",
+    "Satyrn — Open, local-first agents for Python developers",
     "Mission",
     "Local-First",
     "Get Involved",
@@ -429,11 +432,13 @@ nav_collapse = ["Authors", "Tags"]
 # Rendered as a link plus its most recent posts, newest first.
 nav_recent = ["Blog"]
 nav_recent_count = 5
+# How many posts the landing page's "Latest from the blog" cards show.
+home_posts_count = 3
 # Kept out of the sidebar and the mobile drawer, except on their own pages,
 # where the item is what gives the page a sidebar at all. Both are reached from
 # the tag chips on a post, the byline, and the blog index -- they are archives,
 # not destinations, and listing them alongside Mission oversells them.
-nav_hide = ["Tags", "Authors"]
+nav_hide = ["Tags", "Authors", "Accessibility"]
 # The default social card, used by every page that does not set `image:` in its
 # front matter. Root-relative and without a leading slash: overrides/main.html
 # concatenates it onto `site_url`, which already ends in one.
@@ -443,18 +448,26 @@ nav_hide = ["Tags", "Authors"]
 # harder to verify than a browser's. Regenerate with `just og-image`.
 og_image = "assets/og-image.jpg"
 
+# The community Discord, linked from the footer. INVITE_CODE is a placeholder:
+# replace it here AND in the `[discord]:` reference at the foot of
+# src/index.md and src/get-involved.md. Use a permanent invite (Server
+# settings > Invites, "Never" expire); the old one in satyrn-zen expired.
+# `just check-placeholders` fails while any copy of it is still in the build.
+discord_url = "https://discord.gg/INVITE_CODE"
+
 # The tab bar, in order, rendered by overrides/partials/tabs.html. This is an
 # editorial list, not a mirror of the top level: Tags and Authors are top-level
 # sections and deliberately absent, and a new top-level page does not earn a tab
 # by existing.
 #
 # `page` is the nav item title to match, and defaults to `title` when omitted,
-# so it is only needed where the tab label differs from the page title. A `page`
+# so it is only needed where the tab label differs from the page title. An entry
+# with `url` instead links off-site and never touches the nav tree. A `page`
 # that matches nothing drops the tab silently with a green build -- the same
 # trap as `nav_order` -- which is what `just check-nav` is for.
 [[project.extra.nav_tabs]]
 title = "Home"
-page = "Satyrn AI — AI Our Way"
+page = "Satyrn — Open, local-first agents for Python developers"
 
 [[project.extra.nav_tabs]]
 title = "Mission"
@@ -464,6 +477,13 @@ title = "Local-First"
 
 [[project.extra.nav_tabs]]
 title = "Get Involved"
+
+# An off-site tab. `url` takes the place of `page`: the entry links straight
+# there instead of resolving against the nav tree, and is appended to the
+# mobile drawer too, since below 1220px the drawer is the only navigation.
+[[project.extra.nav_tabs]]
+title = "Team Compass"
+url = "https://satyrn-ai.github.io/team-compass/"
 
 [[project.extra.nav_tabs]]
 title = "Blog"
