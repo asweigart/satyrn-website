@@ -173,6 +173,16 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-mark-body: var(--satyrn-charcoal);
   --satyrn-mark-accent: var(--satyrn-yellow-ui);
 
+  /* The hero's space band (blocks: hero, space): the light logo, and the
+     starfield inverted to charcoal on the greige page. */
+  --satyrn-space-star: rgb(56 51 48 / 45%);
+  --satyrn-space-star-strong: rgb(56 51 48 / 70%);
+  --satyrn-space-star-bright: var(--satyrn-yellow-ui);
+  --satyrn-space-ink: var(--satyrn-charcoal);
+  --satyrn-space-orbit: var(--satyrn-charcoal);
+  --satyrn-space-halo: rgb(127 116 53 / 18%);
+  --satyrn-space-halo-soft: rgb(127 116 53 / 7%);
+
   /* The offset "echo" layer behind article titles. */
   --satyrn-heading-echo: var(--satyrn-yellow-dark);
 
@@ -227,6 +237,14 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
   --satyrn-mark-body: var(--satyrn-ring-dark);
   --satyrn-mark-accent: var(--satyrn-yellow-dark);
+
+  --satyrn-space-star: rgb(242 239 232 / 55%);
+  --satyrn-space-star-strong: rgb(242 239 232 / 80%);
+  --satyrn-space-star-bright: rgb(227 214 120 / 85%);
+  --satyrn-space-ink: #f2efe8;
+  --satyrn-space-orbit: var(--satyrn-ring-dark);
+  --satyrn-space-halo: rgb(230 213 104 / 24%);
+  --satyrn-space-halo-soft: rgb(230 213 104 / 9%);
 
   --satyrn-heading-echo: var(--satyrn-yellow-ui);
 
@@ -426,12 +444,12 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
      > 76.25em  (1220px)  desktop: tab bar shown, full hero
      <= 76.25em           small desktop / landscape tablet: tab bar gone
-     <= 60em    (960px)   tablet: single-column hero, space window as a band
+     <= 60em    (960px)   tablet: single-column hero, planet scene under the buttons
      <= 30em    (480px)   phone: tighter type and spacing, full-width buttons
 
-   The only decoration is the space window in the hero (block: space). Below
-   960px it turns into a band after the buttons, so it never pushes the call
-   to action down the screen. */
+   The only decoration is the space band in the hero (blocks: hero, space).
+   Below 960px the planet scene moves under the buttons, so it never pushes
+   the call to action down the screen. */
 
 /* ------------------------------------------------------ block: actions -- */
 
@@ -537,17 +555,87 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 /* ----------------------------------------------------------- block: hero -- */
 
-/* The home page has no sidebars, so its content uses the full grid width.
-   `h1` and `p` here are emitted by the markdown parser, hence the descendants.
+/* The hero is a full-width band of space, with the text in the normal content
+   column and the planet scene beside it (block: space). It sits on the page's
+   own background: charcoal with pale stars in dark mode, greige with charcoal
+   stars and the light logo in light mode, so the hero text keeps the page's
+   colour tokens and contrast in both.
 
-   The logo column is `auto` rather than a fraction: the logo is sized in rem
-   and the column follows it. */
+   Full bleed without leaving the markdown: negative inline margins pull the
+   band out to the viewport edges, and equal padding puts the content back on
+   the grid. `100vw` includes a classic scrollbar, so the page clips horizontal
+   overflow (html rule below) rather than growing a sideways scroll. */
+html:has(.satyrn-hero) {
+  overflow-x: clip;
+}
+
 .satyrn-hero {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 3rem;
   align-items: center;
-  padding: 2.5rem 0 4rem;
+  /* Up against the header: cancels the theme's 1.5rem main margin, 0.7rem
+     article padding and 0.4rem article spacer. */
+  margin: -2.6rem calc(50% - 50vw) 0;
+  padding: 4rem calc(50vw - 50%) 4.5rem;
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  /* Keeps the oversized planet scene inside the band. */
+  overflow: clip;
+  /* Names the band's journey through the viewport, so the moons and stars can
+     be driven by scrolling rather than by a clock (see block: space). */
+  view-timeline: --satyrn-window block;
+}
+
+/* A static starfield across the band: three tiling layers of dots at
+   different sizes and densities, so the repeat never reads as a grid. Painted
+   once.
+
+   Masked twice, intersected. It fades out at the bottom, so the band melts
+   into the page instead of ending on a line. And it stays out from
+   behind the text column: a dot beside a word reads as a stray full stop.
+   The text column ends at most ~4.5rem right of centre at any desktop width
+   (measured 1024-1920px), so the stars fade in from 6rem to 12rem past it. */
+.satyrn-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(circle at 95% 44%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 26% 19%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 54% 78%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 59% 91%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 63% 50%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 9% 84%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 61% 84%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 60% 17%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 6% 22%, var(--satyrn-space-star) 0.8px, transparent 1.5px),
+    radial-gradient(circle at 38% 20%, var(--satyrn-space-star-strong) 1.1px, transparent 1.8px),
+    radial-gradient(circle at 92% 5%, var(--satyrn-space-star-strong) 1.1px, transparent 1.8px),
+    radial-gradient(circle at 73% 24%, var(--satyrn-space-star-strong) 1.1px, transparent 1.8px),
+    radial-gradient(circle at 80% 84%, var(--satyrn-space-star-strong) 1.1px, transparent 1.8px),
+    radial-gradient(circle at 27% 54%, var(--satyrn-space-star-strong) 1.1px, transparent 1.8px),
+    radial-gradient(circle at 21% 21%, var(--satyrn-space-star-strong) 1.1px, transparent 1.8px),
+    radial-gradient(circle at 37% 74%, var(--satyrn-space-star-bright) 1.3px, transparent 2.0px),
+    radial-gradient(circle at 61% 3%, var(--satyrn-space-star-bright) 1.3px, transparent 2.0px);
+  background-size: 23rem 17rem, 23rem 17rem, 23rem 17rem, 23rem 17rem, 23rem 17rem, 23rem 17rem, 23rem 17rem, 23rem 17rem, 23rem 17rem, 37rem 29rem, 37rem 29rem, 37rem 29rem, 37rem 29rem, 37rem 29rem, 37rem 29rem, 53rem 41rem, 53rem 41rem;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent calc(50% + 6rem), #000 calc(50% + 12rem)),
+    linear-gradient(to bottom, #000 70%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent calc(50% + 6rem), #000 calc(50% + 12rem)),
+    linear-gradient(to bottom, #000 70%, transparent);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+.satyrn-hero__text {
+  position: relative;
+  z-index: 1;
 }
 
 .md-typeset .satyrn-hero__text h1 {
@@ -570,125 +658,187 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .md-typeset .satyrn-hero__lede {
   max-width: 34rem;
-  margin: 0 0 2rem;
+  margin: 0 0 1rem;
   color: var(--md-default-fg-color--light);
   font-size: 1.1rem;
   line-height: 1.55;
 }
 
-/* The hero window: a view into space around the logo. It keeps the logo's
-   charcoal ground in both schemes, so the stars read in light mode too; in dark
-   mode that ground matches the page, and the border gives it an edge. */
+/* The "what it isn't" line. Short negative definitions read faster than
+   another claim, and the link lands on the status section that backs up
+   "not finished". Body colour, not the muted grey: it is the stance, not an
+   aside. */
+.md-typeset .satyrn-hero__not {
+  max-width: 34rem;
+  margin: 0 0 2rem;
+  color: var(--md-default-fg-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.md-typeset .satyrn-hero__not a {
+  color: var(--satyrn-accent-text);
+}
+
+/* The planet scene. No box: the column only reserves space, and the SVG is
+   drawn larger than it, so the orbits and stars run past the column into the
+   band's starfield. A soft halo sits behind the planet; its gradient fades to
+   transparent well inside the column, so no edge ever shows. */
 .satyrn-hero__tile {
   position: relative;
-  width: 17rem;
+  width: 24rem;
   aspect-ratio: 1;
-  border: 1px solid var(--satyrn-border);
-  border-radius: var(--satyrn-radius-lg);
-  background-color: var(--satyrn-charcoal);
-  overflow: hidden;
-  /* Names this box's journey through the viewport, so the moon can be driven
-     by scrolling rather than by a clock (see block: space). */
-  view-timeline: --satyrn-window block;
+  background: radial-gradient(circle at 50% 50%, var(--satyrn-space-halo) 0, var(--satyrn-space-halo-soft) 24%, transparent 50%);
+  pointer-events: none;
 }
 
 .satyrn-hero__tile > p {
   margin: 0;
 }
 
-/* Pinned to the window's box, so it fills a landscape window as well as a
-   square one. `.md-typeset` is repeated because the theme's own
-   `.md-typeset svg { height: auto }` otherwise wins, and the SVG falls back to
-   its square viewBox and spills out of the bottom of the window. */
+/* Drawn at 150% of the column and centred on it. `.md-typeset` is repeated
+   because the theme's own `.md-typeset svg { height: auto; max-width: 100% }`
+   otherwise wins: the SVG falls back to its square viewBox, and the width cap
+   leaves it shifted left into the text instead of enlarged. */
 .md-typeset .satyrn-hero__logo {
   position: absolute;
-  inset: 0;
+  top: -25%;
+  left: -25%;
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 150%;
+  max-width: none;
+  height: 150%;
+  overflow: visible;
+  /* The overhang on the left reaches the end of the text column (at 8-9% of
+     the SVG's width on desktop), so that side fades in: nothing drawn there
+     can sit behind a word. The fade is done by 16% because the logo's ring
+     starts at 17%, and the logo itself is never dimmed. */
+  -webkit-mask-image: linear-gradient(to right, transparent 10%, #000 16%);
+  mask-image: linear-gradient(to right, transparent 10%, #000 16%);
 }
 
-/* The logo's own fills, fixed: the window does not change with the scheme. */
+/* The same two fills as the header and footer mark, so the hero logo is the
+   light version on light and the dark version on dark, and all three match. */
 .satyrn-hero__ring {
-  fill: #bf986d;
+  fill: var(--satyrn-mark-body);
 }
 
 .satyrn-hero__planet {
-  fill: #e6d568;
+  fill: var(--satyrn-mark-accent);
 }
 
 /* ---------------------------------------------------------- block: space -- */
 
-/* Stars, orbits and the moon inside the hero window.
+/* Stars, orbits, two moons and a shooting star inside the hero window.
 
-   Performance: one inline SVG, about 2 KB of path data, no images, no
-   JavaScript, no filters or blurs. Stars and the moon are zero-length strokes
-   with round caps and `non-scaling-stroke`, so each renders as a crisp dot of a
-   fixed pixel size however the window is scaled or transformed.
+   Performance: one inline SVG (about 3 KB of path data), static CSS gradients
+   for the glow, no images, no filters or blurs, and a 1 KB script for the
+   pointer. Stars and moons are zero-length strokes with round caps and
+   `non-scaling-stroke`, so each is a crisp dot of fixed pixel size however
+   the window is scaled or moved.
 
    Motion, and why it is shaped like this. WCAG 2.2.2 (level A) requires a
    pause control for motion that starts by itself and lasts over five seconds.
-   So nothing here loops:
-     - Where scroll-driven animations are supported, the moon's position is
-       tied to scrolling. It moves only while the reader scrolls, and costs
-       nothing while they read.
-     - Elsewhere, the moon makes a single sweep on load and stops (4.5s).
-     - A few stars twinkle twice on load and stop (under 4s).
-   `prefers-reduced-motion: reduce` removes all of it; the scene is then still. */
+   So nothing here loops on a clock. Everything is one of:
+     - Scroll-linked (where supported): the moons orbit in opposite directions,
+       the orbit dashes flow, and three star layers drift at different speeds
+       for depth. Still when the reader is still.
+     - Pointer-linked (javascripts/space.js): layers shift by different
+       amounts under the pointer, for parallax. Still when the pointer is.
+     - One-shot: a shooting star and a twinkle on load (done by ~2.7s), and
+       again each time the pointer enters the window.
+     - Fallback without scroll timelines: one 4.5s sweep of each moon on load.
+   `prefers-reduced-motion: reduce` removes all of it, and the script checks it
+   too; the scene is then still.
+
+   Two transform channels per element, so scroll and pointer never fight:
+     stars   `translate` = scroll drift     `transform` = pointer shift
+     orbits  `rotate`/`scale` = tilt         `translate` = pointer shift
+     moons   `transform` = orbit position    `translate` = pointer shift
+   The pointer position arrives as --satyrn-px / --satyrn-py, each -1 to 1. */
+.satyrn-space {
+  --satyrn-px: 0;
+  --satyrn-py: 0;
+}
+
 .satyrn-space__stars {
   fill: none;
-  stroke: #f2efe8;
+  stroke: var(--satyrn-space-ink);
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
+  transform-box: view-box;
 }
 
 .satyrn-space__stars--bright {
-  stroke: #e3d678;
-  stroke-width: 2.4px;
+  stroke: var(--satyrn-space-star-bright);
+  stroke-width: 2.6px;
+  transform: translate(calc(var(--satyrn-px) * 5px), calc(var(--satyrn-py) * 5px));
 }
 
 .satyrn-space__stars--dim {
-  stroke-width: 1.6px;
-  opacity: 0.75;
+  stroke-width: 1.7px;
+  opacity: 0.8;
+  transform: translate(calc(var(--satyrn-px) * 3px), calc(var(--satyrn-py) * 3px));
 }
 
 .satyrn-space__stars--faint {
   stroke-width: 1.1px;
-  opacity: 0.45;
+  opacity: 0.5;
+  transform: translate(calc(var(--satyrn-px) * 1.5px), calc(var(--satyrn-py) * 1.5px));
 }
 
 /* Circles in the markup, flattened and tilted here to lie in the ring's plane.
    Individual `rotate` and `scale` apply after `transform`, which is what lets
-   the moon spin inside the flattened orbit below. */
+   the moons spin inside the flattened orbits. */
 .satyrn-space__orbit,
 .satyrn-space__moon {
   transform-box: view-box;
   transform-origin: 64px 64px;
   rotate: -20deg;
   scale: 1 0.43;
+  translate: calc(var(--satyrn-px) * 2.5px) calc(var(--satyrn-py) * 2.5px);
 }
 
 .satyrn-space__orbit {
   fill: none;
-  stroke: #b99a73;
+  stroke: var(--satyrn-space-orbit);
   stroke-width: 1px;
   stroke-dasharray: 2 5;
   vector-effect: non-scaling-stroke;
-  opacity: 0.55;
+  opacity: 0.6;
 }
 
 .satyrn-space__orbit--outer {
-  opacity: 0.25;
+  opacity: 0.3;
 }
 
-/* Where it rests when nothing is moving: front left, clear of the planet. */
+/* Where each moon rests when nothing is moving, clear of the planet. */
 .satyrn-space__moon {
   fill: none;
-  stroke: #f2efe8;
-  stroke-width: 7px;
+  stroke: var(--satyrn-space-ink);
+  stroke-width: 8px;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
   transform: rotate(210deg);
+  translate: calc(var(--satyrn-px) * 4px) calc(var(--satyrn-py) * 4px);
+}
+
+.satyrn-space__moon--outer {
+  stroke: var(--satyrn-mark-accent);
+  stroke-width: 5px;
+  transform: rotate(140deg);
+}
+
+/* Head at the origin, tail up and to the left; flown by `translate`. */
+.satyrn-space__meteor {
+  fill: none;
+  stroke: var(--satyrn-space-ink);
+  stroke-width: 1.8px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transform-box: view-box;
+  opacity: 0;
 }
 
 @keyframes satyrn-orbit {
@@ -696,34 +846,152 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   to { transform: rotate(390deg); }
 }
 
+@keyframes satyrn-orbit-outer {
+  from { transform: rotate(320deg); }
+  to { transform: rotate(80deg); }
+}
+
 @keyframes satyrn-arrive {
   from { transform: rotate(40deg); }
   to { transform: rotate(210deg); }
 }
 
-@keyframes satyrn-twinkle {
-  50% { opacity: 0.25; }
+@keyframes satyrn-arrive-outer {
+  from { transform: rotate(280deg); }
+  to { transform: rotate(140deg); }
+}
+
+@keyframes satyrn-dash {
+  to { stroke-dashoffset: -84; }
+}
+
+@keyframes satyrn-drift-far {
+  from { translate: 0 3px; }
+  to { translate: 0 -3px; }
+}
+
+@keyframes satyrn-drift-mid {
+  from { translate: 0 7px; }
+  to { translate: 0 -7px; }
+}
+
+@keyframes satyrn-drift-near {
+  from { translate: 0 12px; }
+  to { translate: 0 -12px; }
+}
+
+/* Two identical copies of each one-shot, so the script can replay them by
+   switching names: a changed `animation-name` restarts an animation. */
+@keyframes satyrn-twinkle-a {
+  50% { opacity: 0.2; }
+}
+
+@keyframes satyrn-twinkle-b {
+  50% { opacity: 0.2; }
+}
+
+@keyframes satyrn-meteor-a {
+  0% { translate: -10px 8px; opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 0.8; }
+  100% { translate: 104px 44px; opacity: 0; }
+}
+
+@keyframes satyrn-meteor-b {
+  0% { translate: -10px 8px; opacity: 0; }
+  15% { opacity: 1; }
+  75% { opacity: 0.8; }
+  100% { translate: 104px 44px; opacity: 0; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Smooths the pointer shift, and eases everything home on leave. */
+  .satyrn-space__stars {
+    transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .satyrn-space__orbit,
+  .satyrn-space__moon {
+    transition: translate 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  /* One-shots on load. Replays switch between the -a and -b copies. */
+  .satyrn-space__meteor {
+    animation: satyrn-meteor-a 1.1s cubic-bezier(0.3, 0.1, 0.6, 1) 1.4s both;
+  }
+
+  .satyrn-space[data-flight="1"] .satyrn-space__meteor {
+    animation: satyrn-meteor-b 1.1s cubic-bezier(0.3, 0.1, 0.6, 1) both;
+  }
+
+  .satyrn-space[data-flight="2"] .satyrn-space__meteor {
+    animation: satyrn-meteor-a 1.1s cubic-bezier(0.3, 0.1, 0.6, 1) both;
+  }
+
+  /* Fallback moons: one sweep each on load. */
   .satyrn-space__moon {
     animation: satyrn-arrive 4.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
-  @supports (animation-timeline: view()) {
-    .satyrn-space__moon {
-      animation: satyrn-orbit linear both;
-      animation-timeline: --satyrn-window;
-      animation-range: cover 0% cover 100%;
-    }
+  .satyrn-space__moon--outer {
+    animation-name: satyrn-arrive-outer;
   }
 
   .satyrn-space__stars--bright {
-    animation: satyrn-twinkle 1.8s ease-in-out 0.3s 2;
+    animation: satyrn-twinkle-a 1.3s ease-in-out 0.3s 2;
   }
 
-  .satyrn-space__stars--dim {
-    animation: satyrn-twinkle 1.6s ease-in-out 0.9s 2;
+  .satyrn-space[data-flight="1"] .satyrn-space__stars--bright {
+    animation: satyrn-twinkle-b 1.3s ease-in-out 2;
+  }
+
+  .satyrn-space[data-flight="2"] .satyrn-space__stars--bright {
+    animation: satyrn-twinkle-a 1.3s ease-in-out 2;
+  }
+
+  @supports (animation-timeline: view()) {
+    .satyrn-space__moon,
+    .satyrn-space__moon--outer,
+    .satyrn-space__orbit,
+    .satyrn-space__stars--faint,
+    .satyrn-space__stars--dim {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --satyrn-window;
+      animation-range: cover 0% cover 100%;
+    }
+
+    .satyrn-space__moon { animation-name: satyrn-orbit; }
+    .satyrn-space__moon--outer { animation-name: satyrn-orbit-outer; }
+    .satyrn-space__orbit { animation-name: satyrn-dash; }
+    .satyrn-space__stars--faint { animation-name: satyrn-drift-far; }
+    .satyrn-space__stars--dim { animation-name: satyrn-drift-mid; }
+
+    /* Bright stars carry both a scroll drift and the clock-based twinkle, so
+       each gets its own timeline in a paired list. */
+    .satyrn-space__stars--bright {
+      animation:
+        satyrn-twinkle-a 1.3s ease-in-out 0.3s 2,
+        satyrn-drift-near linear both;
+      animation-timeline: auto, --satyrn-window;
+      animation-range: normal, cover 0% cover 100%;
+    }
+
+    .satyrn-space[data-flight="1"] .satyrn-space__stars--bright {
+      animation:
+        satyrn-twinkle-b 1.3s ease-in-out 2,
+        satyrn-drift-near linear both;
+      animation-timeline: auto, --satyrn-window;
+      animation-range: normal, cover 0% cover 100%;
+    }
+
+    .satyrn-space[data-flight="2"] .satyrn-space__stars--bright {
+      animation:
+        satyrn-twinkle-a 1.3s ease-in-out 2,
+        satyrn-drift-near linear both;
+      animation-timeline: auto, --satyrn-window;
+      animation-range: normal, cover 0% cover 100%;
+    }
   }
 }
 
@@ -737,24 +1005,42 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   }
 
   .satyrn-hero__tile {
-    width: 13rem;
+    width: 18rem;
   }
 }
 
 @media screen and (max-width: 59.984375em) {
   .satyrn-hero {
     grid-template-columns: minmax(0, 1fr);
-    padding: 1.5rem 0 3rem;
+    gap: 1rem;
+    padding-block: 2.5rem 2rem;
   }
 
   /* The window moves under the buttons, so the call to action stays on the
      first screen, and turns landscape. Capped in width so a tablet gets a
      window rather than a thin strip; the SVG's `slice` fit crops the scene to
      the box instead of letterboxing it. */
+  /* Below the buttons, as wide as the content column. The SVG is not enlarged
+     here: in a landscape box its `slice` fit already crops into the scene. */
   .satyrn-hero__tile {
     width: 100%;
-    max-width: 24rem;
     aspect-ratio: 16 / 10;
+    max-height: 26rem;
+  }
+
+  .md-typeset .satyrn-hero__logo {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  /* Text runs the full width here, so the band's own starfield goes; the
+     planet scene under the buttons brings its stars with it. */
+  .satyrn-hero::before {
+    content: none;
   }
 
   .md-typeset .satyrn-hero__text h1 {
@@ -769,7 +1055,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 @media screen and (max-width: 30em) {
   .satyrn-hero {
-    padding: 1rem 0 2.5rem;
+    padding-block: 2rem 1.5rem;
   }
 
   /* Scales down with the viewport below ~360px, so the longest word
@@ -829,6 +1115,81 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   margin: 0;
   color: var(--md-default-fg-color);
   font-weight: 700;
+}
+
+/* --------------------------------------------------------- block: status -- */
+
+/* What works today and what's being built, stated plainly. Two columns of
+   short lists; a third arrives when there is something honest to put in it. */
+.md-typeset .satyrn-status > p {
+  margin: -0.75rem 0 1.5rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.95rem;
+}
+
+.satyrn-status__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .satyrn-status__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.satyrn-status__col {
+  padding: 1.25rem;
+  border: 1px solid var(--satyrn-border);
+  border-radius: var(--satyrn-radius);
+  background-color: var(--satyrn-surface);
+}
+
+.md-typeset .satyrn-status__col h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+[dir] .md-typeset .satyrn-status__col ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[dir] .md-typeset .satyrn-status__col li {
+  margin: 0;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--satyrn-border);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.md-typeset .satyrn-status__col strong {
+  color: var(--md-default-fg-color);
+}
+
+/* ------------------------------------------------------------ block: faq -- */
+
+/* Sceptics' questions, answered in the site's own voice. Plain headings and
+   paragraphs, so the answers are in the page and in search, not hidden behind
+   disclosure widgets. */
+.md-typeset .satyrn-faq h3 {
+  margin: 1.75rem 0 0.4rem;
+  font-size: 1rem;
+}
+
+.md-typeset .satyrn-faq h2 + h3 {
+  margin-top: 0;
+}
+
+.md-typeset .satyrn-faq p {
+  max-width: 40rem;
+  margin: 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 /* -------------------------------------------------------- block: pillars -- */
@@ -896,6 +1257,141 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   max-width: 38rem;
   font-size: 1rem;
   line-height: 1.6;
+}
+
+/* The byline under "Why Satyrn": the display face for the name, and a plain
+   line under it saying who that is, so the name never has to be decoded. */
+.md-typeset .satyrn-mission .satyrn-signature {
+  margin: 1.5rem 0 0;
+  color: var(--satyrn-heading);
+  font-family: var(--satyrn-font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+}
+
+.md-typeset .satyrn-mission .satyrn-signature__role {
+  margin: 0.15rem 0 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.8rem;
+}
+
+/* ---------------------------------------------------------- block: crew -- */
+
+/* Contributor avatars. Static and scrollable by default; javascripts/crew.js
+   adds `.is-moving` for the marquee and a Pause button before it. The edges
+   fade so avatars slide in and out rather than being cut off. */
+.satyrn-crew {
+  margin-top: 1rem;
+  /* Inline padding lives here, not on the list: the loop moves the list by
+     exactly half its width, so any padding inside it would make each wrap
+     jump. */
+  padding: 0.3rem 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+}
+
+.satyrn-crew:focus-visible {
+  outline: 2px solid var(--md-default-fg-color);
+  outline-offset: 2px;
+}
+
+[dir] .md-typeset .satyrn-crew ul {
+  display: flex;
+  gap: 0.75rem;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[dir] .md-typeset .satyrn-crew li {
+  flex: none;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.md-typeset .satyrn-crew img {
+  display: block;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  /* A ring in the page colour, then a hairline: avatars read as a set on either
+     scheme without a border colour per image. */
+  box-shadow: 0 0 0 2px var(--md-default-bg-color), 0 0 0 3px var(--satyrn-border-strong);
+}
+
+.md-typeset .satyrn-crew .satyrn-crew__you {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-right: 0.5rem;
+  color: var(--satyrn-accent-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.md-typeset .satyrn-crew .satyrn-crew__you:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.satyrn-crew.is-moving {
+  overflow: hidden;
+}
+
+/* The list holds two copies, so moving it by half its width (plus half the
+   gap that joins the copies) lands exactly where it started. Transform-only,
+   so the browser composites it without repainting. */
+.satyrn-crew.is-moving ul {
+  animation: satyrn-crew var(--satyrn-crew-duration, 40s) linear infinite;
+}
+
+.satyrn-crew.is-moving:is(:hover, :focus-within) ul,
+.satyrn-crew.is-paused ul {
+  animation-play-state: paused;
+}
+
+@keyframes satyrn-crew {
+  to { transform: translateX(calc(-50% - 0.375rem)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .satyrn-crew.is-moving ul {
+    animation: none;
+  }
+}
+
+.satyrn-crew__toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  margin-top: 1rem;
+  padding: 0.2rem 0.8rem;
+  border: 1px solid var(--satyrn-control-border);
+  border-radius: var(--satyrn-radius);
+  background: transparent;
+  color: var(--md-default-fg-color);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.satyrn-crew__toggle:hover {
+  border-color: var(--md-default-fg-color);
+}
+
+.satyrn-crew__toggle:focus-visible {
+  outline: 2px solid var(--md-default-fg-color);
+  outline-offset: 2px;
+}
+
+.satyrn-crew__toggle + .satyrn-crew {
+  margin-top: 0.5rem;
 }
 
 /* ------------------------------------------------------- block: involve -- */
@@ -1405,6 +1901,8 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .satyrn-hero__text p,
 .satyrn-problem p,
+.satyrn-status li,
+.satyrn-faq p,
 .satyrn-pillars p,
 .satyrn-mission p {
   text-wrap: pretty;

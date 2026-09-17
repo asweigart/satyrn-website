@@ -72,6 +72,41 @@ so a post the tree doesn't reach is a post they can't see.
 A hand-written list would have to name every post to stay correct,
 and says nothing when it stops doing so.
 
+## Voice
+
+The site should sound like the people building Satyrn, talking to developers.
+Think Django and the kernel's contributor docs, not a foundation press release.
+These rules come from comparing the writing of projects developers trust
+and talk about (Django, Ladybird, Buzz, Biome, Lightpanda and others).
+
+**Be concrete.**
+Name what the reader actually deals with, not an abstraction.
+"A provider outage is someone else's bad day" beats "resilient and reliable".
+Cut "trust", "innovative", "seamless" and "enterprise scale" unless something specific follows.
+
+**Say what it isn't.**
+A short negative ("Not a hosted service.") lands faster than another claim.
+Only use one you would still stand by in a year.
+
+**Say what isn't finished.**
+Keep "Where it's at" on the home page true.
+If something moves from "Being built" to "Works today", move it there too.
+
+**Claims need proof.**
+Never publish a number without its method: hardware, dataset, what it lost on.
+Never promise a behaviour (telemetry, data, governance) the code or the
+Team Compass doesn't already back up.
+
+**Buttons say what happens next.**
+"Run an experiment" or "Browse open issues", not "Learn more" or "Get started".
+
+**Humour is dry and rare, and never carries a fact.**
+A joke only works when everything around it is exact.
+If a line needs context or a shared idiom to land, it doesn't carry anything
+important: that's why the hero says "a foundation created in the EU"
+rather than "Cherry on top? European."
+No emoji bullet lists, no "vibrant community", no cosmic mission copy.
+
 ## Things that fail quietly
 
 Each of these has already cost someone an afternoon.
@@ -461,16 +496,27 @@ the yellow wordmark is only 3.02:1 on greige, and a darker band pushes it under 
 
 The landing page follows the theme's own breakpoints,
 so it changes layout in step with the header and tab bar:
-above 1220px is full desktop, at 960px the hero drops to one column and its space window becomes a band under the buttons,
+above 1220px is full desktop, at 960px the hero drops to one column and the planet scene moves under the buttons,
 and at 480px buttons go full width.
 They're written in `em`, which in a media query is the 16px browser default,
 not the site's 125% root size.
 
-The one decorative flourish is the space window in the hero:
-stars, orbits and a moon drawn inside the logo's own SVG.
-It adds no requests and no JavaScript.
-Its motion never loops: the moon follows scrolling where browsers support it,
-otherwise it makes one short sweep, and everything stops under `prefers-reduced-motion`.
-Anything that moved on its own for more than five seconds would need a pause control (WCAG 2.2.2).
+The one decorative flourish is the hero's full-width space band:
+a static starfield, plus stars, orbits, two moons and a shooting star drawn
+inside the logo's own SVG, with a small script (`javascripts/space.js`) for
+pointer parallax. The band follows the page's scheme: pale stars and the dark
+logo on charcoal, charcoal stars and the light logo on greige. Its colours
+come from the `--satyrn-space-*` and `--satyrn-mark-*` tokens, so change them
+there, not in the block.
+Nothing decorative may sit behind text: the starfield and the scene's left
+edge are masked away from the text column, because a dot beside a word
+reads as a stray full stop.
+Its motion never loops on a clock: it follows scrolling or the pointer,
+the shooting star and twinkle are one-shots, browsers without scroll timelines
+get one short sweep, and everything stops under `prefers-reduced-motion`.
+Anything that moves on its own for more than five seconds needs a pause control (WCAG 2.2.2).
+The contributor carousel under "Why Satyrn" is the one thing that does, which is why it has a Pause button.
+Its avatars are placeholders until real contributors replace them;
+`just check-placeholders` fails the build until they do.
 Before adding another ornament, a numbered label or a tinted band,
 check it's doing a job a heading or a hairline isn't already doing.

@@ -266,6 +266,29 @@ check-a11y: build
     PY
     npx -y pa11y-ci@3.1.0 --config "$config"
 
+# Fail while a placeholder is still in the built site
+#
+# Two stand-ins exist until the real thing does: INVITE_CODE for the Discord
+# invite, and the placeholder contributor avatars on the home page. Both render
+# and build without complaint, and fake contributors in production would be
+# worse than none, so this is the only thing standing between them and a
+# release.
+check-placeholders: build
+    #!/usr/bin/env -S uv run python
+    import pathlib, sys
+    markers = {
+        "INVITE_CODE": "set discord_url in zensical.toml and the [discord]: links",
+        "assets/avatars/placeholder-": "replace the placeholder avatars in src/index.md",
+    }
+    hits = []
+    for page in sorted(pathlib.Path("site").rglob("*.html")):
+        text = page.read_text()
+        hits += [(page, marker) for marker in markers if marker in text]
+    for page, marker in hits:
+        print(f"{page}: {marker} -- {markers[marker]}")
+    print(f"{len(hits)} placeholder(s) in the built site")
+    sys.exit(1 if hits else 0)
+
 # Lint markdown and spelling. The only recipe that needs node; GitHub runners
 # ship it preinstalled, so this costs a package download and no setup step.
 #
@@ -384,4 +407,4 @@ og-image:
     print(f"{out}  {card.width}x{card.height}  {out.stat().st_size} bytes")
 
 # Everything CI should run before a merge
-ci: rebuild check-frontmatter check-nav check-blog check-assets lint weigh
+ci: rebuild check-frontmatter check-nav check-blog check-assets check-placeholders lint weigh

@@ -30,11 +30,16 @@ Last reviewed on 16 September 2026.
   and starts with a link that skips straight to the content.
 - Buttons and links are large enough to tap,
   and buttons have a visible edge and a visible focus outline.
-- Nothing on the site flashes, and nothing moves on its own for more than a few seconds.
-  At the top of the home page, a moon in the space illustration follows your scrolling,
-  or makes one short sweep in browsers that can't link it to scrolling,
+- Nothing on the site flashes, and nothing moves on its own for more than a few seconds without a way to stop it.
+  At the top of the home page, the moons and stars in the space illustration
+  move only as you scroll or move your pointer over the top of the page,
+  or make one short sweep in browsers that can't link them to scrolling.
+  A shooting star crosses once when the page loads and each time your pointer moves onto it,
   and a few stars twinkle twice.
   If your system is set to reduce motion, all of that is switched off.
+  A row of contributor avatars on the home page scrolls slowly on its own.
+  It has a Pause button, stops while you hover over it or tab into it,
+  and doesn't move at all if your system is set to reduce motion.
   Otherwise the only motion is short interface transitions, like the menu sliding open.
 - Light and dark mode follow your system setting,
   and you can switch between them from the header.
