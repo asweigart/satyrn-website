@@ -438,7 +438,7 @@ home_posts_count = 3
 # where the item is what gives the page a sidebar at all. Both are reached from
 # the tag chips on a post, the byline, and the blog index -- they are archives,
 # not destinations, and listing them alongside Mission oversells them.
-nav_hide = ["Tags", "Authors", "Accessibility"]
+nav_hide = ["Tags", "Authors", "Accessibility", "Design"]
 # The default social card, used by every page that does not set `image:` in its
 # front matter. Root-relative and without a leading slash: overrides/main.html
 # concatenates it onto `site_url`, which already ends in one.

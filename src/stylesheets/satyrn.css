@@ -141,6 +141,35 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
      it swaps to a second blue on hover with no animation. */
   --satyrn-underline-thickness: 1.5px;
   --satyrn-underline-offset: 0.15em;
+
+  /* ---- Type scale ------------------------------------------------------
+     One golden-derived modular scale drives every text size, so there are a
+     handful of named sizes instead of a dozen ad-hoc rem values. --type-ratio
+     is the single knob: sqrt(phi) = 1.272 means every TWO steps make a full
+     golden ratio (phi), which keeps h1-h6 usable rather than enormous. Sizes
+     are rem, so they still ride the theme's responsive root; the RATIO between
+     them is what is fixed, and that is the point. Change --type-ratio or
+     --type-base and the whole ladder reflows. Preview it at /design/typography/.
+     px values below are at the theme's default 125% root (1rem = 20px). */
+  --type-base: 1rem;
+  --type-ratio: 1.272;
+  --fs-xs: calc(var(--type-base) / var(--type-ratio));   /* ~15.7px  meta, captions, tags, byline */
+  --fs-body: var(--type-base);                           /*  20px    body, list items */
+  --fs-lg: calc(var(--type-base) * var(--type-ratio));   /* ~25.4px  h4, lead-in */
+  --fs-xl: calc(var(--fs-lg) * var(--type-ratio));       /* ~32.4px  h3  (= phi x body) */
+  --fs-2xl: calc(var(--fs-xl) * var(--type-ratio));      /* ~41.2px  h2 */
+  --fs-3xl: calc(var(--fs-2xl) * var(--type-ratio));     /* ~52.4px  h1  (= phi^2 x body) */
+
+  /* Two leading values: one for running copy, one for headings. */
+  --lh-body: 1.55;
+  --lh-heading: 1.15;
+
+  /* Weight: body copy is 400; everything that needs to stand out uses ONE
+     emphasis weight, so there is no 600-vs-700 sprawl across the UI. Change
+     this single knob to reweight every emphasis at once. Headings set their
+     own weight (the display face is 400-only; the body-face h3/h4 are 700). */
+  --weight-body: 400;
+  --weight-emphasis: 700;
 }
 
 [data-md-color-scheme="default"] {
@@ -389,7 +418,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   margin-top: 0;
   padding: 0 0.1rem;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: var(--weight-emphasis);
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
 }
@@ -446,7 +475,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
     display: block;
     margin-bottom: 0.4rem;
     color: var(--md-default-fg-color);
-    font-weight: 700;
+    font-weight: var(--weight-emphasis);
   }
 }
 
@@ -510,7 +539,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   background-color: transparent;
   color: var(--md-default-fg-color);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: var(--weight-emphasis);
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
@@ -550,7 +579,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   gap: 0.35rem;
   min-height: 24px;
   color: var(--satyrn-accent-text);
-  font-weight: 600;
+  font-weight: var(--weight-emphasis);
   text-decoration: none;
 }
 
@@ -702,7 +731,7 @@ html:has(.satyrn-hero) {
   margin: 0 0 2rem;
   color: var(--md-default-fg-color);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: var(--weight-emphasis);
   line-height: 1.5;
 }
 
@@ -1143,7 +1172,7 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-problem .satyrn-problem__kicker {
   margin: 0;
   color: var(--md-default-fg-color);
-  font-weight: 700;
+  font-weight: var(--weight-emphasis);
 }
 
 /* --------------------------------------------------------- block: status -- */
@@ -1359,7 +1388,7 @@ html:has(.satyrn-hero) {
   gap: 0.6rem;
   padding-right: 0.5rem;
   color: var(--satyrn-accent-text);
-  font-weight: 700;
+  font-weight: var(--weight-emphasis);
   text-decoration: none;
 }
 
@@ -1401,7 +1430,7 @@ html:has(.satyrn-hero) {
   color: var(--md-default-fg-color);
   font: inherit;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: var(--weight-emphasis);
   cursor: pointer;
 }
 
@@ -1581,7 +1610,7 @@ html:has(.satyrn-hero) {
   margin: auto 0 0;
   color: var(--md-default-fg-color);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: var(--weight-emphasis);
 }
 
 @media screen and (max-width: 30em) {
@@ -1645,7 +1674,7 @@ html:has(.satyrn-hero) {
   margin: 0 0 0.5rem;
   color: var(--md-default-fg-color--light);
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: var(--weight-emphasis);
 }
 
 .satyrn-footer__col ul {
@@ -1843,7 +1872,41 @@ html:has(.satyrn-hero) {
    from there). Prose paragraphs and lists inherit this; our own blocks pin their
    own sizes and are unaffected. */
 .md-typeset {
-  font-size: 0.9rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* Base heading sizes from the modular scale. Some landing-page component blocks
+   still set their own sizes for now; those get folded onto the scale next. The
+   specimen page at /design/typography/ shows plain headings, i.e. these. */
+.md-typeset h1 {
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-heading);
+}
+
+.md-typeset h2 {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-heading);
+}
+
+.md-typeset h3 {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-heading);
+}
+
+.md-typeset h4 {
+  font-size: var(--fs-lg);
+  line-height: var(--lh-heading);
+}
+
+.md-typeset h5 {
+  font-size: var(--fs-body);
+  line-height: var(--lh-heading);
+}
+
+.md-typeset h6 {
+  font-size: var(--fs-xs);
+  line-height: var(--lh-heading);
 }
 
 /* The display face belongs to headings as a concept, not to the two landing
@@ -1865,23 +1928,53 @@ html:has(.satyrn-hero) {
      the headings up without loosening them into a banner. */
   letter-spacing: 0.03em;
   font-size-adjust: from-font;
+  /* The theme uppercases h5; our headings are sentence-case across the board. */
+  text-transform: none;
 }
 
 .md-typeset :is(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
+  /* The theme sizes heading margins in `em`, so at this scale an h1's 1.25em
+     bottom margin became ~3.3rem of air. Fixed rem margins instead: a clear gap
+     above (headings open a section) and a tight gap below (they bind to the
+     content that follows). */
+  margin-block: 1.6rem 0.5rem;
 }
 
-/* Smaller headings step down to the body face (Reddit Sans) at 700 rather than
-   the Triple Charm display, so the display face carries only the large headings
-   (h1/h2) and stops feeling over-used. They also drop the brand heading colour
-   for the body neutral, which sets them
-   apart from the coloured display headings for a bit of texture. The 0.03em
-   display tracking is cleared as Reddit needs none. */
-.md-typeset :is(h3, h4) {
+/* A heading opening a page or a block owns no space above it. */
+.md-typeset :is(h1, h2, h3, h4, h5, h6):first-child {
+  margin-block-start: 0;
+}
+
+/* Smaller headings step down to the body face at 700 rather than the Triple
+   Charm display, so the display face carries only the large headings (h1/h2)
+   and stops feeling over-used. They also drop the brand heading colour for the
+   body neutral, which sets them apart from the coloured display headings for a
+   bit of texture. The 0.03em display tracking is cleared as the body face needs
+   none. */
+.md-typeset :is(h3, h4, h5, h6) {
   font-family: var(--md-text-font, "Reddit Sans"), sans-serif;
   font-weight: 700;
   letter-spacing: normal;
   color: var(--md-typeset-color);
+}
+
+/* Blockquotes read as a distinct voice: one step up from body on the scale and
+   italic, rather than just indented body copy. */
+.md-typeset blockquote {
+  font-size: var(--fs-lg);
+  font-style: italic;
+}
+
+/* The theme sets tables and admonitions in a ~0.64rem micro-size that reads as
+   tiny beside 20px body. Bring them onto the scale -- tables to the small tier,
+   admonition copy to full body size. */
+.md-typeset table:not([class]) {
+  font-size: var(--fs-xs);
+}
+
+.md-typeset :is(.admonition, details) {
+  font-size: var(--fs-body);
 }
 
 /* Article titles only. The byline is emitted directly before the post h1, so
