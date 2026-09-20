@@ -87,9 +87,9 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
    against. Mixing them up is the easiest way to ship an unreadable page:
 
      --satyrn-yellow-dark    #e3d678  text and logo on dark        8.40:1
-     --satyrn-yellow-ui      #7f7435  large text, icons, borders   3.02:1 on light
+     --satyrn-yellow-ui      #816928  large text, icons, borders   4.19:1 on light
                                        (NOT body text)
-     --satyrn-yellow-text    #423c1b  body-size text on light      7.09:1
+     --satyrn-yellow-text    #433715  body-size text on light      9.30:1
 
    The semantic tokens further down pick the right tier per scheme, so blocks
    ask for `--satyrn-accent` or `--satyrn-accent-text` and never a raw tier. */
@@ -104,13 +104,13 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-font-script: "Triple Charm Script", cursive;
 
   /* Theme backgrounds. */
-  --satyrn-greige: #ced0c3;
+  --satyrn-greige: #efe4d2;
   --satyrn-charcoal: #383330;
 
   /* Yellow tiers, see above. */
   --satyrn-yellow-dark: #e3d678;
-  --satyrn-yellow-ui: #7f7435;
-  --satyrn-yellow-text: #423c1b;
+  --satyrn-yellow-ui: #816928;
+  --satyrn-yellow-text: #433715;
 
   /* The logo ring. Tan is dark mode only (4.71:1); on light the ring is the
      charcoal. */
@@ -142,7 +142,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --md-accent-fg-color--transparent: rgb(127 116 53 / 12%);
 
   --md-typeset-color: #1f1c1a;                         /* 10.84:1 */
-  --md-typeset-a-color: var(--satyrn-yellow-text);     /* 7.09:1 */
+  --md-typeset-a-color: var(--satyrn-yellow-text);     /* 9.30:1 */
   --md-code-bg-color: #dcded3;
   --md-code-fg-color: #1f1c1a;
 
@@ -155,8 +155,8 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
   /* Semantic. */
   --satyrn-heading: var(--satyrn-charcoal);            /* 7.98:1 */
-  --satyrn-accent: var(--satyrn-yellow-ui);            /* 3.02:1, large/UI only */
-  --satyrn-accent-text: var(--satyrn-yellow-text);     /* 7.09:1 */
+  --satyrn-accent: var(--satyrn-yellow-ui);            /* 4.19:1, large/UI only */
+  --satyrn-accent-text: var(--satyrn-yellow-text);     /* 9.30:1 */
   --satyrn-surface: #dcded3;
   --satyrn-border: rgb(56 51 48 / 16%);
   --satyrn-border-strong: rgb(56 51 48 / 38%);
