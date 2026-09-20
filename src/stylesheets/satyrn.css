@@ -112,12 +112,35 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-yellow-ui: #816928;
   --satyrn-yellow-text: #433715;
 
+  /* Secondary hues from the design team's BRAND_COLOURS.md. Each has the same
+     three tiers as yellow (light / mid / dark). Yellow stays the primary UI
+     hue; these arrive per-surface -- blue is the first in use, for link
+     underlines. Pick a tier by the job and check its contrast, exactly as with
+     yellow. */
+  --satyrn-blue-light: #45a3e9;
+  --satyrn-blue-mid: #0b75c3;
+  --satyrn-blue-dark: #1c3d65;
+
+  --satyrn-pink-light: #f66fbf;
+  --satyrn-pink-mid: #cf1e87;
+  --satyrn-pink-dark: #6c1d4b;
+
+  --satyrn-green-light: #3ac595;
+  --satyrn-green-mid: #3d6859;
+  --satyrn-green-dark: #1a4234;
+
   /* The logo ring. Tan is dark mode only (4.71:1); on light the ring is the
      charcoal. */
   --satyrn-ring-dark: #b99a73;
 
   --satyrn-radius: 0.5rem;
   --satyrn-radius-lg: 0.9rem;
+
+  /* Link underline (native text-decoration). One set of knobs for every text
+     link; see the shared rule near the end of the file. Colour is per scheme;
+     it swaps to a second blue on hover with no animation. */
+  --satyrn-underline-thickness: 1.5px;
+  --satyrn-underline-offset: 0.15em;
 }
 
 [data-md-color-scheme="default"] {
@@ -157,6 +180,9 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-heading: var(--satyrn-charcoal);            /* 7.98:1 */
   --satyrn-accent: var(--satyrn-yellow-ui);            /* 4.19:1, large/UI only */
   --satyrn-accent-text: var(--satyrn-yellow-text);     /* 9.30:1 */
+  /* Link underline: light blue at rest, mid on hover. */
+  --satyrn-underline: var(--satyrn-blue-light);        /* 2.18:1 on cream */
+  --satyrn-underline-hover: var(--satyrn-blue-mid);    /* 3.84:1 on cream */
   --satyrn-surface: #dcded3;
   --satyrn-border: rgb(56 51 48 / 16%);
   --satyrn-border-strong: rgb(56 51 48 / 38%);
@@ -226,6 +252,9 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-heading: #f2efe8;
   --satyrn-accent: var(--satyrn-yellow-dark);
   --satyrn-accent-text: var(--satyrn-yellow-dark);
+  /* Link underline: light blue at rest, mid on hover, for the dark ground. */
+  --satyrn-underline: var(--satyrn-blue-light);        /* 4.55:1 on charcoal */
+  --satyrn-underline-hover: var(--satyrn-blue-mid);    /* 2.58:1 on charcoal */
   --satyrn-surface: #423c39;
   --satyrn-border: rgb(242 239 232 / 12%);
   --satyrn-border-strong: rgb(242 239 232 / 30%);
@@ -1334,11 +1363,6 @@ html:has(.satyrn-hero) {
   text-decoration: none;
 }
 
-.md-typeset .satyrn-crew .satyrn-crew__you:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 .satyrn-crew.is-moving {
   overflow: hidden;
 }
@@ -1630,11 +1654,22 @@ html:has(.satyrn-hero) {
   list-style: none;
 }
 
-/* Each link in the list gets a 32px target, past the 24px WCAG 2.2 minimum. */
+/* Each link gets a 32px target, past the 24px WCAG 2.5.8 minimum. The target
+   is an invisible overlay, not a tall centred box: a tall box would drop the
+   shared border-bottom underline away from the text. This keeps the link inline
+   so the underline hugs the text like every other link. */
 .satyrn-footer__col a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.6rem;
+  position: relative;
+}
+
+.satyrn-footer__col a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1.6rem;
 }
 
 .satyrn-footer__base {
@@ -1651,14 +1686,12 @@ html:has(.satyrn-hero) {
   margin: 0;
 }
 
-/* Underlined because this one sits inside a sentence, where colour is the only
-   other thing marking it as a link. */
+/* Inherits its colour from the surrounding sentence; the shared link-underline
+   rule gives it the blue rule that marks it as a link. */
 .satyrn-footer__link--inline,
 .satyrn-footer__credit a,
 .md-copyright a {
   color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
 }
 
 @media screen and (max-width: 30em) {
@@ -1716,14 +1749,9 @@ html:has(.satyrn-hero) {
   letter-spacing: normal;
 }
 
-/* A full text-decoration underline is too heavy under the script face and cuts
-   through its descenders. A thin border-bottom, dropped clear of the baseline,
-   reads as a light rule instead. */
-.satyrn-byline__author > a {
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 0.02em;
-}
+/* The byline author link takes the shared border-bottom underline. That
+   technique is exactly why the shared rule uses a border and not a
+   text-decoration: it sits clear of this script face's descenders. */
 
 /* Inline, not flex. A byline is a sentence, and inline content wraps as one
    sequence. As flex items the author list and the date wrapped independently,
@@ -1787,12 +1815,8 @@ html:has(.satyrn-hero) {
   font-size: 1.1rem;
 }
 
-/* The whole row is not a link, so the title carries the affordance on its own
-   and needs the underline that a standalone nav link can do without. */
-.satyrn-post__title a {
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
+/* The whole row is not a link, so the title carries the affordance on its own:
+   it takes the shared link-underline rule. */
 
 .md-typeset .satyrn-post__meta {
   margin: 0;
@@ -1908,18 +1932,40 @@ html:has(.satyrn-hero) {
   text-wrap: pretty;
 }
 
-/* Links in running prose. The text tier is close in value to body copy on
-   light, so an underline in the yellow UI tier carries the affordance rather
-   than hue alone (WCAG 1.4.1). Buttons and our own link blocks opt out. */
-.md-typeset :is(p, li, td, dd) a:not(.md-button, .satyrn-arrow-link, .satyrn-card a, .headerlink) {
+/* ---------------------------------------------------------- link underline --
+   The ONE definition of the underlined text-link affordance, shared by every
+   text link: running prose, post titles, byline authors and footer links.
+
+   A native text-decoration underline: it skips descender ink and wraps
+   correctly across lines, and text-decoration-color lets the underline be blue
+   while the text inherits the surrounding colour -- the blue rule is the only
+   thing marking a link. Colour, thickness and offset are tokens; per scheme the
+   underline swaps to a second blue on hover, with no transition. Buttons, cards
+   and the nav tabs are NOT text links and opt out. The affordance (WCAG 1.4.1)
+   is the underline's presence; its contrast is decorative, the text tier
+   carries 1.4.3. */
+.md-typeset :is(p, li, td, dd) a:not(.md-button, .satyrn-arrow-link, .satyrn-card a, .headerlink),
+.satyrn-post__title a,
+.satyrn-byline__author > a,
+.satyrn-footer__link,
+.satyrn-footer__link--inline,
+.satyrn-footer__credit a,
+.md-copyright a {
+  color: inherit;
   text-decoration: underline;
-  text-decoration-color: var(--satyrn-accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  text-decoration-color: var(--satyrn-underline);
+  text-decoration-thickness: var(--satyrn-underline-thickness);
+  text-underline-offset: var(--satyrn-underline-offset);
 }
 
-.md-typeset :is(p, li, td, dd) a:not(.md-button, .satyrn-arrow-link, .satyrn-card a, .headerlink):hover {
-  text-decoration-thickness: 2px;
+.md-typeset :is(p, li, td, dd) a:not(.md-button, .satyrn-arrow-link, .satyrn-card a, .headerlink):hover,
+.satyrn-post__title a:hover,
+.satyrn-byline__author > a:hover,
+.satyrn-footer__link:hover,
+.satyrn-footer__link--inline:hover,
+.satyrn-footer__credit a:hover,
+.md-copyright a:hover {
+  text-decoration-color: var(--satyrn-underline-hover);
 }
 
 /* The "Still being written" notes are warning admonitions, which the theme
@@ -1952,17 +1998,9 @@ html:has(.satyrn-hero) {
   color: var(--satyrn-accent-text);
 }
 
-/* Hand-written links. Keeping the focus ring here means a second block cannot
-   pick up the colour and silently miss the ring. */
-.satyrn-footer__link {
-  color: var(--md-default-fg-color);
-}
-
-.satyrn-footer__link:hover {
-  color: var(--satyrn-accent-text);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
+/* Footer nav links inherit the footer's text colour (via the shared
+   link-underline rule); only the blue underline marks them. The focus ring
+   lives in the :focus-visible block below. */
 
 /* The tab and blog links take the ring but not the colour above: theirs comes
    from `.md-tabs` and `.md-typeset a`, and `currentcolor` picks it up either
