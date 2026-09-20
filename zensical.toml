@@ -309,7 +309,7 @@ features = [
 # a monospaced font used in code blocks.
 # ----------------------------------------------------------------------------
 [project.theme.font]
-text = "Reddit Sans"
+text = "Lora"
 code = "JetBrains Mono"
 
 # ----------------------------------------------------------------------------
