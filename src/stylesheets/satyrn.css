@@ -209,6 +209,8 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-heading: var(--satyrn-charcoal);            /* 7.98:1 */
   --satyrn-accent: var(--satyrn-yellow-ui);            /* 4.19:1, large/UI only */
   --satyrn-accent-text: var(--satyrn-yellow-text);     /* 9.30:1 */
+  /* CTA accent (buttons, arrow-link): the link blue, mid on light. */
+  --satyrn-cta: var(--satyrn-blue-mid);
   /* Link underline: light blue at rest, mid on hover. */
   --satyrn-underline: var(--satyrn-blue-light);        /* 2.18:1 on cream */
   --satyrn-underline-hover: var(--satyrn-blue-mid);    /* 3.84:1 on cream */
@@ -281,6 +283,8 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   --satyrn-heading: #f2efe8;
   --satyrn-accent: var(--satyrn-yellow-dark);
   --satyrn-accent-text: var(--satyrn-yellow-dark);
+  /* CTA accent: lighter blue for contrast on the dark ground. */
+  --satyrn-cta: var(--satyrn-blue-light);
   /* Link underline: light blue at rest, mid on hover, for the dark ground. */
   --satyrn-underline: var(--satyrn-blue-light);        /* 4.55:1 on charcoal */
   --satyrn-underline-hover: var(--satyrn-blue-mid);    /* 2.58:1 on charcoal */
@@ -578,7 +582,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   align-items: center;
   gap: 0.35rem;
   min-height: 24px;
-  color: var(--satyrn-accent-text);
+  color: var(--satyrn-cta);
   font-weight: var(--weight-emphasis);
   text-decoration: none;
 }
@@ -589,7 +593,7 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
 .md-typeset .satyrn-arrow-link:hover,
 .satyrn-arrow-link:hover {
-  color: var(--satyrn-accent-text);
+  color: var(--satyrn-cta);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
@@ -717,9 +721,9 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-hero__lede {
   max-width: 34rem;
   margin: 0 0 1rem;
-  color: var(--md-default-fg-color--light);
-  font-size: 1.1rem;
-  line-height: 1.55;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 /* The "what it isn't" line. Short negative definitions read faster than
@@ -730,9 +734,9 @@ html:has(.satyrn-hero) {
   max-width: 34rem;
   margin: 0 0 2rem;
   color: var(--md-default-fg-color);
-  font-size: 0.85rem;
+  font-size: var(--fs-body);
   font-weight: var(--weight-emphasis);
-  line-height: 1.5;
+  line-height: var(--lh-body);
 }
 
 .md-typeset .satyrn-hero__not a {
@@ -1164,9 +1168,9 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-problem p {
   max-width: 38rem;
   margin: 0 0 1rem;
-  color: var(--md-default-fg-color--light);
-  font-size: 1rem;
-  line-height: 1.6;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 .md-typeset .satyrn-problem .satyrn-problem__kicker {
@@ -1181,8 +1185,8 @@ html:has(.satyrn-hero) {
    short lists; a third arrives when there is something honest to put in it. */
 .md-typeset .satyrn-status > p {
   margin: -0.75rem 0 1.5rem;
-  color: var(--md-default-fg-color--light);
-  font-size: 0.95rem;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
 }
 
 .satyrn-status__grid {
@@ -1219,9 +1223,9 @@ html:has(.satyrn-hero) {
   margin: 0;
   padding: 0.75rem 0;
   border-top: 1px solid var(--satyrn-border);
-  color: var(--md-default-fg-color--light);
-  font-size: 0.8rem;
-  line-height: 1.55;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 .md-typeset .satyrn-status__col strong {
@@ -1245,9 +1249,9 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-faq p {
   max-width: 40rem;
   margin: 0;
-  color: var(--md-default-fg-color--light);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 /* -------------------------------------------------------- block: pillars -- */
@@ -1300,9 +1304,9 @@ html:has(.satyrn-hero) {
 
 .md-typeset .satyrn-pillars p {
   margin: 0;
-  color: var(--md-default-fg-color--light);
-  font-size: 0.8rem;
-  line-height: 1.55;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 /* -------------------------------------------------------- block: mission -- */
@@ -1313,8 +1317,8 @@ html:has(.satyrn-hero) {
 
 .md-typeset .satyrn-mission p {
   max-width: 38rem;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 /* The byline under "Why Satyrn": the display face for the name, and a plain
@@ -1332,7 +1336,7 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-mission .satyrn-signature__role {
   margin: 0.15rem 0 0;
   color: var(--md-default-fg-color--light);
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
 }
 
 /* ---------------------------------------------------------- block: crew -- */
@@ -1460,9 +1464,9 @@ html:has(.satyrn-hero) {
 
 .satyrn-involve__intro > p {
   margin: 0 0 1.75rem;
-  color: var(--md-default-fg-color--light);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 /* The list the markdown emits, with the theme's indent and bullets cleared.
@@ -1478,16 +1482,16 @@ html:has(.satyrn-hero) {
   margin: 0;
   padding: 1rem 0;
   border-bottom: 1px solid var(--satyrn-border);
-  color: var(--md-default-fg-color--light);
-  font-size: 0.8rem;
-  line-height: 1.55;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 .md-typeset .satyrn-involve__list strong {
   display: block;
   margin-bottom: 0.15rem;
   color: var(--md-default-fg-color);
-  font-size: 0.85rem;
+  font-size: var(--fs-body);
 }
 
 @media screen and (max-width: 59.984375em) {
@@ -1560,7 +1564,7 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-card__meta {
   margin: 0 0 0.6rem;
   color: var(--md-default-fg-color--light);
-  font-size: 0.7rem;
+  font-size: var(--fs-xs);
 }
 
 .md-typeset .satyrn-card__title {
@@ -1600,16 +1604,16 @@ html:has(.satyrn-hero) {
 
 .md-typeset .satyrn-card__summary {
   margin: 0 0 1.25rem;
-  color: var(--md-default-fg-color--light);
-  font-size: 0.8rem;
-  line-height: 1.55;
+  color: var(--md-typeset-color);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   text-wrap: pretty;
 }
 
 .md-typeset .satyrn-card__byline {
   margin: auto 0 0;
   color: var(--md-default-fg-color);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   font-weight: var(--weight-emphasis);
 }
 
@@ -1628,7 +1632,7 @@ html:has(.satyrn-hero) {
   border-top: 1px solid var(--satyrn-border);
   background-color: var(--md-default-bg-color);
   color: var(--md-default-fg-color);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
 }
 
 .satyrn-footer__inner {
@@ -1673,7 +1677,7 @@ html:has(.satyrn-hero) {
 .satyrn-footer__heading {
   margin: 0 0 0.5rem;
   color: var(--md-default-fg-color--light);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   font-weight: var(--weight-emphasis);
 }
 
@@ -1763,7 +1767,7 @@ html:has(.satyrn-hero) {
 .satyrn-byline {
   margin-bottom: 0.8rem;
   color: var(--md-default-fg-color--light);
-  font-size: 0.7rem;
+  font-size: var(--fs-xs);
 }
 
 /* The author name gets the script face -- the one place human names are
@@ -1850,7 +1854,7 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-post__meta {
   margin: 0;
   color: var(--md-default-fg-color--light);
-  font-size: 0.7rem;
+  font-size: var(--fs-xs);
 }
 
 .satyrn-post__author::before {
@@ -1866,11 +1870,10 @@ html:has(.satyrn-hero) {
 /* ------------------------------------------------------- shared typeset -- */
 
 /* Zensical ships `.md-typeset` at 0.68--0.7rem, which lands body copy around
-   14--15px at the smaller root sizes. Reddit Sans has a small x-height and reads
-   smaller still, so the body floor is set to 18px here (0.9rem at the 20px base
-   root; root scales 125% -> 137.5% -> 150% by viewport, so wider screens step up
-   from there). Prose paragraphs and lists inherit this; our own blocks pin their
-   own sizes and are unaffected. */
+   14--15px at the smaller root sizes. The body floor is the scale's base
+   (--fs-body = 1rem = 20px at the 125% root; root steps 125% -> 137.5% -> 150%
+   by viewport, so wider screens scale up from there). Prose and our own text
+   blocks reference --fs-body / --fs-xs rather than pinning ad-hoc rem sizes. */
 .md-typeset {
   font-size: var(--fs-body);
   line-height: var(--lh-body);

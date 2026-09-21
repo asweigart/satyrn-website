@@ -91,10 +91,43 @@ Page background · surface · body-text colour.
 
 ## Components
 
-### Buttons
+### Buttons (current)
 
 [Button](/design/typography/){ .md-button }
 [Primary button](/design/typography/){ .md-button .md-button--primary }
+
+### CTA button — filled, offset outline echo
+
+The blog-H1 analogy: a **filled** blue button with an **offset outline** (hollow
+border, not a solid shadow) sitting down-right behind it — the same layering as
+the filled H1 over its outline echo. Presses onto the outline on hover.
+
+<style>
+.cta-demo { margin:1.4rem 0; }
+.cta-btn {
+  position:relative; z-index:0;
+  display:inline-flex; align-items:center; min-height:24px;
+  padding:.5rem 1.15rem; border-radius:var(--satyrn-radius);
+  background: var(--satyrn-cta);
+  color: var(--md-default-bg-color);
+  font-weight:var(--weight-emphasis); text-decoration:none; line-height:1.2;
+  transition: transform .12s ease;
+}
+.cta-btn::after {
+  content:""; position:absolute; inset:0; z-index:-1;
+  border:1.5px solid var(--satyrn-cta);
+  border-radius:inherit;
+  transform: translate(5px, 5px);
+}
+.cta-btn:hover { transform: translate(5px, 5px); }
+@media (prefers-reduced-motion: reduce){ .cta-btn { transition:none; } }
+</style>
+
+<p class="cta-demo"><a class="cta-btn" href="/design/typography/">Get started</a></p>
+
+### Arrow link ("more →")
+
+[Read the mission](/design/typography/){ .satyrn-arrow-link }
 
 ### Pillar cards
 
