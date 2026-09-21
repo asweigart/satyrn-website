@@ -598,6 +598,59 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   text-underline-offset: 0.2em;
 }
 
+/* ------------------------------------------------------------- CTA button --
+   PILOT of component-scoped CSS via `@scope` (see the design-system notes). The
+   button is a filled link, and the theme paints every `.md-typeset a` yellow at
+   specificity (0,1,1). Scoping to the `.satyrn-cta` wrapper means the inner `a`
+   resolves as `:scope a` -- the SAME (0,1,1), but it wins on scope PROXIMITY, so
+   we set the label colour with no specificity escalation and no fight with the
+   theme. Styles are isolated to this component both ways.
+
+   The blog-H1 analogy: a filled face with an offset OUTLINE echo (a hollow
+   border, not a solid shadow) down-right; the button presses onto it on hover.
+   White on blue-mid is 4.68:1 -- accessible, and no yellow. */
+@scope (.satyrn-cta) {
+  :scope {
+    margin: 1.4rem 0;
+  }
+
+  a {
+    position: relative;
+    z-index: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0.55rem 1.3rem;
+    border-radius: var(--satyrn-radius);
+    background: var(--satyrn-blue-mid);
+    color: #fff;
+    font-weight: var(--weight-emphasis);
+    text-decoration: none;
+    line-height: 1.2;
+    transition: transform 0.12s ease;
+  }
+
+  a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1.5px solid var(--satyrn-blue-light);
+    border-radius: inherit;
+    transform: translate(4px, 4px);
+  }
+
+  a:hover {
+    transform: translate(4px, 4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: none;
+    }
+  }
+}
+
 @media screen and (max-width: 30em) {
   /* Stacked, full width: one thumb-sized target per row, no ragged pair. */
   .satyrn-actions > p {

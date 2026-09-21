@@ -96,34 +96,14 @@ Page background · surface · body-text colour.
 [Button](/design/typography/){ .md-button }
 [Primary button](/design/typography/){ .md-button .md-button--primary }
 
-### CTA button — filled, offset outline echo
+### CTA button — scoped component (pilot)
 
-The blog-H1 analogy: a **filled** blue button with an **offset outline** (hollow
-border, not a solid shadow) sitting down-right behind it — the same layering as
-the filled H1 over its outline echo. Presses onto the outline on hover.
+A `@scope`d component: **filled blue, white label (4.68:1 — no yellow)**, with an
+offset outline echo down-right that it presses onto on hover. The styling lives
+in `satyrn.css` under `@scope (.satyrn-cta)` — no inline `<style>`, and no
+specificity fight with the theme's link colour (the scope wins by proximity).
 
-<style>
-.cta-demo { margin:1.4rem 0; }
-.cta-btn {
-  position:relative; z-index:0;
-  display:inline-flex; align-items:center; min-height:24px;
-  padding:.5rem 1.15rem; border-radius:var(--satyrn-radius);
-  background: var(--satyrn-cta);
-  color: var(--md-default-bg-color);
-  font-weight:var(--weight-emphasis); text-decoration:none; line-height:1.2;
-  transition: transform .12s ease;
-}
-.cta-btn::after {
-  content:""; position:absolute; inset:0; z-index:-1;
-  border:1.5px solid var(--satyrn-cta);
-  border-radius:inherit;
-  transform: translate(5px, 5px);
-}
-.cta-btn:hover { transform: translate(5px, 5px); }
-@media (prefers-reduced-motion: reduce){ .cta-btn { transition:none; } }
-</style>
-
-<p class="cta-demo"><a class="cta-btn" href="/design/typography/">Get started</a></p>
+<p class="satyrn-cta"><a href="/design/typography/">Get started</a></p>
 
 ### Arrow link ("more →")
 
