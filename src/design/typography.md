@@ -96,14 +96,14 @@ Page background · surface · body-text colour.
 [Button](/design/typography/){ .md-button }
 [Primary button](/design/typography/){ .md-button .md-button--primary }
 
-### CTA button — scoped component (pilot)
+### CTA button
 
-A `@scope`d component: **filled blue, white label (4.68:1 — no yellow)**, with an
-offset outline echo down-right that it presses onto on hover. The styling lives
-in `satyrn.css` under `@scope (.satyrn-cta)` — no inline `<style>`, and no
-specificity fight with the theme's link colour (the scope wins by proximity).
+**Filled blue, white label (4.68:1 — no yellow)**, with an offset outline echo
+down-right it presses onto on hover. Styled on `.md-typeset a.satyrn-cta` — one
+notch above the theme's `.md-typeset a`, which is what reliably beats its yellow
+link colour across browsers.
 
-<p class="satyrn-cta"><a class="satyrn-cta__btn" href="/design/typography/">Get started</a></p>
+<a class="satyrn-cta" href="/design/typography/">Get started</a>
 
 ### Arrow link ("more →")
 
