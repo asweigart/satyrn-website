@@ -616,7 +616,6 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
 
   a {
     position: relative;
-    z-index: 0;
     display: inline-flex;
     align-items: center;
     min-height: 24px;
@@ -630,6 +629,8 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
     transition: transform 0.12s ease;
   }
 
+  /* z-index:-1 with no stacking context on the link puts the echo BEHIND the
+     fill, so only the offset corner peeks out down-right. */
   a::after {
     content: "";
     position: absolute;

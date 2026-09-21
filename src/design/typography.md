@@ -103,7 +103,7 @@ offset outline echo down-right that it presses onto on hover. The styling lives
 in `satyrn.css` under `@scope (.satyrn-cta)` — no inline `<style>`, and no
 specificity fight with the theme's link colour (the scope wins by proximity).
 
-<p class="satyrn-cta"><a href="/design/typography/">Get started</a></p>
+<p class="satyrn-cta"><a class="satyrn-cta__btn" href="/design/typography/">Get started</a></p>
 
 ### Arrow link ("more →")
 
