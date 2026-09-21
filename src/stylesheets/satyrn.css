@@ -2028,6 +2028,13 @@ html:has(.satyrn-hero) {
   text-wrap: pretty;
 }
 
+/* The theme underlines every `.md-typeset a` by default, which bleeds onto
+   tags, buttons and any link-shaped component. Reset it to nothing here; the
+   rule below is then the single source of "what looks like a link". */
+.md-typeset a {
+  text-decoration: none;
+}
+
 /* ---------------------------------------------------------- link underline --
    The ONE definition of the underlined text-link affordance, shared by every
    text link: running prose, post titles, byline authors and footer links.
@@ -2036,11 +2043,18 @@ html:has(.satyrn-hero) {
    correctly across lines, and text-decoration-color lets the underline be blue
    while the text inherits the surrounding colour -- the blue rule is the only
    thing marking a link. Colour, thickness and offset are tokens; per scheme the
-   underline swaps to a second blue on hover, with no transition. Buttons, cards
-   and the nav tabs are NOT text links and opt out. The affordance (WCAG 1.4.1)
-   is the underline's presence; its contrast is decorative, the text tier
-   carries 1.4.3. */
-.md-typeset :is(p, li, td, dd) a:not(.md-button, .satyrn-arrow-link, .satyrn-card a, .headerlink),
+   underline swaps to a second blue on hover, with no transition.
+
+   Scoping is opt-OUT by class, not a named blocklist. Markdown content links
+   have no class; every interactive component (`.md-button`, `.md-tag`,
+   `.cta-btn`, `.satyrn-arrow-link`, `.satyrn-crew__you`, the header link...)
+   carries one, so `a:not([class])` excludes them all automatically -- a new
+   component needs zero changes here. The only guard is `.satyrn-card a`: those
+   title links are unclassed but must stay bare (the whole card is the target).
+   Classed links that DO want the underline (footer, byline) opt in explicitly
+   below. The affordance (WCAG 1.4.1) is the underline's presence; its contrast
+   is decorative, the text tier carries 1.4.3. */
+.md-typeset :is(p, li, td, dd) a:not([class]):not(.satyrn-card a),
 .satyrn-post__title a,
 .satyrn-byline__author > a,
 .satyrn-footer__link,
@@ -2054,7 +2068,7 @@ html:has(.satyrn-hero) {
   text-underline-offset: var(--satyrn-underline-offset);
 }
 
-.md-typeset :is(p, li, td, dd) a:not(.md-button, .satyrn-arrow-link, .satyrn-card a, .headerlink):hover,
+.md-typeset :is(p, li, td, dd) a:not([class]):not(.satyrn-card a):hover,
 .satyrn-post__title a:hover,
 .satyrn-byline__author > a:hover,
 .satyrn-footer__link:hover,
