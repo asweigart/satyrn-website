@@ -386,78 +386,186 @@ html:has(> body[data-md-color-scheme="slate"]) { color-scheme: dark; }
   border-radius: var(--satyrn-radius);
 }
 
-/* ------------------------------------------------------------------ tabs -- */
+/* ---------------------------------------------------------------- menubar -- */
 
-/* Plain links on the page background, right-aligned against the content grid,
-   rather than the theme's solid primary bar of white labels.
+/* The dropdown menu bar sits inside the header nav, between the title and the
+   search box. On desktop it is a flex row; below 1220px it hides and the
+   mobile drawer carries all links instead.
 
-   The `.md-grid` inside `partials/tabs.html` supplies that 61rem width and
-   centres it, so nothing here needs to restate it. */
+   The old `.md-tabs` rules are removed — the tab bar no longer exists as a
+   separate element below the header. */
+
+.satyrn-menubar {
+  display: none;
+}
+
+@media screen and (min-width: 76.25em) {
+  .satyrn-menubar {
+    display: block;
+  }
+
+  .satyrn-menubar__list {
+    display: flex;
+    align-items: center;
+    gap: 0 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ---------------------------------------------------------- items -- */
+
+  .satyrn-menubar__item {
+    position: relative;
+  }
+
+  /* -------------------------------------------------------- links -- */
+
+  /* Plain links on the header background, matching the header's font size.
+     Padded well past the 24x24px WCAG 2.2 minimum target size. */
+  .satyrn-menubar__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.2rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: var(--weight-emphasis);
+    color: var(--md-default-fg-color--light);
+    text-decoration: none;
+    border-radius: var(--satyrn-radius);
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .satyrn-menubar__link:hover,
+  .satyrn-menubar__link:focus {
+    color: var(--md-default-fg-color);
+    background-color: var(--satyrn-surface);
+  }
+
+  /* Active state — full-strength colour plus yellow underline */
+  .satyrn-menubar__item--active > .satyrn-menubar__link,
+  .satyrn-menubar__link--active {
+    color: var(--md-default-fg-color);
+    border-bottom: 2px solid var(--satyrn-accent);
+  }
+
+  /* ------------------------------------------------------ toggles -- */
+
+  /* Dropdown toggle buttons match the link styling */
+  .satyrn-menubar__toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.2rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: var(--weight-emphasis);
+    font-family: inherit;
+    color: var(--md-default-fg-color--light);
+    background: none;
+    border: none;
+    border-radius: var(--satyrn-radius);
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .satyrn-menubar__toggle:hover,
+  .satyrn-menubar__toggle:focus {
+    color: var(--md-default-fg-color);
+    background-color: var(--satyrn-surface);
+  }
+
+  /* Append a chevron to indicate the dropdown */
+  .satyrn-menubar__toggle::after {
+    content: "▾";
+    margin-left: 0.3em;
+    font-size: 0.8em;
+  }
+
+  /* When the popover is open, style the toggle */
+  .satyrn-menubar__toggle:has(~ [popover]:popover-open) {
+    color: var(--md-default-fg-color);
+    background-color: var(--satyrn-surface);
+  }
+
+  /* ------------------------------------------------------- panels -- */
+
+  /* Popover dropdown panels positioned using CSS anchor positioning.
+     The `anchor` attribute on the popover links it to the toggle button.
+     Falls back to `inset: auto` for browsers without anchor positioning. */
+  .satyrn-menubar__panel {
+    inset: auto;
+    border: 1px solid light-dark(rgb(0 0 0 / 0.12), rgb(255 255 255 / 0.12));
+    border-radius: var(--satyrn-radius);
+    padding: 0.4rem 0;
+    margin: 0;
+    background: light-dark(#fff, #1e1e1e);
+    box-shadow: 0 2px 8px light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.4));
+    min-width: 9rem;
+
+    /* Anchor positioning — positions below the toggle button */
+    position-anchor: attr(anchor);
+    top: anchor(bottom);
+    left: anchor(left);
+  }
+
+  .satyrn-menubar__sublist {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .satyrn-menubar__sublink {
+    display: block;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: var(--weight-emphasis);
+    color: var(--md-default-fg-color--light);
+    text-decoration: none;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .satyrn-menubar__sublink:hover,
+  .satyrn-menubar__sublink:focus {
+    color: var(--md-default-fg-color);
+    background-color: var(--satyrn-surface);
+  }
+
+  .satyrn-menubar__subitem--active > .satyrn-menubar__sublink,
+  .satyrn-menubar__sublink--active {
+    color: var(--md-default-fg-color);
+  }
+
+  /* Placeholder items — no backing page yet; dimmed and non-interactive */
+  .satyrn-menubar__sublink--placeholder {
+    cursor: default;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  /* ---------------------------------------------------- external -- */
+
+  /* Off-site links get an external arrow indicator */
+  .satyrn-menubar__external-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.2em;
+    font-size: 0.85em;
+    vertical-align: middle;
+  }
+
+  .satyrn-menubar__external-icon svg {
+    width: 0.9em;
+    height: 0.9em;
+  }
+}
+
+/* The old tab bar no longer renders, but keep these rules in case Zensical's
+   internal logic still references `.md-tabs` classes on the sidebar. */
 .md-tabs {
-  background-color: var(--md-default-bg-color);
-  color: var(--md-default-fg-color--light);
-  box-shadow: none;
-  border-bottom: 1px solid var(--satyrn-border);
-}
-
-.md-tabs__list {
-  justify-content: flex-end;
-  gap: 0 1.75rem;
-  padding: 0 0.4rem;
-}
-
-/* The theme sizes items to a 2.4rem bar and spaces them with side padding;
-   the gap above does the spacing here, and the link owns its own height. */
-.md-tabs__item {
-  height: auto;
-  padding: 0;
-}
-
-/* Padded well past the 24x24px WCAG 2.2 minimum target size. The transparent
-   border reserves the rule the active tab gets, so nothing shifts by 2px as you
-   move between tabs. */
-.md-tabs__link {
-  align-items: center;
-  min-height: 2.2rem;
-  margin-top: 0;
-  padding: 0 0.1rem;
-  font-size: 0.75rem;
-  font-weight: var(--weight-emphasis);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-}
-
-/* The theme dims links to 0.7 and lifts them back on hover. Colour carries
-   that job here instead -- but only while the bar is on screen: `[hidden]` is
-   how the theme animates the bar away on scroll, and overriding opacity flat
-   would leave the labels visible through it. */
-.md-tabs:not([hidden]) .md-tabs__link {
-  opacity: 1;
-}
-
-.md-tabs__link:hover,
-.md-tabs__link:focus {
-  color: var(--md-default-fg-color);
-}
-
-/* Colour and rule together, not colour alone: WCAG 1.4.1 wants more than hue
-   telling you where you are. The rule is the yellow UI tier, a 3:1 non-text
-   indicator; the label itself goes to full-strength body colour. */
-.md-tabs__item--active {
-  border-bottom: none;
-}
-
-.md-tabs__item--active .md-tabs__link {
-  color: var(--md-default-fg-color);
-  border-bottom-color: var(--satyrn-accent);
-}
-
-/* Off-site tabs get a small arrow so leaving the site is not a surprise. The
-   empty alt text after the slash keeps screen readers from announcing it. */
-:is(.md-tabs__item--external .md-tabs__link, .md-nav__item--external .md-ellipsis)::after {
-  content: "\2197" / "";
-  margin-left: 0.2em;
-  font-size: 0.85em;
+  display: none;
 }
 
 /* --------------------------------------------------------------- sidebar -- */
@@ -2161,11 +2269,11 @@ html:has(.satyrn-hero) {
    link-underline rule); only the blue underline marks them. The focus ring
    lives in the :focus-visible block below. */
 
-/* The tab and blog links take the ring but not the colour above: theirs comes
-   from `.md-tabs` and `.md-typeset a`, and `currentcolor` picks it up either
-   way. Every one of those colours clears the 3:1 WCAG 1.4.11 asks of a focus
-   indicator. */
-.md-tabs__link:focus-visible,
+/* The menu bar and other interactive links take the focus ring. Every one of
+   those colours clears the 3:1 WCAG 1.4.11 asks of a focus indicator. */
+.satyrn-menubar__link:focus-visible,
+.satyrn-menubar__toggle:focus-visible,
+.satyrn-menubar__sublink:focus-visible,
 .satyrn-footer__link:focus-visible,
 .satyrn-footer__home:focus-visible,
 .satyrn-arrow-link:focus-visible,

@@ -123,3 +123,10 @@
     </ul>
   {%- endif -%}
 {% endblock %}
+
+{#-
+  Suppress the default tab bar below the header. The menu bar now lives inside
+  the header row (via custom header.html), so the separate `.md-tabs` block
+  must be empty to avoid rendering a duplicate or empty bar.
+-#}
+{% block tabs %}{% endblock %}

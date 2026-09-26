@@ -455,37 +455,39 @@ og_image = "assets/og-image.jpg"
 # `just check-placeholders` fails while any copy of it is still in the build.
 discord_url = "https://discord.gg/INVITE_CODE"
 
-# The tab bar, in order, rendered by overrides/partials/tabs.html. This is an
-# editorial list, not a mirror of the top level: Tags and Authors are top-level
-# sections and deliberately absent, and a new top-level page does not earn a tab
-# by existing.
+# The dropdown menu bar, rendered by overrides/partials/tabs.html and injected
+# into the header row via overrides/partials/header.html. Each item can have
+# an optional `children` array for submenu links. An item with `url` links
+# off-site; an item with `page` resolves against the nav tree (defaulting to
+# `title` when `page` is omitted). A `page` that matches nothing drops the
+# item silently — which is what `just check-nav` is for.
 #
-# `page` is the nav item title to match, and defaults to `title` when omitted,
-# so it is only needed where the tab label differs from the page title. An entry
-# with `url` instead links off-site and never touches the nav tree. A `page`
-# that matches nothing drops the tab silently with a green build -- the same
-# trap as `nav_order` -- which is what `just check-nav` is for.
-[[project.extra.nav_tabs]]
-title = "Home"
-page = "Satyrn — Open, local-first agents for Python developers"
+# The menu has four top-level items: Projects (dropdown), About (dropdown),
+# Join (link), and Blog (link).
+[[project.extra.nav_menu]]
+title = "Projects"
+children = [
+    { title = "Model" },
+    { title = "Evals" },
+    { title = "Engine" },
+    { title = "Web" },
+    { title = "Education" },
+]
 
-[[project.extra.nav_tabs]]
-title = "Mission"
+[[project.extra.nav_menu]]
+title = "About"
+children = [
+    { title = "Mission", page = "Mission" },
+    { title = "Laptop AI" },
+    { title = "Team Compass", url = "https://satyrn-ai.github.io/team-compass/" },
+    { title = "Get Involved" },
+]
 
-[[project.extra.nav_tabs]]
-title = "Local-First"
+[[project.extra.nav_menu]]
+title = "Join"
+page = "Get Involved"
 
-[[project.extra.nav_tabs]]
-title = "Get Involved"
-
-# An off-site tab. `url` takes the place of `page`: the entry links straight
-# there instead of resolving against the nav tree, and is appended to the
-# mobile drawer too, since below 1220px the drawer is the only navigation.
-[[project.extra.nav_tabs]]
-title = "Team Compass"
-url = "https://satyrn-ai.github.io/team-compass/"
-
-[[project.extra.nav_tabs]]
+[[project.extra.nav_menu]]
 title = "Blog"
 
 # Authors. `name` is the only required key; `title`, `url`, `avatar` and
