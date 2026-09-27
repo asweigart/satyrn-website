@@ -883,6 +883,71 @@ html:has(.satyrn-hero) {
   line-height: var(--lh-body);
 }
 
+/* Hero link groups: labeled rows (New, Try, Participate).
+   Each group is one line: bold label, then links separated by pipes. */
+.satyrn-hero__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 34rem;
+  margin: 1.5rem 0 0;
+}
+
+.satyrn-hero__group {
+  display: block;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.satyrn-hero__group > strong {
+  font-weight: var(--weight-emphasis);
+  color: var(--md-default-fg-color);
+  margin-right: 0.25em;
+}
+
+.satyrn-hero__group > strong::after {
+  content: ":";
+}
+
+/* Stacked class prefix on these two to out-specificity the theme's own
+   `.md-typeset ul:not([hidden])` (display: flow-root, specificity 0,2,1) and
+   `[dir=ltr] .md-typeset ul li` (margin-left: 1.25em, specificity 0,2,2) --
+   both otherwise beat a plainer `.satyrn-hero__group ul`/`li` regardless of
+   source order. */
+.md-typeset .satyrn-hero__links .satyrn-hero__group ul {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.md-typeset .satyrn-hero__links .satyrn-hero__group li {
+  display: inline;
+  margin: 0;
+}
+
+/* Pipe separator between links */
+.satyrn-hero__group li:not(:first-child)::before {
+  content: " | ";
+  color: var(--md-default-fg-color--light);
+}
+
+/* These read as a dense pipe-separated list, not standalone "read more"
+   links, so the arrow affordance is dropped here -- and with it the
+   `inline-flex` layout it needed, which was letting the theme's
+   `.md-typeset a { word-break: break-word }` shrink each link into an
+   ugly single-letter-per-line wrap. `.satyrn-hero__group .satyrn-arrow-link`
+   (two classes) beats `.md-typeset a` (one class, one type) on specificity. */
+.satyrn-hero__group .satyrn-arrow-link {
+  display: inline;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.satyrn-hero__group .satyrn-arrow-link::after {
+  content: none;
+}
+
 /* The "what it isn't" line. Short negative definitions read faster than
    another claim, and the link lands on the status section that backs up
    "not finished". Body colour, not the muted grey: it is the stance, not an
@@ -2041,12 +2106,14 @@ html:has(.satyrn-hero) {
    specimen page at /design/typography/ shows plain headings, i.e. these. */
 .md-typeset h1 {
   font-size: var(--fs-3xl);
-  line-height: var(--lh-heading);
+  line-height: 1.35;
+  transform: translateY(0.1em);
 }
 
 .md-typeset h2 {
   font-size: var(--fs-2xl);
-  line-height: var(--lh-heading);
+  line-height: 1.35;
+  transform: translateY(0.1em);
 }
 
 .md-typeset h3 {

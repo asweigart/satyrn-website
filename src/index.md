@@ -1,6 +1,6 @@
 ---
 template: home.html
-title: Satyrn — Open, local-first agents for Python developers
+title: AI Our Way
 description: "Satyrn is Jupyter for agents: open source, community-owned, local-first AI tooling for Python developers."
 ---
 
@@ -8,19 +8,25 @@ description: "Satyrn is Jupyter for agents: open source, community-owned, local-
 
 <div class="satyrn-hero__text" markdown>
 
-# ==AI our way:== open, local-first agents for Python developers.
+# AI Our Way
 
-We're building agents that run on your machine, in code you can read,
-steered by the people who use them — from a foundation created in the EU.
+A human-centric home for Python developers to do AI Our Way. Trusted, from us,
+for us. Conversation, sharing, innovation, and building software tools.
 { .satyrn-hero__lede }
 
-Not a hosted service. Not a black box. Not finished — [here's what works today](#status).
-{ .satyrn-hero__not }
+<div class="satyrn-hero__links">
 
-<div class="satyrn-actions" markdown>
+<div class="satyrn-hero__group">
+<strong>New</strong><ul><li><a class="satyrn-arrow-link" href="#">Satyrn Model</a></li></ul>
+</div>
 
-[Run an experiment](https://github.com/satyrn-ai/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md){ .md-button .md-button--primary }
-[How to get involved](get-involved.md){ .satyrn-arrow-link }
+<div class="satyrn-hero__group">
+<strong>Try</strong><ul><li><a class="satyrn-arrow-link" href="https://github.com/satyrn-ai/satyrn-models">Fine-tuned model</a></li><li><a class="satyrn-arrow-link" href="https://github.com/satyrn-ai/satyrn-evals-collector">Evals</a></li><li><a class="satyrn-arrow-link" href="#">Engine</a></li><li><a class="satyrn-arrow-link" href="#">Education</a></li></ul>
+</div>
+
+<div class="satyrn-hero__group">
+<strong>Participate</strong><ul><li><a class="satyrn-arrow-link" href="#">LinkedIn</a></li><li><a class="satyrn-arrow-link" href="#">Mastodon</a></li><li><a class="satyrn-arrow-link" href="#">YouTube</a></li></ul>
+</div>
 
 </div>
 
@@ -53,56 +59,59 @@ Not a hosted service. Not a black box. Not finished — [here's what works today
 
 </div>
 
-<div class="satyrn-section satyrn-problem" markdown>
+<div class="satyrn-section satyrn-ai-our-way" markdown>
 
-## Most AI tooling makes you pick a side
+## AI Our Way
 
-The polished stuff runs on someone else's servers and you take its behaviour on
-faith. The open stuff you can read end to end, and then you lose a weekend
-wiring it together.
+A human-centric home for Python developers. Conversation, sharing, innovation,
+and building software tools.
 
-We got tired of choosing.
-{ .satyrn-problem__kicker }
+[Read the mission](mission.md){ .satyrn-arrow-link }
 
 </div>
 
-<div class="satyrn-section satyrn-status" markdown>
+<div class="satyrn-section satyrn-projects" markdown>
 
-## Where it's at { #status }
-
-Early. Here's the honest version.
+## Projects
 
 <div class="satyrn-status__grid" markdown>
 
 <div class="satyrn-status__col" markdown>
 
-### Works today
+### Fine-tuned model
 
-- **An evals baseline you can add to.**
-  Run [pi](https://pi.dev) with a local model, then
-  [report what happened](https://github.com/satyrn-ai/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md).
-  Your notes become the baseline our own engine has to beat.
-- **Guides for running local models,**
-  with [Ollama](https://github.com/satyrn-ai/satyrn-zen/blob/main/docs/create/howto-ollama.md)
-  or [Ollama in Docker with pi](https://github.com/satyrn-ai/satyrn-zen/blob/main/docs/create/howto-ollama-docker-pi.md).
-- **AGENTS.md and MCP.**
-  The experiments run in pi, which reads your project's `AGENTS.md`
-  and now speaks MCP.
-- **A [Team Compass](https://satyrn-ai.github.io/team-compass/)**
-  that says how we work, meet and decide.
+[A fine-tuning pipeline](https://github.com/satyrn-ai/satyrn-models)
+for Satyrn's own models: continued pretraining, then supervised fine-tuning,
+then reinforcement learning.
 
 </div>
 
 <div class="satyrn-status__col" markdown>
 
-### Being built
+### Evals
 
-- **[A fine-tuning pipeline](https://github.com/satyrn-ai/satyrn-models)
-  for Satyrn's own models:**
-  continued pretraining, then supervised fine-tuning, then reinforcement learning.
-- **The Satyrn engine.**
-  It isn't ready to test-drive yet.
-  That's what the baseline is for.
+An evals baseline you can add to. Run [pi](https://pi.dev) with a local model,
+then [report what happened](https://github.com/satyrn-ai/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md).
+Your notes become the baseline our own engine has to beat.
+
+</div>
+
+<div class="satyrn-status__col" markdown>
+
+### Engine
+
+The Satyrn engine is being built. It isn't ready to test-drive yet.
+That's what the baseline is for.
+
+</div>
+
+<div class="satyrn-status__col" markdown>
+
+### Education
+
+Guides for running local models, with
+[Ollama](https://github.com/satyrn-ai/satyrn-zen/blob/main/docs/create/howto-ollama.md)
+or [Ollama in Docker with pi](https://github.com/satyrn-ai/satyrn-zen/blob/main/docs/create/howto-ollama-docker-pi.md).
 
 </div>
 
@@ -110,49 +119,14 @@ Early. Here's the honest version.
 
 </div>
 
-<div class="satyrn-section" markdown>
+<div class="satyrn-section satyrn-community" markdown>
 
-## Built on four pillars
+## Community
 
-<div class="grid cards satyrn-pillars" markdown>
+At the end of the day, the most important deliverable is community.
 
-- ### Open Source
-
-    Every line is public. Fork it, audit it, ship it — no black boxes.
-
-- ### Community-Owned
-
-    Built by the people who use it, governed in the open, not owned by a
-    single vendor. No paid hosted tier we steer you towards. No token.
-
-- ### Local-First
-
-    Built to run on your machine, on your terms.
-    A provider outage is someone else's bad day.
-
-- ### European
-
-    Satyrn is a foundation created in the European Union.
-
-</div>
-
-</div>
-
-<div class="satyrn-section satyrn-mission" markdown>
-
-## Why Satyrn
-
-The people who live with an agent's mistakes should be able to read its code,
-run it on their own hardware, and have a say in what it does next.
-
-So that's what we're building: subagents and tooling for local AI,
-in the open. From us, for us.
-
-— The Moonshot Crew
-{ .satyrn-signature }
-
-Satyrn's open source builders.
-{ .satyrn-signature__role }
+We want a place to hang out, to take back our power, to have fun with others
+and build something we're proud of.
 
 <!-- Contributor avatars. The list is the content: without JavaScript, or with
      reduced motion, it is a row you can scroll. javascripts/crew.js turns it
@@ -178,36 +152,9 @@ Satyrn's open source builders.
 
 </div>
 
-[Read the mission](mission.md){ .satyrn-arrow-link }
-
-</div>
-
-<div class="satyrn-section satyrn-involve" markdown>
-
-<div class="satyrn-involve__intro" markdown>
-
-## Built by the people who use it
-
-You don't need to write code to be useful here.
-Everything lives on GitHub — the code, the issues,
-and the arguments about what to build next.
-
-AI-assisted contributions are welcome. You own every line you submit,
-so read it before we do. If we close your PR, it's about the change,
-not about you.
-
-<div class="satyrn-actions" markdown>
-
-[Browse open issues](https://github.com/search?q=org%3Asatyrn-ai+is%3Aissue+is%3Aopen&type=issues){ .md-button .md-button--primary }
-[Chat on Discord][discord]{ .md-button }
-
-</div>
-
-</div>
-
 <div class="satyrn-involve__list" markdown>
 
-- **[Use it and tell us what broke.](https://github.com/search?q=org%3Asatyrn-ai+is%3Aissue+is%3Aopen&type=issues)**
+- **[Browse open issues](https://github.com/search?q=org%3Asatyrn-ai+is%3Aissue+is%3Aopen&type=issues)**
    Bug reports from real work are hard to fake and easy to act on.
 - **[Fix the docs.](https://github.com/satyrn-ai/satyrn-zen)**
    If something took you an hour to figure out, that hour was a documentation bug.
@@ -218,52 +165,35 @@ not about you.
 
 </div>
 
+[Chat on Discord][discord]{ .md-button }
+
 </div>
 
-<div class="satyrn-section satyrn-faq" markdown>
+<div class="satyrn-section satyrn-values" markdown>
 
-## Fair questions
+## Values
 
-### Can I use it yet?
+<div class="grid cards satyrn-pillars" markdown>
 
-Not as a finished tool. What you can do today is help set the bar:
-run a local model with pi and [tell us what happened](https://github.com/satyrn-ai/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md).
-The engine and our own models come next.
+- ### Open Source
 
-### Is this another AI wrapper?
+    Every line is public. Fork it, audit it, ship it — no black boxes.
 
-No. We're training our own models and building our own engine,
-and measuring both against a public baseline of what local models can
-already do.
+- ### Community-Owned
 
-### What hardware do I need?
+    Built by the people who use it, governed in the open, not owned by a
+    single vendor. No paid hosted tier we steer you towards. No token.
 
-For the experiments, the rule of thumb is about 16GB of GPU memory or shared
-RAM, enough for a small model. Got less, or more? The briefing suggests models
-for both.
+- ### Local-First
 
-### Do I have to use notebooks?
+    Built to run on your machine, on your terms.
+    A provider outage is someone else's bad day.
 
-No. Today's experiments run in pi, a coding agent in your terminal.
+- ### European
 
-### Can I still use a hosted model?
+    Satyrn is a foundation created in the European Union.
 
-That's the intent. Local-first isn't local-only: some work really is better on
-a big hosted model. The difference is that you decide, per task, and you can
-see it happen.
-
-### Who pays for it?
-
-Satyrn is a foundation created in the EU.
-Two things we won't do to pay for it: steer you towards a paid hosted tier,
-or launch a token.
-
-### How do decisions get made?
-
-In public, on GitHub, and written down in the
-[Team Compass](https://satyrn-ai.github.io/team-compass/).
-The reasoning behind a change should still make sense to someone reading it a
-year later.
+</div>
 
 </div>
 
