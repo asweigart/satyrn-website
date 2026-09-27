@@ -17,7 +17,7 @@ for us. Conversation, sharing, innovation, and building software tools.
 <div class="satyrn-hero__links">
 
 <div class="satyrn-hero__group">
-<strong>New</strong><ul><li><a class="satyrn-arrow-link" href="#">Satyrn Model</a></li></ul>
+<strong>New</strong><ul><li><a class="satyrn-arrow-link" href="#">Satyrn Model</a> for Python 3.15 on Hugging Face</li></ul>
 </div>
 
 <div class="satyrn-hero__group">
@@ -64,7 +64,38 @@ for us. Conversation, sharing, innovation, and building software tools.
 ## AI Our Way
 
 A human-centric home for Python developers. Conversation, sharing, innovation,
-and building software tools.
+and building software tools — AI Our Way, trusted from us, for us.
+
+<div class="satyrn-status__grid" markdown>
+
+<div class="satyrn-status__col" markdown>
+
+### Trust
+
+Modern AI has become a megacorp game. We want something open source and truly
+community-owned, like Python and Jupyter. No single vendor owns the roadmap.
+
+</div>
+
+<div class="satyrn-status__col" markdown>
+
+### Local-First
+
+Smaller models can now do real work on your laptop. I know my laptop. I trust
+my laptop. Routine work stays local, using frontier models only for big problems.
+
+</div>
+
+<div class="satyrn-status__col" markdown>
+
+### Community
+
+The most important deliverable is community. A place for humans to take back
+our power, share knowledge and progress, and build something we're proud of.
+
+</div>
+
+</div>
 
 [Read the mission](mission.md){ .satyrn-arrow-link }
 
@@ -72,17 +103,17 @@ and building software tools.
 
 <div class="satyrn-section satyrn-projects" markdown>
 
-## Projects
+## Satyrn Projects
 
 <div class="satyrn-status__grid" markdown>
 
 <div class="satyrn-status__col" markdown>
 
-### Fine-tuned model
+### Model
 
-[A fine-tuning pipeline](https://github.com/satyrn-ai/satyrn-models)
-for Satyrn's own models: continued pretraining, then supervised fine-tuning,
-then reinforcement learning.
+Small models [on Hugging Face](https://huggingface.co/satyrn-ai), 
+[a fine-tuning pipeline](https://github.com/satyrn-ai/satyrn-models), and 
+a group learning and teaching together.
 
 </div>
 
@@ -90,7 +121,8 @@ then reinforcement learning.
 
 ### Evals
 
-An evals baseline you can add to. Run [pi](https://pi.dev) with a local model,
+Evidence-first, fine-grained evals baseline you can trust, use, and add 
+to. Run [Pi](https://pi.dev) with a local model,
 then [report what happened](https://github.com/satyrn-ai/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md).
 Your notes become the baseline our own engine has to beat.
 
@@ -100,8 +132,17 @@ Your notes become the baseline our own engine has to beat.
 
 ### Engine
 
-The Satyrn engine is being built. It isn't ready to test-drive yet.
-That's what the baseline is for.
+A Python implementer engine connected as a Pi extension to keep small models on-track. 
+Currently, beats base Pi on medium tasks. For now, useful as a target for Evals.
+
+</div>
+
+<div class="satyrn-status__col" markdown>
+
+### Web
+
+Tell the Satyrn story and stitch together the Python world of practitioners 
+using old-school, pre-algorithm social web technologies.
 
 </div>
 
@@ -109,9 +150,9 @@ That's what the baseline is for.
 
 ### Education
 
-Guides for running local models, with
-[Ollama](https://github.com/satyrn-ai/satyrn-zen/blob/main/docs/create/howto-ollama.md)
-or [Ollama in Docker with pi](https://github.com/satyrn-ai/satyrn-zen/blob/main/docs/create/howto-ollama-docker-pi.md).
+Help Python developers master new, marketable skills; contributors use our 
+projects in their workflows and share results; and builders making AI for routine 
+computers and work.
 
 </div>
 
@@ -166,34 +207,6 @@ and build something we're proud of.
 </div>
 
 [Chat on Discord][discord]{ .md-button }
-
-</div>
-
-<div class="satyrn-section satyrn-values" markdown>
-
-## Values
-
-<div class="grid cards satyrn-pillars" markdown>
-
-- ### Open Source
-
-    Every line is public. Fork it, audit it, ship it — no black boxes.
-
-- ### Community-Owned
-
-    Built by the people who use it, governed in the open, not owned by a
-    single vendor. No paid hosted tier we steer you towards. No token.
-
-- ### Local-First
-
-    Built to run on your machine, on your terms.
-    A provider outage is someone else's bad day.
-
-- ### European
-
-    Satyrn is a foundation created in the European Union.
-
-</div>
 
 </div>
 
