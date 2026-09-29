@@ -59,7 +59,7 @@ Last reviewed on 16 September 2026.
 ## Tell us what doesn't work
 
 If something on this site is hard or impossible for you to use,
-please [open an accessibility issue on GitHub](https://github.com/satyrn-ai/satyrn-evals-collector/issues/new?labels=accessibility).
+please [open an accessibility issue on GitHub](https://github.com/pauleveritt/satyrn-evals-collector/issues/new?labels=accessibility).
 Tell us the page, what you were trying to do,
 and the browser or assistive technology you use, if you're comfortable sharing.
 

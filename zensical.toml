@@ -421,6 +421,12 @@ nav_order = [
     "Mission",
     "Local-First",
     "Get Involved",
+    "Projects",
+    "Satyrn Models",
+    "Satyrn Evals",
+    "Satyrn Engine",
+    "Satyrn Web",
+    "Satyrn Zen",
     "Blog",
     "Tags",
     "Authors",
@@ -428,7 +434,7 @@ nav_order = [
 # Rendered as a single link rather than an expanded tree. Each needs an index
 # page for the link to target, which is what src/tags/index.md and
 # src/authors/index.md are for.
-nav_collapse = ["Authors", "Tags"]
+nav_collapse = ["Authors", "Tags", "Projects"]
 # Rendered as a link plus its most recent posts, newest first.
 nav_recent = ["Blog"]
 nav_recent_count = 5
@@ -438,7 +444,7 @@ home_posts_count = 3
 # where the item is what gives the page a sidebar at all. Both are reached from
 # the tag chips on a post, the byline, and the blog index -- they are archives,
 # not destinations, and listing them alongside Mission oversells them.
-nav_hide = ["Tags", "Authors", "Accessibility", "Design"]
+nav_hide = ["Tags", "Authors", "Accessibility", "Design", "Projects"]
 # The default social card, used by every page that does not set `image:` in its
 # front matter. Root-relative and without a leading slash: overrides/main.html
 # concatenates it onto `site_url`, which already ends in one.
@@ -467,11 +473,11 @@ discord_url = "https://discord.gg/INVITE_CODE"
 [[project.extra.nav_menu]]
 title = "Projects"
 children = [
-    { title = "Model" },
-    { title = "Evals" },
-    { title = "Engine" },
-    { title = "Web" },
-    { title = "Education" },
+    { title = "Model", page = "Satyrn Models" },
+    { title = "Evals", page = "Satyrn Evals" },
+    { title = "Engine", page = "Satyrn Engine" },
+    { title = "Web", page = "Satyrn Web" },
+    { title = "Zen", page = "Satyrn Zen" },
 ]
 
 [[project.extra.nav_menu]]

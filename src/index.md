@@ -17,11 +17,11 @@ for us. Conversation, sharing, innovation, and building software tools.
 <div class="satyrn-hero__links">
 
 <div class="satyrn-hero__group">
-<strong>New</strong><ul><li><a class="satyrn-arrow-link" href="#">Satyrn Model</a> for Python 3.15 on Hugging Face</li></ul>
+<strong>New</strong><ul><li>Satyrn Models <a href="https://huggingface.co/satyrn-ai">for Python 3.15 on Hugging Face</a></li></ul>
 </div>
 
 <div class="satyrn-hero__group">
-<strong>Try</strong><ul><li><a class="satyrn-arrow-link" href="https://github.com/satyrn-ai/satyrn-models">Fine-tuned model</a></li><li><a class="satyrn-arrow-link" href="https://github.com/satyrn-ai/satyrn-evals-collector">Evals</a></li><li><a class="satyrn-arrow-link" href="#">Engine</a></li><li><a class="satyrn-arrow-link" href="#">Education</a></li></ul>
+<strong>Try</strong><ul><li><a class="satyrn-arrow-link" href="projects/models.md">Models</a></li><li><a class="satyrn-arrow-link" href="projects/evals.md">Evals</a></li><li><a class="satyrn-arrow-link" href="projects/engine.md">Engine</a></li><li><a class="satyrn-arrow-link" href="projects/web.md">Web</a></li><li><a class="satyrn-arrow-link" href="projects/zen.md">Zen</a></li></ul>
 </div>
 
 <div class="satyrn-hero__group">
@@ -109,7 +109,7 @@ our power, share knowledge and progress, and build something we're proud of.
 
 <div class="satyrn-status__col" markdown>
 
-### Model
+### [Satyrn Models](projects/models.md)
 
 Small models [on Hugging Face](https://huggingface.co/satyrn-ai), 
 [a fine-tuning pipeline](https://github.com/satyrn-ai/satyrn-models), and 
@@ -119,18 +119,18 @@ a group learning and teaching together.
 
 <div class="satyrn-status__col" markdown>
 
-### Evals
+### [Satyrn Evals](projects/evals.md)
 
 Evidence-first, fine-grained evals baseline you can trust, use, and add 
 to. Run [Pi](https://pi.dev) with a local model,
-then [report what happened](https://github.com/satyrn-ai/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md).
+then [report what happened](https://github.com/pauleveritt/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md).
 Your notes become the baseline our own engine has to beat.
 
 </div>
 
 <div class="satyrn-status__col" markdown>
 
-### Engine
+### [Satyrn Engine](projects/engine.md)
 
 A Python implementer engine connected as a Pi extension to keep small models on-track. 
 Currently, beats base Pi on medium tasks. For now, useful as a target for Evals.
@@ -139,7 +139,7 @@ Currently, beats base Pi on medium tasks. For now, useful as a target for Evals.
 
 <div class="satyrn-status__col" markdown>
 
-### Web
+### [Satyrn Web](projects/web.md)
 
 Tell the Satyrn story and stitch together the Python world of practitioners 
 using old-school, pre-algorithm social web technologies.
@@ -148,7 +148,7 @@ using old-school, pre-algorithm social web technologies.
 
 <div class="satyrn-status__col" markdown>
 
-### Education
+### [Satyrn Zen](projects/zen.md)
 
 Help Python developers master new, marketable skills; contributors use our 
 projects in their workflows and share results; and builders making AI for routine 
@@ -160,6 +160,11 @@ computers and work.
 
 </div>
 
+<!--
+Community section disabled -- placeholder avatars aren't ready for a public
+page yet. Re-enable by removing this comment wrapper once real contributors
+replace the placeholders in assets/avatars/ (see `just check-placeholders`).
+
 <div class="satyrn-section satyrn-community" markdown>
 
 ## Community
@@ -169,12 +174,12 @@ At the end of the day, the most important deliverable is community.
 We want a place to hang out, to take back our power, to have fun with others
 and build something we're proud of.
 
-<!-- Contributor avatars. The list is the content: without JavaScript, or with
-     reduced motion, it is a row you can scroll. javascripts/crew.js turns it
-     into a slow marquee with a Pause button (WCAG 2.2.2), and it also pauses
-     on hover and keyboard focus. Replace the placeholders with real
-     contributors: alt text is their name, and each can link to a profile.
-     `just check-placeholders` fails while any placeholder avatar remains. -->
+Contributor avatars. The list is the content: without JavaScript, or with
+reduced motion, it is a row you can scroll. javascripts/crew.js turns it
+into a slow marquee with a Pause button (WCAG 2.2.2), and it also pauses
+on hover and keyboard focus. Replace the placeholders with real
+contributors: alt text is their name, and each can link to a profile.
+`just check-placeholders` fails while any placeholder avatar remains.
 <div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>
 
 - ![Placeholder contributor 1](assets/avatars/placeholder-01.svg){ width="64" height="64" loading="lazy" }
@@ -209,6 +214,7 @@ and build something we're proud of.
 [Chat on Discord][discord]{ .md-button }
 
 </div>
+-->
 
 <!-- Placeholder invite: see `discord_url` in zensical.toml. -->
 [discord]: https://discord.gg/INVITE_CODE
