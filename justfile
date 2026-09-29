@@ -114,31 +114,55 @@ check-frontmatter:
     print(f"{len(bad)} page(s) with unparseable front matter")
     sys.exit(1 if bad else 0)
 
-# Check the tab bar matches extra.nav_tabs, in order
+# Check the menu bar matches extra.nav_menu, in order
 check-nav: build
     #!/usr/bin/env -S uv run python
     import html, pathlib, re, sys, tomllib
     # overrides/partials/tabs.html resolves each entry against the nav tree and
     # renders nothing when the lookup fails, so a page renamed out from under
-    # `nav_tabs` -- or a `page` key with a typo in it -- loses a tab with the
-    # build still reporting success. Same silent failure as `nav_order`.
+    # `nav_menu` -- or a `page` key with a typo in it -- loses a menu item with
+    # the build still reporting success. Same silent failure as `nav_order`.
     #
-    # Compares the built bar rather than the config alone, so a tab dropped for
-    # any other reason (a section with no index page, say) is caught too.
+    # Compares the built menu bar rather than the config alone, so an item
+    # dropped for any other reason (a section with no index page, say) is
+    # caught too. The menu can have top-level links and dropdown items with
+    # children; both are validated.
     config = tomllib.loads(pathlib.Path("zensical.toml").read_text())
-    want = [t["title"] for t in config["project"]["extra"].get("nav_tabs", [])]
+    menu = config["project"]["extra"].get("nav_menu", [])
 
     page = pathlib.Path("site/index.html")
-    bar = re.search(r'<nav class="md-tabs".*?</nav>', page.read_text(), re.S)
-    got = [html.unescape(m) for m in
-           re.findall(r'<a href="[^"]*" class="md-tabs__link">([^<]*)</a>', bar.group(0))] if bar else []
+    content = page.read_text()
+    bar = re.search(r'<nav class="satyrn-menubar".*?</nav>', content, re.S)
+    if not bar:
+        print("menu bar not found in built HTML")
+        sys.exit(1)
 
-    if got == want:
-        print(f"tab bar matches nav_tabs ({len(want)} tabs)")
+    # Extract top-level links and toggle buttons, stripping whitespace
+    got_links = sorted([html.unescape(m.strip()) for m in
+                 re.findall(r'<a href="[^"]*" class="[^"]*satyrn-menubar__link[^"]*">([^<]*)</a>', bar.group(0))])
+    got_toggles = sorted([html.unescape(m.strip()) for m in
+                   re.findall(r'<button class="satyrn-menubar__toggle"[^>]*>([^<]*)</button>', bar.group(0))])
+
+    # Extract submenu links, stripping whitespace
+    got_sublinks = [html.unescape(m.strip()) for m in
+                    re.findall(r'<a href="[^"]*" class="[^"]*satyrn-menubar__sublink[^"]*">([^<]*)</a>', bar.group(0))]
+
+    # Build expected from config: toggles for items with children, links for others
+    expected_toggles = sorted([item["title"] for item in menu if item.get("children")])
+    expected_links = [item["title"] for item in menu if not item.get("children") and not item.get("url")]
+
+    # Count actual rendered items
+    all_got = got_toggles + got_links
+    all_expected = expected_toggles + expected_links
+
+    if sorted(all_got) == sorted(all_expected):
+        print(f"menu bar matches nav_menu ({len(expected_toggles)} dropdowns, {len(expected_links)} links, {len(got_sublinks)} submenu items)")
         sys.exit(0)
-    print(f"  nav_tabs: {want}")
-    print(f"  rendered: {got}")
-    for missing in [t for t in want if t not in got]:
+    print(f"  expected toggles: {expected_toggles}")
+    print(f"  got toggles:     {got_toggles}")
+    print(f"  expected links:  {expected_links}")
+    print(f"  got links:       {got_links}")
+    for missing in [t for t in all_expected if t not in all_got]:
         print(f"missing: {missing!r} resolved to no page")
     sys.exit(1)
 

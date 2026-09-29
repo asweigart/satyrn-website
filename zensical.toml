@@ -421,6 +421,12 @@ nav_order = [
     "Mission",
     "Local-First",
     "Get Involved",
+    "Projects",
+    "Satyrn Models",
+    "Satyrn Evals",
+    "Satyrn Engine",
+    "Satyrn Web",
+    "Satyrn Zen",
     "Blog",
     "Tags",
     "Authors",
@@ -428,7 +434,7 @@ nav_order = [
 # Rendered as a single link rather than an expanded tree. Each needs an index
 # page for the link to target, which is what src/tags/index.md and
 # src/authors/index.md are for.
-nav_collapse = ["Authors", "Tags"]
+nav_collapse = ["Authors", "Tags", "Projects"]
 # Rendered as a link plus its most recent posts, newest first.
 nav_recent = ["Blog"]
 nav_recent_count = 5
@@ -438,7 +444,7 @@ home_posts_count = 3
 # where the item is what gives the page a sidebar at all. Both are reached from
 # the tag chips on a post, the byline, and the blog index -- they are archives,
 # not destinations, and listing them alongside Mission oversells them.
-nav_hide = ["Tags", "Authors", "Accessibility", "Design"]
+nav_hide = ["Tags", "Authors", "Accessibility", "Design", "Projects"]
 # The default social card, used by every page that does not set `image:` in its
 # front matter. Root-relative and without a leading slash: overrides/main.html
 # concatenates it onto `site_url`, which already ends in one.
@@ -455,37 +461,38 @@ og_image = "assets/og-image.jpg"
 # `just check-placeholders` fails while any copy of it is still in the build.
 discord_url = "https://discord.gg/INVITE_CODE"
 
-# The tab bar, in order, rendered by overrides/partials/tabs.html. This is an
-# editorial list, not a mirror of the top level: Tags and Authors are top-level
-# sections and deliberately absent, and a new top-level page does not earn a tab
-# by existing.
+# The dropdown menu bar, rendered by overrides/partials/tabs.html and injected
+# into the header row via overrides/partials/header.html. Each item can have
+# an optional `children` array for submenu links. An item with `url` links
+# off-site; an item with `page` resolves against the nav tree (defaulting to
+# `title` when `page` is omitted). A `page` that matches nothing drops the
+# item silently — which is what `just check-nav` is for.
 #
-# `page` is the nav item title to match, and defaults to `title` when omitted,
-# so it is only needed where the tab label differs from the page title. An entry
-# with `url` instead links off-site and never touches the nav tree. A `page`
-# that matches nothing drops the tab silently with a green build -- the same
-# trap as `nav_order` -- which is what `just check-nav` is for.
-[[project.extra.nav_tabs]]
-title = "Home"
-page = "Satyrn — Open, local-first agents for Python developers"
+# The menu has four top-level items: Projects (dropdown), About (dropdown),
+# Join (link), and Blog (link).
+[[project.extra.nav_menu]]
+title = "Projects"
+children = [
+    { title = "Model", page = "Satyrn Models" },
+    { title = "Evals", page = "Satyrn Evals" },
+    { title = "Engine", page = "Satyrn Engine" },
+    { title = "Web", page = "Satyrn Web" },
+    { title = "Zen", page = "Satyrn Zen" },
+]
 
-[[project.extra.nav_tabs]]
-title = "Mission"
+[[project.extra.nav_menu]]
+title = "About"
+children = [
+    { title = "Laptop AI" },
+    { title = "Team Compass", url = "https://satyrn-ai.github.io/team-compass/" },
+    { title = "Get Involved" },
+]
 
-[[project.extra.nav_tabs]]
-title = "Local-First"
+[[project.extra.nav_menu]]
+title = "Join"
+page = "Get Involved"
 
-[[project.extra.nav_tabs]]
-title = "Get Involved"
-
-# An off-site tab. `url` takes the place of `page`: the entry links straight
-# there instead of resolving against the nav tree, and is appended to the
-# mobile drawer too, since below 1220px the drawer is the only navigation.
-[[project.extra.nav_tabs]]
-title = "Team Compass"
-url = "https://satyrn-ai.github.io/team-compass/"
-
-[[project.extra.nav_tabs]]
+[[project.extra.nav_menu]]
 title = "Blog"
 
 # Authors. `name` is the only required key; `title`, `url`, `avatar` and

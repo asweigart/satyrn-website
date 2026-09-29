@@ -4,8 +4,9 @@ version = "0.1.0"
 description = "satyrn.ai - landing page, blog and documentation"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
-
+dependencies = [
+    "playwright>=1.63.0",
+]
 [dependency-groups]
 dev = [
     "rust-just>=1.42.4",
