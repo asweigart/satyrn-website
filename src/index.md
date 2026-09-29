@@ -160,11 +160,6 @@ computers and work.
 
 </div>
 
-<!--
-Community section disabled -- placeholder avatars aren't ready for a public
-page yet. Re-enable by removing this comment wrapper once real contributors
-replace the placeholders in assets/avatars/ (see `just check-placeholders`).
-
 <div class="satyrn-section satyrn-community" markdown>
 
 ## Community
@@ -176,7 +171,6 @@ and build something we're proud of.
 
 ### Meet us
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>
 
 - [![Carol Willing](assets/avatars/contributors/willingc.jpg){ width="64" height="64" loading="lazy" }](https://github.com/willingc)
@@ -195,7 +189,6 @@ and build something we're proud of.
 - [![](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }
 
 </div>
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 <div class="satyrn-involve__list" markdown>
 
@@ -213,7 +206,6 @@ and build something we're proud of.
 [Chat on Discord][discord]{ .md-button }
 
 </div>
--->
 
 <!-- Placeholder invite: see `discord_url` in zensical.toml. -->
 [discord]: https://discord.gg/INVITE_CODE
