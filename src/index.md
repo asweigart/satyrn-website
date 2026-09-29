@@ -178,9 +178,9 @@ Contributor avatars, generated from `.all-contributorsrc` between the markers
 below by `just contributors`. Edit that file (or run `just sync-contributors`)
 rather than the list. Without JavaScript or with reduced motion it is a
 scrollable row; crew.js makes it a slow marquee with a Pause button (WCAG 2.2.2).
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 - [![Carol Willing](assets/avatars/contributors/willingc.jpg){ width="64" height="64" loading="lazy" }](https://github.com/willingc)
 - [![Emma Cooke](assets/avatars/contributors/emmaco.jpg){ width="64" height="64" loading="lazy" }](https://github.com/emmaco)
 - [![Laura Summers](assets/avatars/contributors/summerscope.jpg){ width="64" height="64" loading="lazy" }](https://github.com/summerscope)
@@ -195,9 +195,9 @@ scrollable row; crew.js makes it a slow marquee with a Pause button (WCAG 2.2.2)
 - [![Nicola Jordan](assets/avatars/contributors/hixi.jpg){ width="64" height="64" loading="lazy" }](https://github.com/hixi)
 - [![Alex Salynski](assets/avatars/contributors/asalynski.jpg){ width="64" height="64" loading="lazy" }](https://github.com/asalynski)
 - [![](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 </div>
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 <div class="satyrn-involve__list" markdown>
 

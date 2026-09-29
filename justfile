@@ -440,14 +440,15 @@ contributors:
     rc = json.load(open(".all-contributorsrc"))
     avatars = pathlib.Path("src/assets/avatars/contributors")
     avatars.mkdir(parents=True, exist_ok=True)
-    lines = ["<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->"]
+    lines = ["<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->",
+             '<div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>', ""]
     for c in rc["contributors"]:
         dest = avatars / f"{c['login']}.jpg"
         if not dest.exists():
             urllib.request.urlretrieve(c["avatar_url"].split("?")[0] + "?s=128", dest)
         lines.append('- [![' + c["name"] + '](assets/avatars/contributors/' + c["login"] + '.jpg){ width="64" height="64" loading="lazy" }](' + c["profile"] + ')')
     lines.append('- [![](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }')
-    lines.append("<!-- ALL-CONTRIBUTORS-LIST:END -->")
+    lines += ["", "</div>", "<!-- ALL-CONTRIBUTORS-LIST:END -->"]
     index = pathlib.Path("src/index.md")
     block = "\n".join(lines)
     text = re.sub(r"<!-- ALL-CONTRIBUTORS-LIST:START.*?<!-- ALL-CONTRIBUTORS-LIST:END -->", lambda m: block, index.read_text(), flags=re.S)
