@@ -174,27 +174,28 @@ At the end of the day, the most important deliverable is community.
 We want a place to hang out, to take back our power, to have fun with others
 and build something we're proud of.
 
-Contributor avatars. The list is the content: without JavaScript, or with
-reduced motion, it is a row you can scroll. javascripts/crew.js turns it
-into a slow marquee with a Pause button (WCAG 2.2.2), and it also pauses
-on hover and keyboard focus. Replace the placeholders with real
-contributors: alt text is their name, and each can link to a profile.
-`just check-placeholders` fails while any placeholder avatar remains.
+Contributor avatars, generated from `.all-contributorsrc` between the markers
+below by `just contributors`. Edit that file (or run `just sync-contributors`)
+rather than the list. Without JavaScript or with reduced motion it is a
+scrollable row; crew.js makes it a slow marquee with a Pause button (WCAG 2.2.2).
 <div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>
 
-- ![Placeholder contributor 1](assets/avatars/placeholder-01.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 2](assets/avatars/placeholder-02.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 3](assets/avatars/placeholder-03.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 4](assets/avatars/placeholder-04.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 5](assets/avatars/placeholder-05.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 6](assets/avatars/placeholder-06.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 7](assets/avatars/placeholder-07.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 8](assets/avatars/placeholder-08.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 9](assets/avatars/placeholder-09.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 10](assets/avatars/placeholder-10.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 11](assets/avatars/placeholder-11.svg){ width="64" height="64" loading="lazy" }
-- ![Placeholder contributor 12](assets/avatars/placeholder-12.svg){ width="64" height="64" loading="lazy" }
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+- [![Carol Willing](assets/avatars/contributors/willingc.jpg){ width="64" height="64" loading="lazy" }](https://github.com/willingc)
+- [![Emma Cooke](assets/avatars/contributors/emmaco.jpg){ width="64" height="64" loading="lazy" }](https://github.com/emmaco)
+- [![Laura Summers](assets/avatars/contributors/summerscope.jpg){ width="64" height="64" loading="lazy" }](https://github.com/summerscope)
+- [![Michał Karzyński](assets/avatars/contributors/postrational.jpg){ width="64" height="64" loading="lazy" }](https://github.com/postrational)
+- [![Paul Everitt](assets/avatars/contributors/pauleveritt.jpg){ width="64" height="64" loading="lazy" }](https://github.com/pauleveritt)
+- [![Daria Grudzien](assets/avatars/contributors/dariagrudzien.jpg){ width="64" height="64" loading="lazy" }](https://github.com/dariagrudzien)
+- [![lzieniew](assets/avatars/contributors/lzieniew.jpg){ width="64" height="64" loading="lazy" }](https://github.com/lzieniew)
+- [![Pelle Koster](assets/avatars/contributors/elfjes.jpg){ width="64" height="64" loading="lazy" }](https://github.com/elfjes)
+- [![dokato](assets/avatars/contributors/dokato.jpg){ width="64" height="64" loading="lazy" }](https://github.com/dokato)
+- [![pyrsuit](assets/avatars/contributors/pyrsuit.jpg){ width="64" height="64" loading="lazy" }](https://github.com/pyrsuit)
+- [![Mike Fiedler](assets/avatars/contributors/miketheman.jpg){ width="64" height="64" loading="lazy" }](https://github.com/miketheman)
+- [![Nicola Jordan](assets/avatars/contributors/hixi.jpg){ width="64" height="64" loading="lazy" }](https://github.com/hixi)
+- [![Alex Salynski](assets/avatars/contributors/asalynski.jpg){ width="64" height="64" loading="lazy" }](https://github.com/asalynski)
 - [![](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 </div>
 

@@ -432,3 +432,48 @@ og-image:
 
 # Everything CI should run before a merge
 ci: rebuild check-frontmatter check-nav check-blog check-assets check-placeholders lint weigh
+
+# Regenerate the contributor avatar list in src/index.md from .all-contributorsrc
+contributors:
+    #!/usr/bin/env -S uv run python
+    import json, re, pathlib, urllib.request
+    rc = json.load(open(".all-contributorsrc"))
+    avatars = pathlib.Path("src/assets/avatars/contributors")
+    avatars.mkdir(parents=True, exist_ok=True)
+    lines = ["<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->"]
+    for c in rc["contributors"]:
+        dest = avatars / f"{c['login']}.jpg"
+        if not dest.exists():
+            urllib.request.urlretrieve(c["avatar_url"].split("?")[0] + "?s=128", dest)
+        lines.append('- [![' + c["name"] + '](assets/avatars/contributors/' + c["login"] + '.jpg){ width="64" height="64" loading="lazy" }](' + c["profile"] + ')')
+    lines.append('- [![](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }')
+    lines.append("<!-- ALL-CONTRIBUTORS-LIST:END -->")
+    index = pathlib.Path("src/index.md")
+    block = "\n".join(lines)
+    text = re.sub(r"<!-- ALL-CONTRIBUTORS-LIST:START.*?<!-- ALL-CONTRIBUTORS-LIST:END -->", lambda m: block, index.read_text(), flags=re.S)
+    index.write_text(text)
+    print(f"{len(rc['contributors'])} contributors written")
+
+# Add new committers across the satyrn-ai repos to .all-contributorsrc, then run `just contributors`
+sync-contributors:
+    #!/usr/bin/env -S uv run python
+    import json, subprocess
+    repos = ["satyrn-website", "team-compass", "satyrn-zen", "satyrn-models", "satyrn-evals-collector", "satyrn-evals"]
+    def gh(path):
+        return json.loads(subprocess.run(["gh", "api", path], capture_output=True, text=True).stdout or "null")
+    rc = json.load(open(".all-contributorsrc"))
+    known = {c["login"] for c in rc["contributors"]}
+    added = []
+    for r in repos:
+        for c in gh(f"repos/satyrn-ai/{r}/contributors") or []:
+            login = c.get("login")
+            if not login or c.get("type") != "User" or login in known:
+                continue
+            u = gh(f"users/{login}") or {}
+            rc["contributors"].append({"login": login, "name": u.get("name") or login, "avatar_url": c["avatar_url"], "profile": c["html_url"], "contributions": ["code"]})
+            known.add(login)
+            added.append(login)
+    with open(".all-contributorsrc", "w") as f:
+        json.dump(rc, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    print(f"added {len(added)}: {', '.join(added) or '(none)'} -- run `just contributors`")
