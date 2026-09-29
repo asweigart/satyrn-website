@@ -174,10 +174,8 @@ At the end of the day, the most important deliverable is community.
 We want a place to hang out, to take back our power, to have fun with others
 and build something we're proud of.
 
-Contributor avatars, generated from `.all-contributorsrc` between the markers
-below by `just contributors`. Edit that file (or run `just sync-contributors`)
-rather than the list. Without JavaScript or with reduced motion it is a
-scrollable row; crew.js makes it a slow marquee with a Pause button (WCAG 2.2.2).
+### Meet us
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>
 

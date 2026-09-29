@@ -2,9 +2,11 @@
 //
 // The markdown ships a plain list of avatars, which is what readers without
 // JavaScript, or with prefers-reduced-motion, get: a row they can scroll.
-// This turns it into a slow, seamless marquee by appending one inert,
-// aria-hidden copy of the list, so the loop can wrap without a jump and
-// assistive technology still reads each contributor once.
+// This turns it into a slow, seamless marquee by appending one aria-hidden
+// copy of the list, so the loop can wrap without a jump and assistive
+// technology still reads each contributor once. The copy stays mouse-clickable
+// so every visible avatar links out, but its links are taken out of the tab
+// order (tabindex -1) so the keyboard does not stop on each contributor twice.
 //
 // Motion that starts by itself and runs longer than five seconds needs a way
 // to stop it (WCAG 2.2.2), so this adds a visible Pause button ahead of the
@@ -22,7 +24,7 @@ document$.subscribe(function () {
   Array.from(list.children).forEach(function (item) {
     const copy = item.cloneNode(true)
     copy.setAttribute("aria-hidden", "true")
-    copy.inert = true
+    copy.querySelectorAll("a").forEach(function (a) { a.tabIndex = -1 })
     list.appendChild(copy)
   })
 
