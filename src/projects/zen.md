@@ -18,3 +18,5 @@ This is an early vision, and we're still figuring out the best ways to make it r
 - **Learning resources** — curated guides, articles, and videos on topics from basics to advanced.
 
 We'll share more as these take shape. In the meantime, if you're interested in teaching, learning, or helping us figure out what the community needs, [get involved](../get-involved.md).
+
+Visit the [Satyrn Zen website](https://satyrn-ai.github.io/satyrn-zen/) for more information.

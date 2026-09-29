@@ -473,7 +473,7 @@ discord_url = "https://discord.gg/INVITE_CODE"
 [[project.extra.nav_menu]]
 title = "Projects"
 children = [
-    { title = "Model", page = "Satyrn Models" },
+    { title = "Models", page = "Satyrn Models" },
     { title = "Evals", page = "Satyrn Evals" },
     { title = "Engine", page = "Satyrn Engine" },
     { title = "Web", page = "Satyrn Web" },

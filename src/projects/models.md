@@ -5,7 +5,10 @@ description: "Small models for routine Python development, trained on community-
 
 Small models need help for routine Python development. We want to grow a team that ships up-to-date small models that work well with common Python frameworks — trained on data owned by us, for us, with a tight feedback loop to [Satyrn Engine](engine.md).
 
-**Try it now** on our [Hugging Face community](https://huggingface.co/satyrn-ai).
+**Try it now** on our [Hugging Face community](https://huggingface.co/satyrn-ai):
+
+- [Qwen3.8-27B-py3.15](https://huggingface.co/satyrn-ai/Qwen3.8-27B-py3.15)
+- [Ornith-1.5-9B-py3.15](https://huggingface.co/satyrn-ai/Ornith-1.5-9B-py3.15)
 
 ## Overview
 

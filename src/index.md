@@ -1,7 +1,7 @@
 ---
 template: home.html
 title: AI Our Way
-description: "Satyrn is Jupyter for agents: open source, community-owned, local-first AI tooling for Python developers."
+description: "A human-centric home for Python developers to do AI Our Way. Trusted, from us, for us. Conversation, sharing, innovation, and building software tools."
 ---
 
 <div class="satyrn-hero" markdown>
