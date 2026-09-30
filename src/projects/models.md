@@ -8,7 +8,6 @@ Small models need help for routine Python development. We want to grow a team th
 **Try it now** on our [Hugging Face community](https://huggingface.co/satyrn-ai):
 
 - [Qwen3.8-27B-py3.15](https://huggingface.co/satyrn-ai/Qwen3.8-27B-py3.15)
-- [Ornith-1.5-9B-py3.15](https://huggingface.co/satyrn-ai/Ornith-1.5-9B-py3.15)
 
 ## Overview
 
