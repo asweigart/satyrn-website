@@ -1673,6 +1673,21 @@ html:has(.satyrn-hero) {
   margin-top: 0.5rem;
 }
 
+.satyrn-crew__bar {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 1.6rem 0 0;
+}
+
+.satyrn-crew__bar > :first-child {
+  margin: 0;
+}
+
+.satyrn-crew__bar .satyrn-crew__toggle {
+  margin: 0 0 0 auto;
+}
+
 /* ------------------------------------------------------- block: involve -- */
 
 /* The invitation to contribute: pitch and buttons on the left, the four ways

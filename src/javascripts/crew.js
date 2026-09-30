@@ -45,7 +45,16 @@ document$.subscribe(function () {
     const paused = crew.classList.toggle("is-paused")
     toggle.textContent = paused ? "Play" : "Pause"
   })
-  crew.before(toggle)
+  // Sit the Pause control on the preceding heading's line, pushed to the right.
+  const heading = crew.previousElementSibling
+  if (heading && /^H[1-6]$/.test(heading.tagName)) {
+    const bar = document.createElement("div")
+    bar.className = "satyrn-crew__bar"
+    heading.replaceWith(bar)
+    bar.append(heading, toggle)
+  } else {
+    crew.before(toggle)
+  }
 
   // Moving, the row no longer scrolls, so it is no longer a keyboard stop of
   // its own; the "You?" link inside it still is.
