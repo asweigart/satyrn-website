@@ -3,8 +3,6 @@ title: Satyrn Models on Hugging Face
 date: 2026-09-29
 authors:
   - postrational
-tags:
-  - models
 description: "The first AI models to support Python 3.15, released on its release date. Small, local, fine-tuned models for routine Python development."
 ---
 
