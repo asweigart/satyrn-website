@@ -25,7 +25,7 @@ for us. Conversation, sharing, innovation, and building software tools.
 </div>
 
 <div class="satyrn-hero__group">
-<strong>Participate</strong><ul><li><a class="satyrn-arrow-link" href="#">LinkedIn</a></li><li><a class="satyrn-arrow-link" href="#">Mastodon</a></li><li><a class="satyrn-arrow-link" href="#">YouTube</a></li></ul>
+<strong>Participate</strong><ul><li><a class="satyrn-arrow-link" href="#">LinkedIn</a></li><li><a class="satyrn-arrow-link" href="https://social.satyrn.ai/" target="_blank" rel="me noopener noreferrer">Mastodon</a></li><li><a class="satyrn-arrow-link" href="#">YouTube</a></li></ul>
 </div>
 
 </div>

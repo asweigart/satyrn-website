@@ -343,9 +343,23 @@ toggle.name = "Switch to light mode"
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.
 # ----------------------------------------------------------------------------
-#[[project.extra.social]]
-#icon = "fontawesome/brands/github"
-#link = "https://github.com/user/repo"
+# Social links, rendered as an icon row in both footers (the docs footer via
+# the built-in social partial, the landing page via overrides/home.html).
+# LinkedIn and YouTube are placeholders until the real accounts are supplied.
+[[project.extra.social]]
+icon = "fontawesome/brands/linkedin"
+link = "#"
+name = "LinkedIn"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/mastodon"
+link = "https://social.satyrn.ai/"
+name = "Mastodon"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/youtube"
+link = "#"
+name = "YouTube"
 
 # ----------------------------------------------------------------------------
 # In this section you can configure the Markdown extensions that are used when
