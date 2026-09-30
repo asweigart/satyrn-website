@@ -5,7 +5,6 @@ authors:
   - postrational
 tags:
   - models
-  - announcements
 description: "The first AI models to support Python 3.15, released on its release date. Small, local, fine-tuned models for routine Python development."
 ---
 
