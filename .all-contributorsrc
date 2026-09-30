@@ -8,6 +8,7 @@
   "contributorsPerLine": 7,
   "contributorsSortAlphabetically": false,
   "commitConvention": "none",
+  "exclude": [],
   "contributors": [
     { "login": "willingc", "name": "Carol Willing", "avatar_url": "https://avatars.githubusercontent.com/u/2680980?v=4", "profile": "https://github.com/willingc", "contributions": ["code"] },
     { "login": "emmaco", "name": "Emma Cooke", "avatar_url": "https://avatars.githubusercontent.com/u/25589235?v=4", "profile": "https://github.com/emmaco", "contributions": ["code"] },

@@ -438,10 +438,12 @@ contributors:
     #!/usr/bin/env -S uv run python
     import json, re, pathlib, urllib.request
     rc = json.load(open(".all-contributorsrc"))
+    exclude = set(rc.get("exclude", []))
+    people = [c for c in rc["contributors"] if c["login"] not in exclude]
     avatars = pathlib.Path("src/assets/avatars/contributors")
     avatars.mkdir(parents=True, exist_ok=True)
     lines = ['<div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>', ""]
-    for c in rc["contributors"]:
+    for c in people:
         dest = avatars / f"{c['login']}.jpg"
         if not dest.exists():
             urllib.request.urlretrieve(c["avatar_url"].split("?")[0] + "?s=128", dest)
@@ -452,7 +454,7 @@ contributors:
     block = "\n".join(lines)
     text = re.sub(r'<div class="satyrn-crew".*?\n</div>', lambda m: block, index.read_text(), flags=re.S)
     index.write_text(text)
-    print(f"{len(rc['contributors'])} contributors written")
+    print(f"{len(people)} contributors written")
 
 # Add new committers across the satyrn-ai repos to .all-contributorsrc, then run `just contributors`
 sync-contributors:
@@ -462,10 +464,14 @@ sync-contributors:
     def gh(path):
         return json.loads(subprocess.run(["gh", "api", path], capture_output=True, text=True).stdout or "null")
     rc = json.load(open(".all-contributorsrc"))
-    known = {c["login"] for c in rc["contributors"]}
+    known = {c["login"] for c in rc["contributors"]} | set(rc.get("exclude", []))
     added = []
     for r in repos:
-        for c in gh(f"repos/satyrn-ai/{r}/contributors") or []:
+        people = gh(f"repos/satyrn-ai/{r}/contributors?per_page=100")
+        if not isinstance(people, list):
+            print(f"  skipped {r} (no access or gh error)")
+            continue
+        for c in people:
             login = c.get("login")
             if not login or c.get("type") != "User" or login in known:
                 continue
