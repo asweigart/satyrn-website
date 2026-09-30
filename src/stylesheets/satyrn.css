@@ -1846,7 +1846,7 @@ html:has(.satyrn-hero) {
   margin: auto 0 0;
   color: var(--md-default-fg-color);
   font-family: var(--satyrn-font-script);
-  font-size: 1.3rem;
+  font-size: 1.7rem;
   font-weight: normal;
   letter-spacing: normal;
 }
