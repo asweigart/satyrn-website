@@ -8,7 +8,7 @@ Small models need help for routine Python development. We want to grow a team th
 **Try it now** on our [Hugging Face community](https://huggingface.co/satyrn-ai):
 
 - [Qwen3.8-27B-py3.15](https://huggingface.co/satyrn-ai/Qwen3.8-27B-py3.15)
-- [Ornith-1.5-9B-py3.15](https://huggingface.co/satyrn-ai/Ornith-1.5-9B-py3.15)
+- In progress: Ornith-1.5-9B
 
 ## Overview
 
@@ -18,7 +18,7 @@ Python evolves fast. New language features, standard library changes, and framew
 
 ## How We Work
 
-The training pipeline lives in the [satyrn-model](https://github.com/satyrn-ai/satyrn-model) repository and consists of two main components:
+The training pipeline lives in the [satyrn-models](https://github.com/satyrn-ai/satyrn-models) repository and consists of two main components:
 
 - **Dataset generation** — the `satyrn-dataset` CLI builds corpora from Python documentation and source code.
 - **Fine-tuning** — the `satyrn-unsloth` CLI handles model training using Unsloth for efficient fine-tuning.
