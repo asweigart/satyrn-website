@@ -43,4 +43,4 @@ someone reading it a year later, which is most of why we keep it out in the
 open.
 
 <!-- Placeholder invite: see `discord_url` in zensical.toml. -->
-[discord]: https://discord.gg/INVITE_CODE
+[discord]: https://discord.gg/v4uejrA88f
