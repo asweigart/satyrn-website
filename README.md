@@ -87,4 +87,4 @@ with a green build and no error message.
 
 ## Credits
 
-Artwork by [Georgi Ker](https://georgiker.com/).
+Artwork by [Laura Summers](https://github.com/summerscope).
