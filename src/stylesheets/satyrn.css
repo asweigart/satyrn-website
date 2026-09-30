@@ -1902,6 +1902,33 @@ html:has(.satyrn-hero) {
   color: var(--md-default-fg-color--light);
 }
 
+.satyrn-footer__social {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.satyrn-footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.satyrn-footer__social-link:hover {
+  color: var(--satyrn-mark-accent);
+}
+
+.satyrn-footer__social-link svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
 .satyrn-footer__nav {
   display: flex;
   flex-wrap: wrap;
