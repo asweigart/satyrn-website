@@ -206,5 +206,4 @@ and build something we're proud of.
 
 </div>
 
-<!-- Placeholder invite: see `discord_url` in zensical.toml. -->
-[discord]: https://discord.gg/INVITE_CODE
+[discord]: https://discord.gg/v4uejrA88f

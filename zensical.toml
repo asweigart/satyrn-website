@@ -454,12 +454,11 @@ nav_hide = ["Tags", "Authors", "Accessibility", "Design", "Projects"]
 # harder to verify than a browser's. Regenerate with `just og-image`.
 og_image = "assets/og-image.jpg?v=2"
 
-# The community Discord, linked from the footer. INVITE_CODE is a placeholder:
-# replace it here AND in the `[discord]:` reference at the foot of
-# src/index.md and src/get-involved.md. Use a permanent invite (Server
-# settings > Invites, "Never" expire); the old one in satyrn-zen expired.
-# `just check-placeholders` fails while any copy of it is still in the build.
-discord_url = "https://discord.gg/INVITE_CODE"
+# The community Discord, linked from the footer and the `[discord]:`
+# references in src/index.md, src/get-involved.md and src/projects/web.md.
+# Use a permanent invite (Server settings > Invites, "Never" expire); the
+# old one in satyrn-zen expired.
+discord_url = "https://discord.gg/v4uejrA88f"
 
 # The dropdown menu bar, rendered by overrides/partials/tabs.html and injected
 # into the header row via overrides/partials/header.html. Each item can have
