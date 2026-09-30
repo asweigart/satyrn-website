@@ -33,13 +33,13 @@ Evaluation is designed for fast development feedback (10–15 minutes) using the
 
 Satyrn Evals has completed two release cycles:
 
-**Release One** (concluded 2026-09-15) tested whether the Satyrn Engine could keep Ornith 1.5 9B on track better than bare Pi on a "ceiling" workload. The result was a **stated negative**: the model failed on all ceiling tasks for reasons the Engine could not reach. This was a valuable finding — it revealed flaws and set clearer constraints for what to try next.
+**Release One** (concluded 2026-09-15) tested whether the Satyrn Engine could keep a small model on track better than bare Pi on a "ceiling" workload. The result was a **stated negative**: the model failed on all ceiling tasks for reasons the Engine could not reach. This was a valuable finding — it revealed flaws and set clearer constraints for what to try next.
 
 **Release Two** (pre-registered 2026-09-19, read once) showed the promise of the approach. One machine, arms interleaved three cells at a time. 108 cells, 0 infrastructure failures, 0 wall-clock timeouts, 0 replaced cells.
 
 ### The primary claim
 
-On medium-build tasks, `/implement` delivers a passing candidate within the task's budget more often than bare Pi, on Ornith 1.5 9B, and stops when the developer's tests are green.
+On medium-build tasks, `/implement` delivers a passing candidate within the task's budget more often than bare Pi, and stops when the developer's tests are green.
 
 | reading | Baseline | Engine | p |
 |---|---|---|---|

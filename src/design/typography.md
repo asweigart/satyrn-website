@@ -137,12 +137,12 @@ link colour across browsers.
 
 <div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>
 
-- ![Contributor 1](/assets/avatars/placeholder-01.svg){ width="64" height="64" loading="lazy" }
-- ![Contributor 2](/assets/avatars/placeholder-02.svg){ width="64" height="64" loading="lazy" }
-- ![Contributor 3](/assets/avatars/placeholder-03.svg){ width="64" height="64" loading="lazy" }
-- ![Contributor 4](/assets/avatars/placeholder-04.svg){ width="64" height="64" loading="lazy" }
-- ![Contributor 5](/assets/avatars/placeholder-05.svg){ width="64" height="64" loading="lazy" }
-- ![Contributor 6](/assets/avatars/placeholder-06.svg){ width="64" height="64" loading="lazy" }
+- ![Carol Willing](/assets/avatars/contributors/willingc.jpg){ width="64" height="64" loading="lazy" }
+- ![Emma Cooke](/assets/avatars/contributors/emmaco.jpg){ width="64" height="64" loading="lazy" }
+- ![Laura Summers](/assets/avatars/contributors/summerscope.jpg){ width="64" height="64" loading="lazy" }
+- ![Paul Everitt](/assets/avatars/contributors/pauleveritt.jpg){ width="64" height="64" loading="lazy" }
+- ![Daria Grudzien](/assets/avatars/contributors/dariagrudzien.jpg){ width="64" height="64" loading="lazy" }
+- ![Mike Fiedler](/assets/avatars/contributors/miketheman.jpg){ width="64" height="64" loading="lazy" }
 - [![](/assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](/get-involved/){ .satyrn-crew__you }
 
 </div>
