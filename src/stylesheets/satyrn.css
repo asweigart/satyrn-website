@@ -1567,7 +1567,7 @@ html:has(.satyrn-hero) {
    adds `.is-moving` for the marquee and a Pause button before it. The edges
    fade so avatars slide in and out rather than being cut off. */
 .satyrn-crew {
-  margin-top: 1rem;
+  margin: 1rem 0 3rem;
   /* Inline padding lives here, not on the list: the loop moves the list by
      exactly half its width, so any padding inside it would make each wrap
      jump. */
@@ -1671,6 +1671,21 @@ html:has(.satyrn-hero) {
 
 .satyrn-crew__toggle + .satyrn-crew {
   margin-top: 0.5rem;
+}
+
+.satyrn-crew__bar {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 1.6rem 0 0;
+}
+
+.satyrn-crew__bar > :first-child {
+  margin: 0;
+}
+
+.satyrn-crew__bar .satyrn-crew__toggle {
+  margin: 0 0 0 auto;
 }
 
 /* ------------------------------------------------------- block: involve -- */
