@@ -51,7 +51,7 @@ Also: this isn't production-ready. We're just starting on this journey.
 ## How to use it
 
 The first model is available on Hugging Face and can be run locally with any compatible
-inference tool. Visit our [Satyrn Models project page](../projects/models.md) for more information.
+inference tool. Visit our [Satyrn Models project page](../../projects/models.md) for more information.
 
 ## How we did it
 
@@ -89,4 +89,4 @@ Our roadmap includes:
 This is just the beginning. The real deliverable isn't just two model weights — it's proof
 that a community can move fast, work openly, and ship something useful on the same day
 Python ships. We're building this for us, by us. If that resonates, [get
-involved](../get-involved.md).
+involved](../../get-involved.md).

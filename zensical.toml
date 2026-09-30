@@ -507,6 +507,12 @@ title = "Blog"
 # before a post can name that slug; see "Adding a blog author" in
 # CONTRIBUTING.md.
 
+[project.extra.authors.pauleveritt]
+name = "Paul Everitt"
+
+[project.extra.authors.postrational]
+name = "Michał Karzyński"
+
 [project.extra.authors.willing-carol]
 name = "Carol Willing"
 url = "https://willingconsulting.com"

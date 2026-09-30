@@ -1,6 +1,6 @@
 ---
-title: From a talk, a community: The start of Satyrn AI
-date: 2026-10-01
+title: "From a talk, a community: The start of Satyrn AI"
+date: 2026-09-29
 authors:
   - pauleveritt
 tags:
