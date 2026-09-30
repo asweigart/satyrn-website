@@ -53,6 +53,19 @@
           <span class="satyrn-footer__name">{{ config.site_name | e }}</span>
         </a>
         <p class="satyrn-footer__tagline">AI Our Way.</p>
+        {%- if config.extra.social %}
+        <ul class="satyrn-footer__social">
+          {%- for social in config.extra.social %}
+          <li>
+            <a class="satyrn-footer__social-link" href="{{ social.link }}"
+               target="_blank" rel="{{ 'noopener noreferrer me' if 'mastodon' in social.icon else 'noopener noreferrer' }}"
+               title="{{ social.name | e }}" aria-label="{{ social.name | e }}">
+              {%- include ".icons/" ~ social.icon ~ ".svg" -%}
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
       </div>
       <nav class="satyrn-footer__nav" aria-label="Footer">
         <div class="satyrn-footer__col">
