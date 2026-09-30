@@ -11,19 +11,19 @@ We want to start a conversation in the world of Python about AI Our Way and Lapt
 
 Follow us on Mastodon for updates, discussions, and links to interesting work in the Python AI community.
 
-[Coming soon — follow along on our other platforms in the meantime.](#)
+Coming soon — follow along on our other platforms in the meantime.
 
 ### YouTube
 
 Watch talks, demos, and conversations about local-first AI, small models, and what it means to do AI Our Way.
 
-[Coming soon — stay tuned.](#)
+Coming soon — stay tuned.
 
 ### LinkedIn
 
 Connect with us on LinkedIn for professional updates, community news, and opportunities to get involved.
 
-[Coming soon — we'll be here shortly.](#)
+Coming soon — we'll be here shortly.
 
 ## Coming Soon
 

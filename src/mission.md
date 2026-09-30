@@ -14,7 +14,7 @@ Some of us like it, but as a tool to make us better, not to replace us.
 The trust deficit is real, and it comes from several directions:
 
 - **Modern AI has become a megacorp game** to reduce developer headcount. We know coding
-  agents can't (yet) replace developers. It's frustrating: not just the anti-engineering, but also 
+  agents can't (yet) replace developers. It's frustrating: not just the anti-engineering, but also
   the concentration of power in a handful of companies.
 - **The "godbox" problem.** A lot of developers, especially the AI bros, just want a "godbox":
   type in some vague description of what you're looking for, get code that you won't look at,
@@ -43,8 +43,8 @@ uncharted territory. Prices are sky-high and going up, meaning you have to rent 
 expensive — or, most likely, just stay with a non-trusted, non-local setup.
 
 We want to target workflows where the big work is done on big brains' godbox, but *routine*
-Python development can be done on the computer you have. Namely, a laptop. We can fill-in in 
-the big-brain gap using your actual developer brain. You then keep control, keep your hands 
+Python development can be done on the computer you have. Namely, a laptop. We can fill-in in
+the big-brain gap using your actual developer brain. You then keep control, keep your hands
 on the wheel.
 
 Some folks have 128GB MacBook Pros, some have 64, 32 — but 16 is the dominant (before

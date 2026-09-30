@@ -143,7 +143,7 @@ link colour across browsers.
 - ![Paul Everitt](/assets/avatars/contributors/pauleveritt.jpg){ width="64" height="64" loading="lazy" }
 - ![Daria Grudzien](/assets/avatars/contributors/dariagrudzien.jpg){ width="64" height="64" loading="lazy" }
 - ![Mike Fiedler](/assets/avatars/contributors/miketheman.jpg){ width="64" height="64" loading="lazy" }
-- [![](/assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](/get-involved/){ .satyrn-crew__you }
+- [![You](/assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](/get-involved/){ .satyrn-crew__you }
 
 </div>
 

@@ -42,7 +42,7 @@ Satyrn Evals has completed two release cycles:
 On medium-build tasks, `/implement` delivers a passing candidate within the task's budget more often than bare Pi, and stops when the developer's tests are green.
 
 | reading | Baseline | Engine | p |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | delivered pass, as graded | 2 of 24 | 16 of 24 | 0.000029 |
 | pre-registered sensitivity: stray non-source files stripped, both arms | 3 of 24 | 17 of 24 | 0.000044 |
 | part A alone (reported, not tested) | 2 of 12 | 8 of 12 | |
@@ -53,14 +53,14 @@ On medium-build tasks, `/implement` delivers a passing candidate within the task
 ### Cost on the primary task
 
 | per cell, median (range) | Baseline | Engine |
-|---|---|---|
+| --- | --- | --- |
 | turns | 73 (39 to 73) | 52 (25 to 72) |
 | output tokens | 40,108 (26,596 to 48,125) | 39,125 (24,684 to 48,743) |
 | minutes, three cells sharing the GPU | 43 (26 to 50) | 44 (23 to 57) |
 | tool calls | 72 | 51 |
 
 | per delivered pass | Baseline | Engine |
-|---|---|---|
+| --- | --- | --- |
 | machine time | 8.5 cell-hours | 1.1 cell-hours |
 | output tokens | about 473,000 | about 58,000 |
 | delivered inside 32,000 tokens and 48 turns | 1 | 7 |
@@ -70,7 +70,7 @@ An attempt is not faster with the Engine; a usable result is about eight times c
 ### Where it did not help
 
 | task | kind | Baseline delivered | Engine delivered | one-sided p |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `selfhost-docs-linter` | medium build, secondary, n = 12 | 7 of 12 | 8 of 12 | 0.50 |
 | `agentclinic-repair-depth-3` (R2) | small repair, floor, n = 6 | 6 of 6 | 6 of 6 | |
 | `selfhost-guard-prefixes` | small build, floor, n = 6 | 4 of 6 | 4 of 6 | |
@@ -79,7 +79,7 @@ An attempt is not faster with the Engine; a usable result is about eight times c
 On floor tasks both arms pass, the Engine costs more:
 
 | floor task | Baseline, median per delivered pass | Engine |
-|---|---|---|
+| --- | --- | --- |
 | depth-3 | 5,682 tokens, 13 turns, 3 min | 8,066 tokens, 16 turns, 5 min |
 | guard-prefixes | 8,042 tokens, 14 turns, 5 min | 18,740 tokens, 24 turns, 15 min |
 | review-script | 6,682 tokens, 24 turns, 5 min | 10,737 tokens, 17 turns, 11 min |

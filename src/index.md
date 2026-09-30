@@ -61,7 +61,7 @@ for us. Conversation, sharing, innovation, and building software tools.
 
 <div class="satyrn-section satyrn-ai-our-way" markdown>
 
-## AI Our Way
+## What we do
 
 A human-centric home for Python developers. Conversation, sharing, innovation,
 and building software tools — AI Our Way, trusted from us, for us.
@@ -88,7 +88,7 @@ my laptop. Routine work stays local, using frontier models only for big problems
 
 <div class="satyrn-status__col" markdown>
 
-### Community
+### Our Community
 
 The most important deliverable is community. A place for humans to take back
 our power, share knowledge and progress, and build something we're proud of.
@@ -111,8 +111,8 @@ our power, share knowledge and progress, and build something we're proud of.
 
 ### [Satyrn Models](projects/models.md)
 
-Small models [on Hugging Face](https://huggingface.co/satyrn-ai), 
-[a fine-tuning pipeline](https://github.com/satyrn-ai/satyrn-models), and 
+Small models [on Hugging Face](https://huggingface.co/satyrn-ai),
+[a fine-tuning pipeline](https://github.com/satyrn-ai/satyrn-models), and
 a group learning and teaching together.
 
 </div>
@@ -121,7 +121,7 @@ a group learning and teaching together.
 
 ### [Satyrn Evals](projects/evals.md)
 
-Evidence-first, fine-grained evals baseline you can trust, use, and add 
+Evidence-first, fine-grained evals baseline you can trust, use, and add
 to. Run [Pi](https://pi.dev) with a local model,
 then [report what happened](https://github.com/pauleveritt/satyrn-evals-collector/blob/main/docs/notes/000_engine_engage.md).
 Your notes become the baseline our own engine has to beat.
@@ -132,7 +132,7 @@ Your notes become the baseline our own engine has to beat.
 
 ### [Satyrn Engine](projects/engine.md)
 
-A Python implementer engine connected as a Pi extension to keep small models on-track. 
+A Python implementer engine connected as a Pi extension to keep small models on-track.
 Currently, beats base Pi on medium tasks. For now, useful as a target for Evals.
 
 </div>
@@ -141,7 +141,7 @@ Currently, beats base Pi on medium tasks. For now, useful as a target for Evals.
 
 ### [Satyrn Web](projects/web.md)
 
-Tell the Satyrn story and stitch together the Python world of practitioners 
+Tell the Satyrn story and stitch together the Python world of practitioners
 using old-school, pre-algorithm social web technologies.
 
 </div>
@@ -150,8 +150,8 @@ using old-school, pre-algorithm social web technologies.
 
 ### [Satyrn Zen](projects/zen.md)
 
-Help Python developers master new, marketable skills; contributors use our 
-projects in their workflows and share results; and builders making AI for routine 
+Help Python developers master new, marketable skills; contributors use our
+projects in their workflows and share results; and builders making AI for routine
 computers and work.
 
 </div>
@@ -186,7 +186,7 @@ and build something we're proud of.
 - [![Mike Fiedler](assets/avatars/contributors/miketheman.jpg){ width="64" height="64" loading="lazy" }](https://github.com/miketheman)
 - [![Nicola Jordan](assets/avatars/contributors/hixi.jpg){ width="64" height="64" loading="lazy" }](https://github.com/hixi)
 - [![Alex Salynski](assets/avatars/contributors/asalynski.jpg){ width="64" height="64" loading="lazy" }](https://github.com/asalynski)
-- [![](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }
+- [![You](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }
 
 </div>
 
