@@ -5,7 +5,6 @@ authors:
   - pauleveritt
 tags:
   - community
-  - announcements
 description: "The story of how Satyrn AI was born from a closing keynote at EuroPython, the community that formed, and what we hope to be."
 ---
 
