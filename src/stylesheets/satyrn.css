@@ -1824,11 +1824,6 @@ html:has(.satyrn-hero) {
   border-radius: inherit;
 }
 
-.md-typeset .satyrn-card:hover .satyrn-card__title a {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 /* The ring goes on the card, which is the visible target, not on the title. */
 .md-typeset .satyrn-card__title a:focus-visible {
   outline: none;
@@ -1850,8 +1845,10 @@ html:has(.satyrn-hero) {
 .md-typeset .satyrn-card__byline {
   margin: auto 0 0;
   color: var(--md-default-fg-color);
-  font-size: var(--fs-xs);
-  font-weight: var(--weight-emphasis);
+  font-family: var(--satyrn-font-script);
+  font-size: 1.3rem;
+  font-weight: normal;
+  letter-spacing: normal;
 }
 
 @media screen and (max-width: 30em) {
@@ -2094,9 +2091,17 @@ html:has(.satyrn-hero) {
   font-size: var(--fs-xs);
 }
 
+.md-typeset .satyrn-post__author {
+  font-family: var(--satyrn-font-script);
+  font-size: 1.3rem;
+  letter-spacing: normal;
+}
+
 .satyrn-post__author::before {
   content: "·";
   margin: 0 0.4rem;
+  font-family: var(--md-text-font);
+  font-size: var(--fs-xs);
 }
 
 .md-typeset .satyrn-post__summary {
