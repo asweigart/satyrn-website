@@ -164,9 +164,9 @@ computers and work.
 
 ## Community
 
-At the end of the day, the most important deliverable is community — a place to
-hang out, take back our power, have fun with others, and build something we're
-proud of.
+At the end of the day, the most important deliverable is community.
+We want a place to hang out, to take back our power, to have fun with others
+and build something we're proud of.
 
 ### Meet us
 
