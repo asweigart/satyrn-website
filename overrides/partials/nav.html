@@ -31,8 +31,8 @@
   <label class="md-nav__title" for="__drawer">
     <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-nav__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
       {% include "partials/logo.html" %}
+      {{ config.site_name }}
     </a>
-    {{ config.site_name }}
   </label>
   {%- if config.repo_url -%}
     <div class="md-nav__source">
@@ -114,6 +114,51 @@
       {%- else -%}
         {%- set path = "__nav_" ~ loop.index -%}
         {{ item.render(nav_item, path, 1) }}
+      {%- endif -%}
+    {%- endfor -%}
+    {#- Off-site tabs from the menu bar (`nav_menu` entries with a `url`).
+        Never active, so `md-nav--lifted` hides them from the desktop sidebar,
+        where the header menu bar already carries them; below 1220px this drawer
+        is the only navigation. Also include menu items with children so the
+        mobile drawer has access to all menu links. -#}
+    {%- for item in config.extra.nav_menu | d([], true) -%}
+      {%- if item.url -%}
+        <li class="md-nav__item md-nav__item--external">
+          <a href="{{ item.url }}" class="md-nav__link">
+            <span class="md-ellipsis">{{ item.title | e }}</span>
+          </a>
+        </li>
+      {%- elif item.children -%}
+        {%- for child in item.children -%}
+          {%- if child.url -%}
+            <li class="md-nav__item md-nav__item--external">
+              <a href="{{ child.url }}" class="md-nav__link">
+                <span class="md-ellipsis">{{ child.title | e }}</span>
+              </a>
+            </li>
+          {%- else -%}
+            {%- set wanted = child.page | d(child.title, true) -%}
+            {%- set ns = namespace(found=none) -%}
+            {%- for it in nav.items -%}
+              {%- if it.title == wanted and not ns.found %}{% set ns.found = it %}{% endif -%}
+            {%- endfor -%}
+            {%- if ns.found -%}
+              {%- set tns = namespace(target=ns.found.url) -%}
+              {%- if tns.target is none -%}
+                {%- for child_page in ns.found.children -%}
+                  {% if child_page.is_index and tns.target is none %}{% set tns.target = child_page.url %}{% endif %}
+                {%- endfor -%}
+              {%- endif -%}
+              {%- if tns.target is not none -%}
+                <li class="md-nav__item{% if ns.found.active %} md-nav__item--active{% endif %}">
+                  <a href="{{ tns.target | url }}" class="md-nav__link{% if tns.target == page.url %} md-nav__link--active{% endif %}">
+                    <span class="md-ellipsis">{{ child.title | e }}</span>
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
       {%- endif -%}
     {%- endfor -%}
   </ul>

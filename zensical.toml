@@ -36,7 +36,7 @@ site_url = "https://satyrn.ai/"
 #
 # Read more: https://zensical.org/docs/setup/basics/#copyright
 copyright = """
-&copy; 2026 Satyrn AI
+&copy; 2026 Satyrn AI &middot; <a href="/accessibility/">Accessibility</a>
 """
 # TODO: uncomment once the repository is public. This puts a repo link in the
 # header, and enables the content.action.edit / content.action.view buttons.
@@ -52,7 +52,10 @@ extra_css = ["stylesheets/satyrn.css"]
 # with the same `nav` tree the pages get, which is what makes the feed possible
 # without a plugin system.
 extra_templates = ["feed.xml"]
-extra_javascript = ["javascripts/blog-dates.js"]
+# space.js is the hero's pointer parallax and crew.js the contributor carousel.
+# Both return at once on any page without their element, so loading them
+# site-wide costs two small, cached requests.
+extra_javascript = ["javascripts/blog-dates.js", "javascripts/space.js", "javascripts/crew.js", "javascripts/external-links.js"]
 # Zensical supports both implicit navigation and explicitly defined navigation.
 # If you decide not to define a navigation here then Zensical will simply
 # derive the navigation structure from the directory structure of your
@@ -306,7 +309,7 @@ features = [
 # a monospaced font used in code blocks.
 # ----------------------------------------------------------------------------
 [project.theme.font]
-text = "Reddit Sans"
+text = "Lora"
 code = "JetBrains Mono"
 
 # ----------------------------------------------------------------------------
@@ -340,9 +343,23 @@ toggle.name = "Switch to light mode"
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.
 # ----------------------------------------------------------------------------
-#[[project.extra.social]]
-#icon = "fontawesome/brands/github"
-#link = "https://github.com/user/repo"
+# Social links, rendered as an icon row in both footers (the docs footer via
+# the built-in social partial, the landing page via overrides/home.html).
+# LinkedIn and YouTube are placeholders until the real accounts are supplied.
+[[project.extra.social]]
+icon = "fontawesome/brands/linkedin"
+link = "#"
+name = "LinkedIn"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/mastodon"
+link = "https://social.satyrn.ai/"
+name = "Mastodon"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/youtube"
+link = "#"
+name = "YouTube"
 
 # ----------------------------------------------------------------------------
 # In this section you can configure the Markdown extensions that are used when
@@ -414,10 +431,16 @@ unresolved_references = true
 # drops to the end of the sidebar. Anything absent is appended, not hidden, so
 # a new page never vanishes.
 nav_order = [
-    "Satyrn AI — AI Our Way",
+    "Satyrn — Open, local-first agents for Python developers",
     "Mission",
     "Local-First",
     "Get Involved",
+    "Projects",
+    "Satyrn Models",
+    "Satyrn Evals",
+    "Satyrn Engine",
+    "Satyrn Web",
+    "Satyrn Zen",
     "Blog",
     "Tags",
     "Authors",
@@ -425,15 +448,17 @@ nav_order = [
 # Rendered as a single link rather than an expanded tree. Each needs an index
 # page for the link to target, which is what src/tags/index.md and
 # src/authors/index.md are for.
-nav_collapse = ["Authors", "Tags"]
+nav_collapse = ["Authors", "Tags", "Projects"]
 # Rendered as a link plus its most recent posts, newest first.
 nav_recent = ["Blog"]
 nav_recent_count = 5
+# How many posts the landing page's "Latest from the blog" cards show.
+home_posts_count = 3
 # Kept out of the sidebar and the mobile drawer, except on their own pages,
 # where the item is what gives the page a sidebar at all. Both are reached from
 # the tag chips on a post, the byline, and the blog index -- they are archives,
 # not destinations, and listing them alongside Mission oversells them.
-nav_hide = ["Tags", "Authors"]
+nav_hide = ["Tags", "Authors", "Accessibility", "Design", "Projects"]
 # The default social card, used by every page that does not set `image:` in its
 # front matter. Root-relative and without a leading slash: overrides/main.html
 # concatenates it onto `site_url`, which already ends in one.
@@ -441,31 +466,46 @@ nav_hide = ["Tags", "Authors"]
 # JPEG rather than WebP or AVIF. The page never loads this -- only the crawlers
 # building link previews do -- and their format support is both narrower and
 # harder to verify than a browser's. Regenerate with `just og-image`.
-og_image = "assets/og-image.jpg"
+og_image = "assets/og-image.jpg?v=2"
 
-# The tab bar, in order, rendered by overrides/partials/tabs.html. This is an
-# editorial list, not a mirror of the top level: Tags and Authors are top-level
-# sections and deliberately absent, and a new top-level page does not earn a tab
-# by existing.
+# The community Discord, linked from the footer and the `[discord]:`
+# references in src/index.md, src/get-involved.md and src/projects/web.md.
+# Use a permanent invite (Server settings > Invites, "Never" expire); the
+# old one in satyrn-zen expired.
+discord_url = "https://discord.gg/v4uejrA88f"
+
+# The dropdown menu bar, rendered by overrides/partials/tabs.html and injected
+# into the header row via overrides/partials/header.html. Each item can have
+# an optional `children` array for submenu links. An item with `url` links
+# off-site; an item with `page` resolves against the nav tree (defaulting to
+# `title` when `page` is omitted). A `page` that matches nothing drops the
+# item silently — which is what `just check-nav` is for.
 #
-# `page` is the nav item title to match, and defaults to `title` when omitted,
-# so it is only needed where the tab label differs from the page title. A `page`
-# that matches nothing drops the tab silently with a green build -- the same
-# trap as `nav_order` -- which is what `just check-nav` is for.
-[[project.extra.nav_tabs]]
-title = "Home"
-page = "Satyrn AI — AI Our Way"
+# The menu has four top-level items: Projects (dropdown), About (dropdown),
+# Join (link), and Blog (link).
+[[project.extra.nav_menu]]
+title = "Projects"
+children = [
+    { title = "Models", page = "Satyrn Models" },
+    { title = "Evals", page = "Satyrn Evals" },
+    { title = "Engine", page = "Satyrn Engine" },
+    { title = "Web", page = "Satyrn Web" },
+    { title = "Zen", page = "Satyrn Zen" },
+]
 
-[[project.extra.nav_tabs]]
-title = "Mission"
+[[project.extra.nav_menu]]
+title = "About"
+children = [
+    { title = "Laptop AI" },
+    { title = "Team Compass", url = "https://satyrn-ai.github.io/team-compass/" },
+    { title = "Get Involved" },
+]
 
-[[project.extra.nav_tabs]]
-title = "Local-First"
+[[project.extra.nav_menu]]
+title = "Join"
+page = "Get Involved"
 
-[[project.extra.nav_tabs]]
-title = "Get Involved"
-
-[[project.extra.nav_tabs]]
+[[project.extra.nav_menu]]
 title = "Blog"
 
 # Authors. `name` is the only required key; `title`, `url`, `avatar` and
@@ -480,6 +520,12 @@ title = "Blog"
 # There are none yet. `src/authors/<slug>.md` and a table here are both needed
 # before a post can name that slug; see "Adding a blog author" in
 # CONTRIBUTING.md.
+
+[project.extra.authors.pauleveritt]
+name = "Paul Everitt"
+
+[project.extra.authors.postrational]
+name = "Michał Karzyński"
 
 [project.extra.authors.willing-carol]
 name = "Carol Willing"

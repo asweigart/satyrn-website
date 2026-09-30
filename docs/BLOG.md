@@ -65,7 +65,8 @@ consequences, both load-bearing:
   which cannot be produced here.
 - A macro cannot return a list, only rendered text. This is why the
   `walk(items, ns)` traversal macro is **duplicated** across
-  `overrides/main.html`, `src/feed.xml`, and `overrides/partials/nav.html`. The
+  `overrides/main.html`, `src/feed.xml`, `overrides/partials/nav.html`, and
+  `overrides/partials/home-blog.html`. The
   duplication is forced, not laziness. A shared collector is not expressible.
 
 **`page.meta` may be undefined, and attribute access on it fails the build.**
@@ -81,7 +82,7 @@ literal `T00:00:00Z`; a fuller datetime corrupts it.
 concatenate paths onto it directly.
 
 **`nav_order` matches rendered page titles character for character** — the
-homepage is `"Satyrn AI — AI Our Way"`, em dash and all, not "Home". A mismatch
+homepage is `"Satyrn — Open, local-first agents for Python developers"`, em dash and all, not "Home". A mismatch
 does not error; the item silently drops to the end of the sidebar. Items absent
 from `nav_order` are appended rather than hidden, so a new page never vanishes.
 
@@ -128,6 +129,7 @@ Trust the exit code, not that message.
 | Path | Role |
 | --- | --- |
 | `overrides/main.html` | `extrahead` (OpenGraph, `fediverse:creator`, feed autodiscovery) and `content` (byline → prose → listing). Holds a `walk` macro. |
+| `overrides/partials/home-blog.html` | Latest posts as cards at the foot of the landing page. Renders nothing until a post exists. Holds a `walk` macro. |
 | `overrides/partials/post-item.html` | One listing row. Expects the loop variable to be named `post`. |
 | `overrides/partials/post-byline.html` | Author attribution and date on post pages. |
 | `overrides/partials/tags.html` | Shadows Zensical's shipped partial. Needed because the `tags` variable arrives as `[{"name": ...}]` with **no `url` key**, so the stock partial renders inert `<span>`s. |

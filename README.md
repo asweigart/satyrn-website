@@ -60,6 +60,23 @@ which is worth knowing before you go looking for a deploy config that isn't here
 GitHub Actions only runs checks;
 it deliberately doesn't publish, so the two can't fight over the same output.
 
+## Contributors
+
+The avatar carousel on the homepage is generated, not hand-edited.
+Its source of truth is `.all-contributorsrc`
+(the [all-contributors](https://allcontributors.org/) format).
+
+```bash
+just sync-contributors   # pull new committers across the satyrn-ai repos into .all-contributorsrc
+just contributors        # rebuild the carousel in src/index.md, fetching any missing avatars
+```
+
+`sync-contributors` adds people; it never removes them.
+To take someone off the carousel,
+add their GitHub login to the `exclude` list in `.all-contributorsrc`
+and run `just contributors`.
+The exclude list also stops `sync-contributors` from adding them back.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -70,4 +87,4 @@ with a green build and no error message.
 
 ## Credits
 
-Artwork by [Georgi Ker](https://georgiker.com/).
+Artwork by [Laura Summers](https://github.com/summerscope).

@@ -230,3 +230,8 @@ __marimo__/
 
 # Playwright MCP scratch (screenshots, snapshots, console logs)
 .playwright-mcp/
+.playwright-cli
+
+.agents/skills
+.junie
+skills-lock.json

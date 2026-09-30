@@ -49,7 +49,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{
-        text | replace(' ', '+') }}:ital,wght@0,300..700;1,300..700&family={{
+        text | replace(' ', '+') }}:ital,wght@0,400..700;1,400..700&family={{
         code | replace(' ', '+') }}:ital,wght@0,400..700;1,400..700&display=fallback">
     <link rel="preload" href="{{ 'assets/fonts/triplecharm-sans-webfont.woff2' | url }}" as="font" type="font/woff2" crossorigin>
     <style>:root{--md-text-font:"{{ text }}";--md-code-font:"{{ code }}"}</style>
@@ -123,3 +123,10 @@
     </ul>
   {%- endif -%}
 {% endblock %}
+
+{#-
+  Suppress the default tab bar below the header. The menu bar now lives inside
+  the header row (via custom header.html), so the separate `.md-tabs` block
+  must be empty to avoid rendering a duplicate or empty bar.
+-#}
+{% block tabs %}{% endblock %}

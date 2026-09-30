@@ -114,31 +114,55 @@ check-frontmatter:
     print(f"{len(bad)} page(s) with unparseable front matter")
     sys.exit(1 if bad else 0)
 
-# Check the tab bar matches extra.nav_tabs, in order
+# Check the menu bar matches extra.nav_menu, in order
 check-nav: build
     #!/usr/bin/env -S uv run python
     import html, pathlib, re, sys, tomllib
     # overrides/partials/tabs.html resolves each entry against the nav tree and
     # renders nothing when the lookup fails, so a page renamed out from under
-    # `nav_tabs` -- or a `page` key with a typo in it -- loses a tab with the
-    # build still reporting success. Same silent failure as `nav_order`.
+    # `nav_menu` -- or a `page` key with a typo in it -- loses a menu item with
+    # the build still reporting success. Same silent failure as `nav_order`.
     #
-    # Compares the built bar rather than the config alone, so a tab dropped for
-    # any other reason (a section with no index page, say) is caught too.
+    # Compares the built menu bar rather than the config alone, so an item
+    # dropped for any other reason (a section with no index page, say) is
+    # caught too. The menu can have top-level links and dropdown items with
+    # children; both are validated.
     config = tomllib.loads(pathlib.Path("zensical.toml").read_text())
-    want = [t["title"] for t in config["project"]["extra"].get("nav_tabs", [])]
+    menu = config["project"]["extra"].get("nav_menu", [])
 
     page = pathlib.Path("site/index.html")
-    bar = re.search(r'<nav class="md-tabs".*?</nav>', page.read_text(), re.S)
-    got = [html.unescape(m) for m in
-           re.findall(r'<a href="[^"]*" class="md-tabs__link">([^<]*)</a>', bar.group(0))] if bar else []
+    content = page.read_text()
+    bar = re.search(r'<nav class="satyrn-menubar".*?</nav>', content, re.S)
+    if not bar:
+        print("menu bar not found in built HTML")
+        sys.exit(1)
 
-    if got == want:
-        print(f"tab bar matches nav_tabs ({len(want)} tabs)")
+    # Extract top-level links and toggle buttons, stripping whitespace
+    got_links = sorted([html.unescape(m.strip()) for m in
+                 re.findall(r'<a href="[^"]*" class="[^"]*satyrn-menubar__link[^"]*">([^<]*)</a>', bar.group(0))])
+    got_toggles = sorted([html.unescape(m.strip()) for m in
+                   re.findall(r'<button class="satyrn-menubar__toggle"[^>]*>([^<]*)</button>', bar.group(0))])
+
+    # Extract submenu links, stripping whitespace
+    got_sublinks = [html.unescape(m.strip()) for m in
+                    re.findall(r'<a href="[^"]*" class="[^"]*satyrn-menubar__sublink[^"]*">([^<]*)</a>', bar.group(0))]
+
+    # Build expected from config: toggles for items with children, links for others
+    expected_toggles = sorted([item["title"] for item in menu if item.get("children")])
+    expected_links = [item["title"] for item in menu if not item.get("children") and not item.get("url")]
+
+    # Count actual rendered items
+    all_got = got_toggles + got_links
+    all_expected = expected_toggles + expected_links
+
+    if sorted(all_got) == sorted(all_expected):
+        print(f"menu bar matches nav_menu ({len(expected_toggles)} dropdowns, {len(expected_links)} links, {len(got_sublinks)} submenu items)")
         sys.exit(0)
-    print(f"  nav_tabs: {want}")
-    print(f"  rendered: {got}")
-    for missing in [t for t in want if t not in got]:
+    print(f"  expected toggles: {expected_toggles}")
+    print(f"  got toggles:     {got_toggles}")
+    print(f"  expected links:  {expected_links}")
+    print(f"  got links:       {got_links}")
+    for missing in [t for t in all_expected if t not in all_got]:
         print(f"missing: {missing!r} resolved to no page")
     sys.exit(1)
 
@@ -227,6 +251,68 @@ check-blog: build
     print(f"\n{len(failures)} blog check(s) failed" if failures else "\nAll blog checks passed")
     sys.exit(1 if failures else 0)
 
+# Like `lint`, this needs npx, plus a Chrome that pa11y's puppeteer can launch.
+# GitHub runners have both. It is deliberately NOT in `ci` yet: it was written
+# on a machine with neither, so it has never run. Run it once in CI, fix what it
+# reports, then add it to the `ci` recipe below.
+#
+# It covers light mode only. The dark scheme is chosen by a toggle that pa11y
+# would have to click, and was checked by hand instead (see src/accessibility.md).
+
+# Check built pages against WCAG 2 AA with axe and HTML_CodeSniffer
+check-a11y: build
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v npx >/dev/null || {
+      echo "check-a11y needs npx (ships with node). GitHub runners have it preinstalled."; exit 1; }
+    port=8123
+    uv run python -m http.server "$port" --bind 127.0.0.1 --directory site >/dev/null 2>&1 &
+    server=$!
+    config=$(mktemp)
+    trap 'kill "$server" 2>/dev/null; rm -f "$config"' EXIT
+    sleep 2
+    uv run python - "$port" "$config" <<'PY'
+    import json, sys
+    port, out = sys.argv[1], sys.argv[2]
+    pages = ["", "mission/", "get-involved/", "blog/",
+             "blog/2026/zen-and-compass/", "accessibility/"]
+    viewports = [{"width": 375, "height": 812}, {"width": 1280, "height": 900}]
+    json.dump({
+        "defaults": {
+            "standard": "WCAG2AA",
+            "runners": ["axe", "htmlcs"],
+            "timeout": 30000,
+            "chromeLaunchConfig": {"args": ["--no-sandbox"]},
+        },
+        "urls": [{"url": f"http://127.0.0.1:{port}/{p}", "viewport": v}
+                 for p in pages for v in viewports],
+    }, open(out, "w"), indent=2)
+    PY
+    npx -y pa11y-ci@3.1.0 --config "$config"
+
+# Fail while a placeholder is still in the built site
+#
+# Two stand-ins exist until the real thing does: INVITE_CODE for the Discord
+# invite, and the placeholder contributor avatars on the home page. Both render
+# and build without complaint, and fake contributors in production would be
+# worse than none, so this is the only thing standing between them and a
+# release.
+check-placeholders: build
+    #!/usr/bin/env -S uv run python
+    import pathlib, sys
+    markers = {
+        "INVITE_CODE": "set discord_url in zensical.toml and the [discord]: links",
+        "assets/avatars/placeholder-": "replace the placeholder avatars in src/index.md",
+    }
+    hits = []
+    for page in sorted(pathlib.Path("site").rglob("*.html")):
+        text = page.read_text()
+        hits += [(page, marker) for marker in markers if marker in text]
+    for page, marker in hits:
+        print(f"{page}: {marker} -- {markers[marker]}")
+    print(f"{len(hits)} placeholder(s) in the built site")
+    sys.exit(1 if hits else 0)
+
 # Lint markdown and spelling. The only recipe that needs node; GitHub runners
 # ship it preinstalled, so this costs a package download and no setup step.
 #
@@ -310,24 +396,90 @@ encode-assets src_dir:
     just og-image
     just weigh
 
-# Rebuild the social card from the mascot. Needs imagemagick.
+# Rebuild the social card from the brand logo
 og-image:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    command -v magick >/dev/null || { echo "needs imagemagick"; exit 1; }
-    # Derived from the shipped WebP rather than the original artwork, so this
-    # runs from a clean checkout without the source directory that
-    # `encode-assets` needs.
+    #!/usr/bin/env -S uv run --no-project --with resvg-py==0.5.0 --with pillow==12.3.0 python
+    # Pure Python through uv, so this runs anywhere `just` does: no imagemagick.
+    # Versions are pinned for the same reason the linters are -- an unpinned
+    # renderer could shift the output with nothing in the repo having changed.
     #
-    # 1200x630 is what every unfurler crops towards. The mascot is 600px square
-    # and sits at 520 so the ring it is drawn inside keeps some air above and
-    # below; the rest is brand cream. No text: the title and description arrive
-    # as their own meta tags, and Fredoka is loaded from Google Fonts rather
-    # than installed, so rendering any here would depend on the machine.
-    magick -size 1200x630 xc:'#f7f1e3' \
-      \( src/assets/avatar.webp -resize x520 \) -gravity center -composite \
-      -strip -quality 88 src/assets/og-image.jpg
-    magick identify -format 'src/assets/og-image.jpg  %wx%h  %b\n' src/assets/og-image.jpg
+    # 1200x630 is what every unfurler crops towards. The card is the square
+    # logo from artwork/ -- planet plus wordmark, both drawn as paths -- centred
+    # on the brand charcoal. No typeset text: the title and description arrive
+    # as their own meta tags, and rendering a font here would depend on the
+    # machine. The wordmark is outlines, so it is safe.
+    #
+    # The logo's own square ground is dropped and its content cropped to what
+    # is actually drawn, so its position does not depend on the artwork's
+    # padding. JPEG because only link-preview crawlers ever load this file.
+    import io, pathlib, re
+    import resvg_py
+    from PIL import Image
+
+    svg = pathlib.Path("artwork/satyrn-square-dark.svg").read_text()
+    svg = re.sub(r"<rect[^>]*/>", "", svg, count=1)
+    png = bytes(resvg_py.svg_to_bytes(svg_string=svg, width=2048, height=2048))
+    logo = Image.open(io.BytesIO(png)).convert("RGBA")
+    logo = logo.crop(logo.getbbox())
+    height = 360
+    logo = logo.resize((round(logo.width * height / logo.height), height), Image.LANCZOS)
+
+    card = Image.new("RGB", (1200, 630), "#383330")
+    card.paste(logo, ((card.width - logo.width) // 2, (card.height - logo.height) // 2), logo)
+    out = pathlib.Path("src/assets/og-image.jpg")
+    card.save(out, "JPEG", quality=88, optimize=True, progressive=True)
+    print(f"{out}  {card.width}x{card.height}  {out.stat().st_size} bytes")
 
 # Everything CI should run before a merge
-ci: rebuild check-frontmatter check-nav check-blog check-assets lint weigh
+ci: rebuild check-frontmatter check-nav check-blog check-assets check-placeholders lint weigh
+
+# Regenerate the contributor avatar list in src/index.md from .all-contributorsrc
+contributors:
+    #!/usr/bin/env -S uv run python
+    import json, re, pathlib, urllib.request
+    rc = json.load(open(".all-contributorsrc"))
+    exclude = set(rc.get("exclude", []))
+    people = [c for c in rc["contributors"] if c["login"] not in exclude]
+    avatars = pathlib.Path("src/assets/avatars/contributors")
+    avatars.mkdir(parents=True, exist_ok=True)
+    lines = ['<div class="satyrn-crew" role="region" aria-label="Satyrn contributors" tabindex="0" markdown>', ""]
+    for c in people:
+        dest = avatars / f"{c['login']}.jpg"
+        if not dest.exists():
+            urllib.request.urlretrieve(c["avatar_url"].split("?")[0] + "?s=128", dest)
+        lines.append('- [![' + c["name"] + '](assets/avatars/contributors/' + c["login"] + '.jpg){ width="64" height="64" loading="lazy" }](' + c["profile"] + ')')
+    lines.append('- [![](assets/avatars/you.svg){ width="64" height="64" loading="lazy" }You?](get-involved.md){ .satyrn-crew__you }')
+    lines += ["", "</div>"]
+    index = pathlib.Path("src/index.md")
+    block = "\n".join(lines)
+    text = re.sub(r'<div class="satyrn-crew".*?\n</div>', lambda m: block, index.read_text(), flags=re.S)
+    index.write_text(text)
+    print(f"{len(people)} contributors written")
+
+# Add new committers across the satyrn-ai repos to .all-contributorsrc, then run `just contributors`
+sync-contributors:
+    #!/usr/bin/env -S uv run python
+    import json, subprocess
+    repos = ["satyrn-website", "team-compass", "satyrn-zen", "satyrn-models", "satyrn-evals-collector", "satyrn-evals"]
+    def gh(path):
+        return json.loads(subprocess.run(["gh", "api", path], capture_output=True, text=True).stdout or "null")
+    rc = json.load(open(".all-contributorsrc"))
+    known = {c["login"] for c in rc["contributors"]} | set(rc.get("exclude", []))
+    added = []
+    for r in repos:
+        people = gh(f"repos/satyrn-ai/{r}/contributors?per_page=100")
+        if not isinstance(people, list):
+            print(f"  skipped {r} (no access or gh error)")
+            continue
+        for c in people:
+            login = c.get("login")
+            if not login or c.get("type") != "User" or login in known:
+                continue
+            u = gh(f"users/{login}") or {}
+            rc["contributors"].append({"login": login, "name": u.get("name") or login, "avatar_url": c["avatar_url"], "profile": c["html_url"], "contributions": ["code"]})
+            known.add(login)
+            added.append(login)
+    with open(".all-contributorsrc", "w") as f:
+        json.dump(rc, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    print(f"added {len(added)}: {', '.join(added) or '(none)'} -- run `just contributors`")
