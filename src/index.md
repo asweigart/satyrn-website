@@ -177,6 +177,7 @@ and build something we're proud of.
 - [![Laura Summers](assets/avatars/contributors/summerscope.jpg){ width="64" height="64" loading="lazy" }](https://github.com/summerscope)
 - [![Michał Karzyński](assets/avatars/contributors/postrational.jpg){ width="64" height="64" loading="lazy" }](https://github.com/postrational)
 - [![Paul Everitt](assets/avatars/contributors/pauleveritt.jpg){ width="64" height="64" loading="lazy" }](https://github.com/pauleveritt)
+- [![Dawn Wages](assets/avatars/contributors/dawnwages.jpg){ width="64" height="64" loading="lazy" }](https://github.com/dawnwages)
 - [![Daria Grudzien](assets/avatars/contributors/dariagrudzien.jpg){ width="64" height="64" loading="lazy" }](https://github.com/dariagrudzien)
 - [![lzieniew](assets/avatars/contributors/lzieniew.jpg){ width="64" height="64" loading="lazy" }](https://github.com/lzieniew)
 - [![Pelle Koster](assets/avatars/contributors/elfjes.jpg){ width="64" height="64" loading="lazy" }](https://github.com/elfjes)
