@@ -496,7 +496,7 @@ children = [
 [[project.extra.nav_menu]]
 title = "About"
 children = [
-    { title = "Laptop AI" },
+    { title = "Mission", page = "Mission" },
     { title = "Team Compass", url = "https://satyrn-ai.github.io/team-compass/" },
     { title = "Get Involved" },
 ]
