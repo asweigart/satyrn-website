@@ -6,7 +6,7 @@ authors:
 description: "The first AI models to support Python 3.15, released on its release date. Small, local, fine-tuned models for routine Python development."
 ---
 
-Today we are releasing the first (and only?) AI model to support Python 3.15, on its
+Today we are releasing the first open-weight AI model to support Python 3.15, on its
 release date.
 
 Hi, I'm Michał Karzyński, team lead for the Satyrn Models team. This is our first Satyrn
@@ -24,7 +24,7 @@ fine-tuned models:
 - Ornith 1.5 9B for **16 GB laptops** is also being worked on.  
 - Both are fine-tuned to support Python 3.15 and Python 3.14.
 
-These are, to the best of our knowledge, the only models on Earth that know Python
+These are, to the best of our knowledge, the only open-weight models on Earth that know Python
 3.15. We've confirmed this by checking the training cutoff dates of other popular models —
 it *appears* that none of them include the Python 3.15 release.
 
@@ -43,7 +43,7 @@ cloud.
 models. We're taking models that already understand language and code, and specializing them
 on current Python so they give current advice.
 
-Also: this isn't production-ready. We're just starting on this journey.
+Also: this isn't production-ready quite yet. We're just starting on this journey.
 
 ## How to use it
 
@@ -77,13 +77,14 @@ organization can donate GPU compute, that would directly accelerate this work.
 Our roadmap includes:
 
 - Expanding dataset coverage to more Python frameworks and libraries.
-- Completing the RL stage of the pipeline.
+- Completing the RL stage of the pipeline by generating good verifiable coding tasks.
+- Growing our datasets to include realistic examples of agentic work, including reasoning, tool calling, etc.
 - Establishing a regular release cadence tied to Python version releases.
 - Growing the team and teaching others how to do this work.
+- Coming up with and testing novel ideas about tuning models to be our best locally running assistants.
 
 ## Conclusion
 
-This is just the beginning. The real deliverable isn't just two model weights — it's proof
-that a community can move fast, work openly, and ship something useful on the same day
-Python ships. We're building this for us, by us. If that resonates, [get
-involved](../../get-involved.md).
+This is just the beginning, we started only 2 months ago. The real deliverable isn't just two model 
+weights — it's proof that a community can move fast, work openly, and ship something useful on the same day
+Python ships. We're building this for us, by us. If that resonates, [get involved](../../get-involved.md).
