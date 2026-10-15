@@ -85,6 +85,6 @@ Our roadmap includes:
 
 ## Conclusion
 
-This is just the beginning, we started only 2 months ago. The real deliverable isn't just two model 
+This is just the beginning, we started only 2 months ago. The real deliverable isn't just two model
 weights — it's proof that a community can move fast, work openly, and ship something useful on the same day
 Python ships. We're building this for us, by us. If that resonates, [get involved](../../get-involved.md).
