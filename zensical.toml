@@ -530,3 +530,7 @@ name = "Michał Karzyński"
 [project.extra.authors.willing-carol]
 name = "Carol Willing"
 url = "https://willingconsulting.com"
+
+[project.extra.authors.cooke-emma]
+name = "Emma Cooke"
+url = "https://github.com/emmaco"
