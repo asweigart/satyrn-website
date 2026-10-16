@@ -13,7 +13,7 @@ Knowledge sharing brings people together. Why do I think this matters? I believe
 
 ## Expansion
 
-Most resources shrink when you share them. Knowledge, however, grows and
+While most resources shrink when you share them, knowledge, however, grows and
 compounds when distributed. If you explain something to five other people,
 you still know it, and you've invited five others into the mix, so now six
 people can build on it, improve it, and pass it on. Progress often comes
