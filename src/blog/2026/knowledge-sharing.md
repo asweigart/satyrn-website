@@ -9,7 +9,7 @@ tags:
 description: "Some thoughts on why knowledge sharing is important - for community, resilience, and empowerment."
 ---
 
-The reasons I care about knowledge sharing are mostly about people. Below are some of the reasons I think it matters: for the people who learn, for the groups they belong to, and for the people doing the sharing.
+Knowledge sharing brings people together. Why do I think this matters? I believe it benefits the people who learn, the groups they belong to, and the people doing the sharing.
 
 ## Expansion
 
