@@ -43,7 +43,7 @@ patiently, sharing freely, and welcoming the people who show up.
 
 Knowledge sharing builds resilience. How many times have you been part of a team where all the
 knowledge for one specific thing lives inside the brain of one person? Then that
-person inevitably goes on a long holiday or leaves the company, and all that
+person inevitably goes on a long holiday or leaves the team, and all that
 knowledge goes with them. When knowledge is shared, no one person has to carry
 it alone, and a group can more readily transition through change, with people
 coming and going. The team with an irreplaceable person is fragile; the team where knowledge is spread is stronger.
