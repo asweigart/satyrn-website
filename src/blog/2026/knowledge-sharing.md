@@ -20,7 +20,7 @@ people can build on it, improve it, and pass it on. Progress often comes
 from building on top of what others have already done, rather than
 starting from scratch.
 
-Sharing also improves the knowledge itself. Feedback, fixes, other
+Sharing also deepens the knowledge itself. Feedback, fixes, other
 opinions, and perspectives all test the ideas and help them grow.
 
 ## Access
@@ -62,11 +62,11 @@ the messy bits the "expert" has often forgotten.
 ## Community
 
 In terms of community, when people share what they know, they are building
-trust. When there's trust, people feel better able to ask questions, give
+trust. When there's trust, people feel more confident to ask questions, give
 feedback, admit what they don't know. People who share and receive knowledge
-form relationships around it. Conversations matter as a sharing tool here too –
+form relationships. Conversations matter as a sharing tool here too –
 being able to start a thread, ask "hey, how do you do this?", and being met with
-someone willing to help – that can sometimes give you more than what you can get out
+someone willing to help – that can enrich what you can get out
 of a tutorial or an article. These conversations are also where people get to
 know one another, and where they continue to build that connection that makes them
 more willing to share again, and so the loop of sharing and community keeps
@@ -85,3 +85,13 @@ it gets a little easier. It also makes it easier for the next person to do the s
 Sharing turns individual knowledge into collective capability, and it starts with action.
 So if you've just worked something out, write it down, say it out loud, or
 start the thread. Someone is waiting for exactly that.
+
+## Get involved
+
+Here are some actions you could take today, as part of the Satyrn community:
+
+* Say hello on [our Discord](https://discord.com/invite/v4uejrA88f): ask a question, share an idea, or start a conversation
+* Try a [tutorial](https://satyrn-ai.github.io/satyrn-zen/create/create/)
+* Pick up a [task on GitHub](https://github.com/search?q=org%3Asatyrn-ai+is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22%2C%22help+wanted%22&type=issues)
+
+You have something to share, and we’d love to hear it.
