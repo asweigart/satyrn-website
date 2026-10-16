@@ -57,11 +57,11 @@ self-confidence.
 
 It's also why learners make good teachers. When you have just tested something out you're
 at the exact right moment to help out someone else. You've been through all
-the messy bits the "expert" has often forgotten.
+the messy bits the expert has often forgotten.
 
 ## Community
 
-In terms of community, when people share what they know, they are building
+When it comes to community, when people share what they know, they are building
 trust. When there's trust, people feel more confident to ask questions, give
 feedback, admit what they don't know. People who share and receive knowledge
 form relationships. Conversations matter as a sharing tool here too –
@@ -85,8 +85,6 @@ it gets a little easier. It also makes it easier for the next person to do the s
 Sharing turns individual knowledge into collective capability, and it starts with action.
 So if you've just worked something out, write it down, say it out loud, or
 start the thread. Someone is waiting for exactly that.
-
-## Get involved
 
 Here are some actions you could take today, as part of the Satyrn community:
 
